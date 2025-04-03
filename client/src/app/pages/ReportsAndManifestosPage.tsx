@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function ReportsAndManifestosPage() {
   return (
-    <div className="flex flex-col lg:flex-row w-full h-full xl:h-[650px] bg-white p-4 lg:p-10 items-center mt-4 gap-10">
+    <div className="flex flex-col lg:flex-row w-full h-full xl:h-[650px] bg-white p-4 lg:p-10 items-center mt-2 gap-10">
       <div className="flex lg:hidden w-[300px] sm:w-[600px] lg:w-full h-[250px] sm:h-[300px] lg:h-[450px] relative">
         <Image
           src="/reports.avif"

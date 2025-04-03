@@ -2,7 +2,7 @@ import { SolutionsPageCards } from "./SolutionsPageCards";
 
 export default function ArcadiaSolutionsPage() {
   return (
-    <div className="flex flex-col gap-4 w-full h-full bg-white mt-4 p-10">
+    <div className="flex flex-col gap-4 w-full h-full bg-white mt-2 p-10">
       <div className="flex flex-col lg:flex-row justify-between items-center">
         <h1 className="text-4xl lg:text-6xl text-[#326333] font-cormorant font-bold">
           Our Focus in the Philippines Context

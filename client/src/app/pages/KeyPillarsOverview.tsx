@@ -98,7 +98,7 @@ export default function KeyPillarsOverview() {
           ))}
         </div>
 
-        <div className="w-full h-full flex justify-center items-center lg:px-10 bg-red-100 mt-6">
+        <div className="w-full h-full flex justify-center items-center lg:px-10 mt-6">
           {content[activeIndex].description}
         </div>
       </div>

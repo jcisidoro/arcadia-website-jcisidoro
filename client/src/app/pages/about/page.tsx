@@ -4,10 +4,10 @@ import Projects from "../Projects";
 
 export default function AboutPage() {
   return (
-    <div className="bg-black">
+    <div className="bg-[#6D6D6D]">
       <BackgroundVideo />
 
-      <div className="flex flex-col w-full h-[100vh] justify-center items-center px-10 lg:px-20 mb-4">
+      <div className="flex flex-col w-full h-[100vh] justify-center items-center px-10 lg:px-20">
         <h1 className="text-white z-1 font-cormorant text-4xl xl:text-7xl text-center font-bold mb-4">
           About Arcadia
         </h1>

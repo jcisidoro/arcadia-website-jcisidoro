@@ -9,9 +9,9 @@ export default function ArcadiaComponents() {
       </h1>
 
       <p className="text-lg lg:text-xl text-justify">
-        Arcadia’s methodology revolves around fostering a continuous cycle of
-        dialogue, knowledge sharing, and innovation, to empower stakeholders and
-        drive meaningful sustainability outcomes. Our key pillars include:
+        Arcadia&apos;s methodology revolves around fostering a continuous cycle
+        of dialogue, knowledge sharing, and innovation, to empower stakeholders
+        and drive meaningful sustainability outcomes. Our key pillars include:
       </p>
 
       <ol className="flex flex-col lg:flex-row mt-4 gap-10">

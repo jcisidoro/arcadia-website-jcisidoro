@@ -136,7 +136,7 @@ export default function PublishedWasteReportPage() {
   ];
 
   return (
-    <div className="w-full h-full bg-white mt-4 p-10 flex flex-col items-center gap-8">
+    <div className="w-full h-full bg-white mt-2 p-10 flex flex-col items-center gap-8">
       <h1 className="text-4xl lg:text-5xl xl:text-7xl font-cormorant font-bold text-[#326333]">
         Published Waste Reports
       </h1>
