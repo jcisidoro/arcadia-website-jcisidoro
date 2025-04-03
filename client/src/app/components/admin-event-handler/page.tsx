@@ -8,7 +8,7 @@ export default function AdminEventHandler() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
-  const [image, setImage] = useState("");
+  // const [image, setImage] = useState("");
   const [description, setDescription] = useState("");
   const [description1, setDescription1] = useState("");
   const [author, setAuthor] = useState("");
@@ -33,31 +33,31 @@ export default function AdminEventHandler() {
 
   const handleAddEvent = async () => {
     setLoading(true);
-    const response = await fetch("/api/events", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        title,
-        date,
-        image,
-        description,
-        description1,
-        author,
-      }),
-    });
+    // const response = await fetch("/api/events", {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify({
+    //     title,
+    //     date,
+    //     image,
+    //     description,
+    //     description1,
+    //     author,
+    //   }),
+    // });
 
     setLoading(false);
-    if (response.ok) {
-      alert("Event added successfully!");
-      setTitle("");
-      setDate("");
-      setImage("");
-      setDescription("");
-      setDescription1("");
-      setAuthor("");
-    } else {
-      alert("Error adding event");
-    }
+    // if (response.ok) {
+    //   alert("Event added successfully!");
+    //   setTitle("");
+    //   setDate("");
+    //   setImage("");
+    //   setDescription("");
+    //   setDescription1("");
+    //   setAuthor("");
+    // } else {
+    //   alert("Error adding event");
+    // }
   };
 
   return (

@@ -22,9 +22,10 @@ export default function Footer() {
         </h1>
         <p className="text-xs md:text-sm lg:text-lg leading-[2rem] lg:leading-[3rem] font-extralight mt-4">
           We understand that every firm has unique needs and requirements.
-          That's why whether it's policy consulting, innovation solutions, or
-          resource mobilization, our team will work closely with you to design a
-          tailored approach that addresses your specific needs and challenges.
+          That&apos;s why whether it&apos;s policy consulting, innovation
+          solutions, or resource mobilization, our team will work closely with
+          you to design a tailored approach that addresses your specific needs
+          and challenges.
         </p>
       </div>
 

@@ -72,9 +72,9 @@ export default function KeyPillarsOverview() {
         Key Pillars Overview
       </h1>
       <p className="text-sm lg:text-2xl text-justify">
-        Arcadia's methodology revolves around fostering a continuous cycle of
-        dialogue, knowledge sharing, and innovation, to empower stakeholders and
-        drive meaningful sustainability outcomes. Our key pillars include:
+        Arcadia&apos;s methodology revolves around fostering a continuous cycle
+        of dialogue, knowledge sharing, and innovation, to empower stakeholders
+        and drive meaningful sustainability outcomes. Our key pillars include:
       </p>
       <div className="flex flex-col lg:flex-row w-full h-full justify-center">
         <div className="flex flex-col w-full lg:w-[1000px] gap-4 lg:gap-10 justify-center items-center">
