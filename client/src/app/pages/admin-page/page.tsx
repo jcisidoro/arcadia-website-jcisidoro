@@ -27,8 +27,12 @@ export default function AdminAuthPage() {
       localStorage.setItem("token", data.token); // Save token
       alert("Login successful!");
       router.push("/components/admin-event-handler"); // Redirect after login
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message); // Access message safely
+      } else {
+        setError("An unknown error occurred.");
+      }
     } finally {
       setLoading(false);
     }

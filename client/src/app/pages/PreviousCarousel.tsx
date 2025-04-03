@@ -341,7 +341,7 @@ export function PreviousCarousel() {
             2 speakers from <span className="font-bold">Beijing, China</span>
             <span className="font-bold">Speakers</span>
             <div className="flex flex-col">
-              <span className="font-bold">Maxime Van 't Klooster</span>
+              <span className="font-bold">Maxime Van &apos;t Klooster</span>
               <span className="italic">Partner at Acclime Group</span>
             </div>
             <div className="flex flex-col">
