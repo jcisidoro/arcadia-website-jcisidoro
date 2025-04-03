@@ -80,7 +80,7 @@ export default function UpcomingEvents() {
   return (
     <div className="flex w-full h-full lg:h-[550px] relative bg-white mt-4">
       <div className="w-full h-full flex flex-col items-center p-8">
-        <h1 className="text-2xl lg:text-4xl font-bold uppercase mb-4 text-[#326333] font-cormorant">
+        <h1 className="text-2xl lg:text-4xl xl:text-7xl font-bold uppercase mb-4 text-[#326333] font-cormorant">
           Upcoming Events Soon
         </h1>
         <div className="w-full h-full flex flex-col lg:flex-row items-center justify-center gap-10">
