@@ -7,7 +7,7 @@ import ReportsAndManifestosPage from "../ReportsAndManifestosPage";
 
 export default function ThirdPage() {
   return (
-    <div className="flex flex-col bg-[#6D6D6D]">
+    <div className="flex flex-col bg-black">
       <PublicationsPage />
       <PublicationsIntroPage />
       <PositionPapersPage />

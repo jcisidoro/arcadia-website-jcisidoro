@@ -6,7 +6,7 @@ import PreviousEvents from "../PreviousEvents";
 
 export default function SecondPage() {
   return (
-    <div className="flex flex-col bg-[#6D6D6D]">
+    <div className="flex flex-col bg-black">
       <EventsPage />
       <EventsIntroPage />
       <CampaignsPage />

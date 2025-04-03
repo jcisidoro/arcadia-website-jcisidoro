@@ -6,7 +6,7 @@ import LandingPage from "../LandingPage";
 
 export default function FirstPage() {
   return (
-    <div className="flex flex-col bg-[#6D6D6D]">
+    <div className="flex flex-col bg-black">
       <LandingPage />
       <ArcadiaIntroPage />
       <ArcadiaComponents />

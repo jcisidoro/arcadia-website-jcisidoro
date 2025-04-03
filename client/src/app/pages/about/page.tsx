@@ -4,7 +4,7 @@ import Projects from "../Projects";
 
 export default function AboutPage() {
   return (
-    <div className="bg-[#6D6D6D]">
+    <div className="bg-black">
       <BackgroundVideo />
 
       <div className="flex flex-col w-full h-[100vh] justify-center items-center px-10 lg:px-20">

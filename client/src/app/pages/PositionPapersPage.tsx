@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function PositionPapersPage() {
   return (
-    <div className="flex flex-col lg:flex-row w-full h-full lg:h-[600px] bg-white mt-2 p-4 lg:p-10 items-center gap-10">
+    <div className="flex flex-col lg:flex-row w-full h-full lg:h-[600px] bg-white mt-0.5 p-4 lg:p-10 items-center gap-10">
       <div className="w-[300px] sm:w-[600px] lg:w-full h-[250px] sm:h-[300px] lg:h-[450px] relative">
         <Image
           src="/papers.avif"

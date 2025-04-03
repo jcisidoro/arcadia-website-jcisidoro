@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function AboutIntro() {
   return (
-    <div className="w-full bg-white h-full lg:h-[500px] mt-2 flex items-center justify-center">
+    <div className="w-full bg-white h-full lg:h-[500px] mt-0.5 flex items-center justify-center">
       <div className="flex flex-col p-4 text-center gap-10 mx-4 xl:mx-32">
         <h1 className="text-3xl lg:text-5xl">
           <span className="font-bold text-[#326333]">About </span>

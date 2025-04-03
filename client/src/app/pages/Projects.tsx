@@ -1,6 +1,6 @@
 export default function Projects() {
   return (
-    <div className="flex flex-col w-full h-full lg:h-[800px] bg-white mt-2 p-10 gap-4">
+    <div className="flex flex-col w-full h-full lg:h-[800px] bg-white mt-0.5 p-10 gap-4">
       <h1 className="text-lg xl:text-5xl uppercase">
         <span className="font-bold">Flagship </span>Projects
       </h1>
