@@ -64,25 +64,38 @@ export default function Footer() {
             {[
               {
                 icon: <FaFacebook />,
+                iconText: "Like & Follow us on Facebook",
               },
               {
                 icon: <FaInstagram />,
+                iconText: "See our latest updates on Instagram",
               },
               {
                 icon: <FaXTwitter />,
+                iconText: "Join the conversation on Twitter",
               },
               {
                 icon: <IoLogoWhatsapp />,
+                iconText: "Chat with us on WhatsApp",
               },
             ].map((item, index) => (
-              <div key={index} className="flex">
+              <div
+                key={index}
+                className="flex flex-col items-center group lg:relative"
+              >
+                {/* Hover Text (Initially Hidden) */}
+                <span className="absolute text-nowrap -top-10 bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  {item.iconText}
+                </span>
+
+                {/* Social Media Icon Button */}
                 <button className="text-4xl text-white cursor-pointer hover:scale-110 transition-all duration-300">
                   {item.icon}
                 </button>
               </div>
             ))}
           </div>
-          <span className="text-white text-center">
+          <span className="text-white text-center font-extralight">
             Be Part of Our Community - Follow Us
           </span>
         </div>
