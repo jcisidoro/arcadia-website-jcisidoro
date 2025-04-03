@@ -7,7 +7,7 @@ export default function AboutPage() {
     <div className="bg-black">
       <BackgroundVideo />
 
-      <div className="flex flex-col w-full h-[100vh] justify-center items-center px-20">
+      <div className="flex flex-col w-full h-[100vh] justify-center items-center px-20 mb-4">
         <h1 className="text-white z-1 font-cormorant text-3xl xl:text-7xl text-center font-bold mb-4">
           About Arcadia
         </h1>

@@ -67,7 +67,7 @@ export default function KeyPillarsOverview() {
   ];
 
   return (
-    <div className="w-full h-full lg:h-[700px] bg-white p-10 flex flex-col gap-4">
+    <div className="w-full h-full lg:h-[800px] bg-white p-10 flex flex-col gap-4">
       <h1 className="text-2xl lg:text-5xl font-semibold">
         Key Pillars Overview
       </h1>
@@ -98,10 +98,8 @@ export default function KeyPillarsOverview() {
           ))}
         </div>
 
-        <div className="w-full h-full lg:p-10 mt-4">
-          <div className="w-full h-full xl:p-6">
-            {content[activeIndex].description}
-          </div>
+        <div className="w-full h-full flex justify-center items-center px-10">
+          {content[activeIndex].description}
         </div>
       </div>
     </div>
