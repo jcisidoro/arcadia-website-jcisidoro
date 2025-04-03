@@ -21,7 +21,13 @@ interface SlideProps {
   onClick: () => void;
 }
 
-const Slide = ({ slide, index, current, handleSlideClick, onClick }: SlideProps) => {
+const Slide = ({
+  slide,
+  index,
+  current,
+  handleSlideClick,
+  onClick,
+}: SlideProps) => {
   const slideRef = useRef<HTMLLIElement>(null);
 
   const xRef = useRef(0);
@@ -122,9 +128,12 @@ const Slide = ({ slide, index, current, handleSlideClick, onClick }: SlideProps)
           </h2>
           <div className="flex justify-center">
             {/* EXPLORE EVENT BUTTON */}
-            <button onClick={() => {
-    onClick();
-  }} className="mt-6  px-4 py-2 w-fit mx-auto sm:text-sm text-black bg-white h-12 border border-transparent text-xs flex justify-center items-center rounded-2xl hover:shadow-lg transition duration-200 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] cursor-pointer">
+            <button
+              onClick={() => {
+                onClick();
+              }}
+              className="mt-6  px-4 py-2 w-fit mx-auto sm:text-sm text-black bg-white h-12 border border-transparent text-xs flex justify-center items-center rounded-2xl hover:shadow-lg transition duration-200 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] cursor-pointer"
+            >
               {button}
             </button>
           </div>
@@ -165,7 +174,7 @@ interface CarouselProps {
 
 export function Carousel({ slides }: CarouselProps) {
   const [current, setCurrent] = useState(0);
-  const { open, setOpen } = useModal(); 
+  const { open, setOpen } = useModal();
   const [selectedCard, setSelectedCard] = useState<SlideData | null>(null);
 
   const handlePreviousClick = () => {
@@ -189,22 +198,22 @@ export function Carousel({ slides }: CarouselProps) {
   useEffect(() => {
     const interval = setInterval(() => {
       handleNextClick();
-    }, 3000); // Change slide every 3 seconds
+    }, 4000); // Change slide every 3 seconds
 
-    return () => clearInterval(interval); 
-  }, [current]); 
+    return () => clearInterval(interval);
+  }, [current]);
 
   useEffect(() => {
-      if (open) {
-        document.body.style.overflow = "hidden"; // Disable scrolling
-      } else {
-        document.body.style.overflow = ""; // Restore scrolling
-      }
-      
-      return () => {
-        document.body.style.overflow = ""; // Cleanup on unmount
-      };
-    }, [open]);
+    if (open) {
+      document.body.style.overflow = "hidden"; // Disable scrolling
+    } else {
+      document.body.style.overflow = ""; // Restore scrolling
+    }
+
+    return () => {
+      document.body.style.overflow = ""; // Cleanup on unmount
+    };
+  }, [open]);
 
   return (
     <div
@@ -249,14 +258,21 @@ export function Carousel({ slides }: CarouselProps) {
       </div>
 
       {/* Modal Section */}
-      {open && selectedCard && <AnimatedModal isOpen={open} onClose={() => {
-      setOpen(false);
-      setSelectedCard(null);
-      setCurrent(0); 
-    }} card={selectedCard} resetSelectedCard={() => {
-      setSelectedCard(null);
-      setCurrent(0); 
-    }} />}
+      {open && selectedCard && (
+        <AnimatedModal
+          isOpen={open}
+          onClose={() => {
+            setOpen(false);
+            setSelectedCard(null);
+            setCurrent(0);
+          }}
+          card={selectedCard}
+          resetSelectedCard={() => {
+            setSelectedCard(null);
+            setCurrent(0);
+          }}
+        />
+      )}
     </div>
   );
 }

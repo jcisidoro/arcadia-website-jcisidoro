@@ -33,7 +33,7 @@ export default function UpcomingEvents() {
   const events: EventItem[] = [
     {
       title: "Weekly Impact Mixer",
-      text: "01.23.2025",
+      text: "January 23, 2025",
       src: "/impactMixerImg.png",
       eventAltImg: "Impact Mixer Event Image",
       description:
@@ -55,7 +55,7 @@ export default function UpcomingEvents() {
     },
     {
       title: "Plastic Pathways",
-      text: "02.10.2025",
+      text: "February 10, 2025",
       src: "/bottles.avif",
       eventAltImg: "Plastic Pathways Event Image",
       description:
@@ -86,7 +86,9 @@ export default function UpcomingEvents() {
         <div className="w-full h-full flex flex-col lg:flex-row items-center justify-center gap-10">
           {events.map((item, index) => (
             <div key={index} className="flex flex-col items-center gap-4">
-              <span className="text-sm lg:text-xl">{item.title}</span>
+              <span className="text-sm md:text-lg lg:text-2xl">
+                {item.title}
+              </span>
               <EventCards
                 src={item.src}
                 eventAltImg={item.eventAltImg}
@@ -95,7 +97,10 @@ export default function UpcomingEvents() {
                 author={item.author}
                 onClick={() => handleOpenModal(item)}
               />
-              <span className="text-sm lg:text-xl">{item.text}</span>
+              <div className="text-sm lg:text-xl">
+                <span>Join us on - </span>
+                <span className="font-semibold">{item.text}</span>
+              </div>
             </div>
           ))}
         </div>
