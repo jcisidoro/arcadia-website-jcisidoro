@@ -26,7 +26,9 @@ export const FileUpload = ({
     if (newFiles.length > 0) {
       const selectedFile = newFiles[0]; // Only keep one file
       setFile(selectedFile);
-      onChange && onChange([selectedFile]); // Keep it as an array for compatibility
+      if (onChange) {
+        onChange([selectedFile]);
+      } // Keep it as an array for compatibility
     }
   };
 
