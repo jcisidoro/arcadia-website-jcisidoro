@@ -2,7 +2,7 @@ import { cn } from "@/app/lib/utils";
 import React, { useRef, useState } from "react";
 import { motion } from "motion/react";
 import { IconUpload } from "@tabler/icons-react";
-import { useDropzone } from "react-dropzone";
+import { FileRejection, useDropzone } from "react-dropzone";
 
 const mainVariant = {
   initial: { x: 0, y: 0 },
@@ -34,14 +34,15 @@ export const FileUpload = ({
     fileInputRef.current?.click();
   };
 
+  const handleDropRejected = (error: FileRejection[]) => {
+    console.error("File rejected:", error);
+  };
+
   const { getRootProps, isDragActive } = useDropzone({
     multiple: false,
     noClick: true,
     onDrop: handleFileChange,
-    onDropRejected: (error) => {
-      console.log(error);
-      return;
-    },
+    onDropRejected: handleDropRejected,
   });
 
   return (
