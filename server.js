@@ -62,7 +62,10 @@ const storage = new CloudinaryStorage({
   cloudinary,
   params: {
     folder: "events",
-    public_id: (req, file) => file.originalname.split(".")[0],
+    public_id: (req, file) => {
+      const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+      return file.originalname.split(".")[0] + "-" + uniqueSuffix;
+    },
   },
 });
 
@@ -76,7 +79,8 @@ app.post("/api/upload", upload.single("image"), (req, res) => {
 
 app.post("/api/events", async (req, res) => {
   try {
-    const { imageUrl, date, title, author, description } = req.body;
+    const { imageUrl, date, title, author, description, description1 } =
+      req.body;
 
     if (!imageUrl) {
       return res.status(400).json({ message: "All fields are required" });
@@ -88,6 +92,7 @@ app.post("/api/events", async (req, res) => {
       title,
       author,
       description,
+      description1,
     });
 
     await newEvent.save(); // Save the new event to the database

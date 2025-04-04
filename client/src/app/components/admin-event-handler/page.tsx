@@ -9,6 +9,7 @@ export default function AdminEventHandler() {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [description, setDescription] = useState("");
+  const [description1, setDescription1] = useState("");
   const [date, setDate] = useState("");
   const [, setImageUrl] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -81,6 +82,7 @@ export default function AdminEventHandler() {
         title,
         author,
         description,
+        description1,
       };
 
       const response = await fetch("http://localhost:3100/api/events", {
@@ -98,6 +100,7 @@ export default function AdminEventHandler() {
         setTitle("");
         setAuthor("");
         setDescription("");
+        setDescription1("");
         setResetKey((prev) => prev + 1);
       } else {
         alert("Error adding event");
@@ -110,7 +113,7 @@ export default function AdminEventHandler() {
     setLoading(false);
   };
 
-  if (!isAuthenticated) return <p>Loading...</p>;
+  if (!isAuthenticated) return <div>Loading...</div>;
 
   return (
     <div className="relative w-full h-[1200px] lg:h-[1000px] flex flex-col items-center justify-center bg-[#326333]/50">
@@ -148,6 +151,13 @@ export default function AdminEventHandler() {
               className="bg-white/80 p-4 outline-none w-full lg:w-96 rounded-xl mb-2 h-32 resize-none"
               maxLength={500}
             />
+            <textarea
+              placeholder="Another Description"
+              value={description1}
+              onChange={(e) => setDescription1(e.target.value)}
+              className="bg-white/80 p-4 outline-none w-full lg:w-96 rounded-xl mb-2 h-32 resize-none"
+              maxLength={500}
+            />
           </div>
           <div className="flex w-full bg-white/50 rounded-xl">
             <FileUploadDemo
@@ -160,7 +170,7 @@ export default function AdminEventHandler() {
         <button
           onClick={handleAddEvent}
           className="bg-[#326333] text-white px-4 py-2 rounded cursor-pointer hover:bg-[#326333]/70 mt-4"
-          disabled={loading || !imageFile}
+          disabled={loading}
         >
           {loading ? "Submitting..." : "Submit"}
         </button>
