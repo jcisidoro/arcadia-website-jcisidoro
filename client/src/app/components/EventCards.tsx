@@ -17,7 +17,7 @@ export default function EventCards({
   onClick,
 }: EventCardsProps) {
   return (
-    <div className="w-[300px] lg:w-[450px] xl:w-[500px] h-40 lg:h-64 xl:h-72 rounded border-black/50 border group relative">
+    <div className="w-[300px] lg:w-[450px] xl:w-[500px] h-40 lg:h-64 xl:h-72 rounded group relative">
       <div className="w-full h-full relative">
         {src && (
           <Image

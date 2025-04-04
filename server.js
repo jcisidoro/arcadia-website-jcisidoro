@@ -71,25 +71,53 @@ const storage = new CloudinaryStorage({
 
 const upload = multer({ storage });
 
-// Image Upload Route
+// Image upload
 app.post("/api/upload", upload.single("image"), (req, res) => {
   if (!req.file) return res.status(400).json({ error: "No file uploaded" });
-  res.json({ imageUrl: req.file.path }); // Return uploaded image URL
+
+  if (!req.file.path || !req.file.filename) {
+    return res
+      .status(500)
+      .json({ error: "Failed to upload image to Cloudinary" });
+  }
+  res.json({ imageUrl: req.file.path });
 });
 
 // Add event
 app.post("/api/events", async (req, res) => {
   try {
-    const { imageUrl, date, title, speakers, description, description1 } =
-      req.body;
+    const {
+      imageUrl,
+      fromDate,
+      toDate,
+      title,
+      speakers,
+      description,
+      description1,
+    } = req.body;
 
     if (!imageUrl) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
+    const parsedFromDate = new Date(fromDate);
+    const parsedToDate = new Date(toDate);
+
+    // Check if parsed dates are valid
+    if (isNaN(parsedFromDate) || isNaN(parsedToDate)) {
+      return res.status(400).json({ message: "Invalid date format" });
+    }
+
+    if (parsedFromDate >= parsedToDate) {
+      return res
+        .status(400)
+        .json({ message: "Start date must be before end date" });
+    }
+
     const newEvent = new Event({
-      imageUrl, // The image URL returned from the Cloudinary upload
-      date: new Date(date),
+      imageUrl,
+      fromDate: parsedFromDate,
+      toDate: parsedToDate,
       title,
       speakers,
       description,

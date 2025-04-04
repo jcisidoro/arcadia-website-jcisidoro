@@ -10,7 +10,8 @@ export default function AdminEventHandler() {
   const [speakers, setSpeakers] = useState("");
   const [description, setDescription] = useState("");
   const [description1, setDescription1] = useState("");
-  const [date, setDate] = useState("");
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
   const [, setImageUrl] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
@@ -36,7 +37,8 @@ export default function AdminEventHandler() {
       !imageFile ||
       !title.trim() ||
       !speakers.trim() ||
-      !date ||
+      !fromDate ||
+      !toDate ||
       !description.trim()
     ) {
       alert("Please input necessary fields.");
@@ -46,16 +48,6 @@ export default function AdminEventHandler() {
     setLoading(true);
 
     try {
-      const fullDate = new Date(date); // Convert the selected date to a Date object
-      const currentDateTime = new Date(
-        fullDate.setHours(
-          new Date().getHours() + 8,
-          new Date().getMinutes(),
-          0,
-          0
-        )
-      ); // Set current time
-
       // Prepare form data for image upload
       const formData = new FormData();
       formData.append("image", imageFile);
@@ -77,7 +69,8 @@ export default function AdminEventHandler() {
       setImageUrl(imageData.imageUrl);
 
       const eventData = {
-        date: currentDateTime.toISOString(),
+        fromDate: new Date(fromDate).toISOString().split("T")[0],
+        toDate: new Date(toDate).toISOString().split("T")[0],
         imageUrl: imageData.imageUrl,
         title,
         speakers,
@@ -96,7 +89,8 @@ export default function AdminEventHandler() {
         // Clear fields after submission
         setImageFile(null);
         setImageUrl(null);
-        setDate("");
+        setFromDate("");
+        setToDate("");
         setTitle("");
         setSpeakers("");
         setDescription("");
@@ -139,8 +133,15 @@ export default function AdminEventHandler() {
             />
             <input
               type="date"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
+              value={fromDate}
+              onChange={(e) => setFromDate(e.target.value)}
+              className="bg-white/80 p-4 outline-none w-full lg:w-96 rounded-xl mb-2"
+              onKeyDown={(e) => e.preventDefault()}
+            />
+            <input
+              type="date"
+              value={toDate}
+              onChange={(e) => setToDate(e.target.value)}
               className="bg-white/80 p-4 outline-none w-full lg:w-96 rounded-xl mb-2"
               onKeyDown={(e) => e.preventDefault()}
             />

@@ -8,7 +8,7 @@ import AnimatedModal from "@/app/components/AnimatedModal";
 // Define the type for events
 interface EventItem {
   title: string;
-  date: string;
+  fromDate: string;
   src: string;
   eventAltImg: string;
   description: React.ReactNode;
@@ -20,15 +20,18 @@ interface EventItem {
 
 export default function UpcomingEvents() {
   const { open, setOpen } = useModal();
-  const [selectedEvent, setSelectedEvent] = useState<EventItem | null>(null); // Store selected event
+  const [selectedEvent, setSelectedEvent] = useState<EventItem | null>(null);
   const [events, setEvents] = useState<EventItem[]>([]);
 
   const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", {
+    const fromDate = new Date(dateString);
+
+    // Use UTC to avoid local time zone conversion
+    return fromDate.toLocaleDateString("en-US", {
       year: "numeric",
       month: "long",
       day: "numeric",
+      timeZone: "UTC", // This ensures the date is displayed in UTC
     });
   };
 
@@ -90,7 +93,9 @@ export default function UpcomingEvents() {
                 />
                 <div className="text-sm lg:text-xl">
                   <span>Join us on - </span>
-                  <span className="font-semibold">{formatDate(item.date)}</span>
+                  <span className="font-semibold">
+                    {formatDate(item.fromDate)}
+                  </span>
                 </div>
               </div>
             ))}
