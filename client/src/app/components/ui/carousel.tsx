@@ -11,6 +11,8 @@ interface SlideData {
   description: ReactNode;
   description1: ReactNode;
   author: string;
+  imageUrl: string;
+  speakers: string;
 }
 
 interface SlideProps {
