@@ -67,8 +67,8 @@ export default function UpcomingEvents() {
       </h1>
       <div className="w-full h-full flex flex-col p-8">
         {events.length === 0 ? (
-          <div className="text-xl text-black flex flex-col items-center justify-center w-full h-full gap-4">
-            <span className="font-cormorant text-4xl">
+          <div className="text-xl text-black flex flex-col items-center justify-center w-full h-full gap-4 text-center">
+            <span className="font-cormorant text-4xl font-bold">
               Nothing to see here just yet, but check back soon!
             </span>
             <span className="font-cormorant text-3xl">
