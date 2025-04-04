@@ -2,64 +2,76 @@
 
 import Image from "next/image";
 import { Carousel } from "../components/ui/previousEventsCarousel";
+import { useState, useEffect } from "react";
+
+// Define the SlideData interface to match the event data format.
+interface SlideData {
+  title: string;
+  button: string;
+  src: string;
+  description: React.ReactNode;
+  description1: React.ReactNode;
+  imageUrl: string;
+  speakers: string;
+}
+
 export function PreviousCarousel() {
-  const slideData = [
-    {
-      title:
-        "Upcycle Workshop: CHOPCHOP! Turning Single-Used Chopsticks into Art",
-      button: "Explore Event",
-      src: "/chopsticks.avif",
-      description: (
-        <p className="text-justify">
-          Our dedicated volunteer team collected used chopsticks from local
-          restaurants in Beijing&apos;s Central Business District, cleaned them
-          meticulously, and provided them to event participants. Their creative
-          challenge was to craft a sturdy table, demonstrating the potential of
-          waste as a valuable resource.
-          <br />
-          <br />
-          To wrap up our workshop on a high note, we hosted Illanit Yoel and
-          Maxime Klooster, industry experts in waste management. They shared
-          insights into the realities and challenges of waste recycling in China
-          and offered actionable ways for individuals to contribute to
-          sustainable solutions.
-        </p>
-      ),
-      description1: (
-        <div className="flex flex-col gap-4">
-          <div className="flex justify-center">
-            <div className="w-96 h-96 relative">
-              <Image
-                src="/upcycleWorkshop.png"
-                alt="Upcycle Workshop Image"
-                className="object-fit"
-                fill
-              />
+  const [slideData, setSlideData] = useState<SlideData[]>([]);
+
+  // Fetch past events data from the backend
+  useEffect(() => {
+    const fetchPastEvents = async () => {
+      try {
+        const response = await fetch("http://localhost:3100/api/past-events");
+        if (!response.ok) {
+          throw new Error("Failed to fetch past events");
+        }
+        const events = await response.json();
+
+        // Format the data as needed for the carousel
+        const formattedEvents = events.map((event: any) => ({
+          title: event.title,
+          button: "Explore Event",
+          src: event.imageUrl,
+          description: (
+            <p className="text-justify">
+              {event.description || "No description available."}
+            </p>
+          ),
+          description1: (
+            <div className="flex flex-col gap-4">
+              <div className="flex justify-center">
+                <div className="w-full h-96 relative">
+                  <Image
+                    unoptimized
+                    src={event.imageUrl}
+                    alt="Event Image"
+                    className="object-cover rounded-lg"
+                    fill
+                  />
+                </div>
+              </div>
+              <div className="flex flex-col gap-4">
+                <span className="font-bold">
+                  {event.speakers || "No speakers"}
+                </span>
+                <span>{event.attendees || "No attendees"}</span>
+              </div>
             </div>
-          </div>
-          <div className="flex flex-col gap-4">
-            2 speakers from <span className="font-bold">Beijing, China</span>
-            <span className="font-bold">Speakers</span>
-            <div className="flex flex-col">
-              <span className="font-bold">Maxime Van &apos;t Klooster</span>
-              <span className="italic">Partner at Acclime Group</span>
-            </div>
-            <div className="flex flex-col">
-              <span className="font-bold">Illanit Yoel</span>
-              <span>Co-Founder at SDeCo China (by Shibolet Dagan)</span>
-            </div>
-            <div className="">35 youth enthusiast attendees</div>
-            <div className="flex flex-col">
-              <span className="font-bold">Types of attendees:</span>
-              <span>Upcycle Workshop + Deep Dive Dialogue</span>
-            </div>
-          </div>
-        </div>
-      ),
-      speakers: "",
-      imageUrl: "/chopsticks.avif",
-    },
-  ];
+          ),
+          speakers: event.speakers || "No speakers",
+          imageUrl: event.imageUrl,
+        }));
+
+        setSlideData(formattedEvents);
+      } catch (error) {
+        console.error("Error fetching past events:", error);
+      }
+    };
+
+    fetchPastEvents();
+  }, []);
+
   return (
     <div className="relative overflow-hidden w-full h-full py-20">
       <Carousel slides={slideData} />

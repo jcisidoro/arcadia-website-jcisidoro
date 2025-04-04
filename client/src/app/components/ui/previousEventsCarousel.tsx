@@ -95,7 +95,7 @@ const Slide = ({
         }}
       >
         <div
-          className="absolute top-0 left-0 w-full h-full bg-[#1D1F2F] rounded-[1%] overflow-hidden transition-all duration-150 ease-out"
+          className="absolute top-0 left-0 w-full h-full bg-[#1D1F2F] rounded-[2.5%] overflow-hidden transition-all duration-150 ease-out"
           style={{
             transform:
               current === index
@@ -133,7 +133,7 @@ const Slide = ({
               onClick={() => {
                 onClick();
               }}
-              className="mt-6  px-4 py-2 w-fit mx-auto sm:text-sm text-black bg-white h-12 border border-transparent text-xs flex justify-center items-center rounded-2xl hover:shadow-lg transition duration-200 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] cursor-pointer"
+              className="mt-6  px-4 py-2 w-fit mx-auto sm:text-sm text-black bg-white h-12 border-transparent text-xs flex justify-center items-center rounded-2xl hover:shadow-lg transition duration-200 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] cursor-pointer"
             >
               {button}
             </button>
@@ -178,12 +178,15 @@ export function Carousel({ slides }: CarouselProps) {
   const { open, setOpen } = useModal();
   const [selectedCard, setSelectedCard] = useState<SlideData | null>(null);
 
+  // Skip transitions if there's only one slide
   const handlePreviousClick = () => {
+    if (slides.length <= 1) return; // Skip transition if only one slide
     const previous = current - 1;
     setCurrent(previous < 0 ? slides.length - 1 : previous);
   };
 
   const handleNextClick = () => {
+    if (slides.length <= 1) return; // Skip transition if only one slide
     const next = current + 1;
     setCurrent(next === slides.length ? 0 : next);
   };
@@ -197,12 +200,14 @@ export function Carousel({ slides }: CarouselProps) {
   const id = useId();
 
   useEffect(() => {
+    if (slides.length <= 1) return; // Don't start the interval if only one slide
+
     const interval = setInterval(() => {
       handleNextClick();
-    }, 4000); // Change slide every 3 seconds
+    }, 4000); // Change slide every 4 seconds
 
-    return () => clearInterval(interval);
-  }, [current]);
+    return () => clearInterval(interval); // Clean up interval on unmount
+  }, [current, slides.length]);
 
   useEffect(() => {
     if (open) {
