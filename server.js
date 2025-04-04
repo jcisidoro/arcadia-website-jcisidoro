@@ -4,7 +4,13 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+
 const User = require("./models/User"); // Import User model
+const Event = require("./models/Event"); // Import Event model
+
+const multer = require("multer");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const cloudinary = require("cloudinary").v2;
 
 const app = express();
 const PORT = process.env.PORT || 3100;
@@ -41,6 +47,53 @@ app.post("/api/admin/login", async (req, res) => {
     res.json({ message: "Login successful", token });
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
+  }
+});
+
+// Configure Cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+// Setup Multer Storage for Cloudinary
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: "events",
+    public_id: (req, file) => file.originalname.split(".")[0],
+  },
+});
+
+const upload = multer({ storage });
+
+// Image Upload Route
+app.post("/api/upload", upload.single("image"), (req, res) => {
+  if (!req.file) return res.status(400).json({ error: "No file uploaded" });
+  res.json({ imageUrl: req.file.path }); // Return uploaded image URL
+});
+
+app.post("/api/events", async (req, res) => {
+  try {
+    const { imageUrl } = req.body;
+
+    if (!imageUrl) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+
+    const newEvent = new Event({
+      imageUrl, // The image URL returned from the Cloudinary upload
+    });
+
+    await newEvent.save(); // Save the new event to the database
+
+    res
+      .status(201)
+      .json({ message: "Event added successfully", event: newEvent });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error adding event", error });
   }
 });
 

@@ -2,11 +2,19 @@
 import React, { useState } from "react";
 import { FileUpload } from "@/app/components/ui/file-upload";
 
-export function FileUploadDemo() {
-  const [, setFiles] = useState<File[]>([]);
+interface FileUploadDemoProps {
+  onChange: (file: File) => void;
+}
+
+export function FileUploadDemo({ onChange }: FileUploadDemoProps) {
+  const [, setFile] = useState<File | null>(null);
+
   const handleFileUpload = (files: File[]) => {
-    setFiles(files);
-    console.log(files);
+    if (files.length > 0) {
+      const selectedFile = files[0];
+      setFile(selectedFile);
+      onChange(selectedFile); // Pass the selected file to the parent component (AdminEventHandler)
+    }
   };
 
   return (
