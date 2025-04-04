@@ -7,13 +7,13 @@ export default function AdminEventHandler() {
   const router = useRouter();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [title, setTitle] = useState("");
-  const [date, setDate] = useState("");
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [description, setDescription] = useState("");
-  const [description1, setDescription1] = useState("");
   const [author, setAuthor] = useState("");
+  const [description, setDescription] = useState("");
+  const [date, setDate] = useState("");
+  const [, setImageUrl] = useState<string | null>(null);
+  const [imageFile, setImageFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
+  const [resetKey, setResetKey] = useState(0);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -31,14 +31,30 @@ export default function AdminEventHandler() {
   };
 
   const handleAddEvent = async () => {
-    if (!imageFile) {
-      alert("Please select an image to upload.");
+    if (
+      !imageFile ||
+      !title.trim() ||
+      !author.trim() ||
+      !date ||
+      !description.trim()
+    ) {
+      alert("Please input necessary fields.");
       return;
     }
 
     setLoading(true);
 
     try {
+      const fullDate = new Date(date); // Convert the selected date to a Date object
+      const currentDateTime = new Date(
+        fullDate.setHours(
+          new Date().getHours() + 8,
+          new Date().getMinutes(),
+          0,
+          0
+        )
+      ); // Set current time
+
       // Prepare form data for image upload
       const formData = new FormData();
       formData.append("image", imageFile);
@@ -58,9 +74,13 @@ export default function AdminEventHandler() {
 
       const imageData = await imageUploadResponse.json();
       setImageUrl(imageData.imageUrl);
-      // Submit the event data along with the uploaded image URL
+
       const eventData = {
+        date: currentDateTime.toISOString(),
         imageUrl: imageData.imageUrl,
+        title,
+        author,
+        description,
       };
 
       const response = await fetch("http://localhost:3100/api/events", {
@@ -74,6 +94,11 @@ export default function AdminEventHandler() {
         // Clear fields after submission
         setImageFile(null);
         setImageUrl(null);
+        setDate("");
+        setTitle("");
+        setAuthor("");
+        setDescription("");
+        setResetKey((prev) => prev + 1);
       } else {
         alert("Error adding event");
       }
@@ -95,7 +120,7 @@ export default function AdminEventHandler() {
         </h2>
         <div className="flex flex-col lg:flex-row w-full items-center">
           <div className="flex flex-col w-full">
-            {/* <input
+            <input
               type="text"
               placeholder="Title"
               value={title}
@@ -114,6 +139,7 @@ export default function AdminEventHandler() {
               value={date}
               onChange={(e) => setDate(e.target.value)}
               className="bg-white/80 p-4 outline-none w-full lg:w-96 rounded-xl mb-2"
+              onKeyDown={(e) => e.preventDefault()}
             />
             <textarea
               placeholder="Description"
@@ -122,16 +148,12 @@ export default function AdminEventHandler() {
               className="bg-white/80 p-4 outline-none w-full lg:w-96 rounded-xl mb-2 h-32 resize-none"
               maxLength={500}
             />
-            <textarea
-              placeholder="Another Description"
-              value={description1}
-              onChange={(e) => setDescription1(e.target.value)}
-              className="bg-white/80 p-4 outline-none w-full lg:w-96 rounded-xl mb-2 h-32 resize-none"
-              maxLength={500}
-            /> */}
           </div>
-          <div className="flex w-full  bg-white/80 rounded-xl">
-            <FileUploadDemo onChange={(file: File) => setImageFile(file)} />
+          <div className="flex w-full bg-white/50 rounded-xl">
+            <FileUploadDemo
+              onChange={(file: File) => setImageFile(file)}
+              resetKey={resetKey}
+            />
           </div>
         </div>
 

@@ -76,7 +76,7 @@ app.post("/api/upload", upload.single("image"), (req, res) => {
 
 app.post("/api/events", async (req, res) => {
   try {
-    const { imageUrl } = req.body;
+    const { imageUrl, date, title, author, description } = req.body;
 
     if (!imageUrl) {
       return res.status(400).json({ message: "All fields are required" });
@@ -84,6 +84,10 @@ app.post("/api/events", async (req, res) => {
 
     const newEvent = new Event({
       imageUrl, // The image URL returned from the Cloudinary upload
+      date: new Date(date),
+      title,
+      author,
+      description,
     });
 
     await newEvent.save(); // Save the new event to the database
