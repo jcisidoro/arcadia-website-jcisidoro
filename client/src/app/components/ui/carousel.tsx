@@ -10,7 +10,6 @@ interface SlideData {
   src: string;
   description: ReactNode;
   description1: ReactNode;
-  author: string;
   imageUrl: string;
   speakers: string;
 }

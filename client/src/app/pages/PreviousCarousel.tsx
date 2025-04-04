@@ -62,7 +62,8 @@ export function PreviousCarousel() {
           </div>
         </div>
       ),
-      author: "",
+      speakers: "",
+      imageUrl: "/plastic-waste.avif",
     },
     {
       title:
@@ -117,7 +118,8 @@ export function PreviousCarousel() {
           </div>
         </div>
       ),
-      author: "",
+      speakers: "",
+      imageUrl: "/plastic.avif",
     },
     {
       title:
@@ -155,7 +157,8 @@ export function PreviousCarousel() {
           </span>
         </div>
       ),
-      author: "",
+      speakers: "",
+      imageUrl: "/solarPanel.avif",
     },
     {
       title:
@@ -232,7 +235,8 @@ export function PreviousCarousel() {
           </div>
         </div>
       ),
-      author: "",
+      speakers: "",
+      imageUrl: "/trashBin.avif",
     },
     {
       title: "Deep Dive Dialogue: Towards a Zero Waste Nation",
@@ -302,7 +306,8 @@ export function PreviousCarousel() {
           </div>
         </div>
       ),
-      author: "",
+      speakers: "",
+      imageUrl: "/turtle.avif",
     },
     {
       title:
@@ -356,7 +361,8 @@ export function PreviousCarousel() {
           </div>
         </div>
       ),
-      author: "",
+      speakers: "",
+      imageUrl: "/chopsticks.avif",
     },
   ];
   return (

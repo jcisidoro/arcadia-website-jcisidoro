@@ -60,7 +60,7 @@ export default function UpcomingEvents() {
   return (
     <div className="flex flex-col items-center w-full h-full lg:h-[550px] relative bg-white mt-0.5">
       <h1 className="text-2xl lg:text-4xl xl:text-7xl font-bold uppercase mb-4 mt-8 text-[#326333] font-cormorant">
-        Upcoming Events Soon
+        Upcoming Events
       </h1>
       <div className="w-full h-full flex flex-col p-8">
         {events.length === 0 ? (
