@@ -116,7 +116,7 @@ export default function AdminEventHandler() {
           Add Event
         </h2>
         <div className="flex flex-col lg:flex-row w-full items-center">
-          <div className="flex flex-col w-full">
+          <div className="flex flex-col w-full items-center">
             <input
               type="text"
               placeholder="Title"
