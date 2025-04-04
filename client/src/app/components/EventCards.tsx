@@ -21,6 +21,7 @@ export default function EventCards({
       <div className="w-full h-full relative">
         {src && (
           <Image
+            unoptimized
             src={src}
             alt={eventAltImg || "Event Image"}
             fill

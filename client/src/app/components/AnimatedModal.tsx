@@ -17,7 +17,8 @@ type AnimatedModalProps = {
     src: string;
     description: ReactNode;
     description1: ReactNode;
-    author: string;
+    speakers: string;
+    imageUrl: string;
   } | null;
   resetSelectedCard: () => void;
 };
@@ -40,10 +41,11 @@ const AnimatedModal: React.FC<AnimatedModalProps> = ({
           <h2 className="text-6xl text-[#326333] font-bold font-cormorant">
             {card.title}
           </h2>
-          <h4>{card.author}</h4>
+          <h4>{card.speakers}</h4>
           <div className="w-full h-96 relative">
             <Image
-              src={card.src}
+              unoptimized
+              src={card.imageUrl}
               alt={card.title}
               className="rounded-lg my-4 object-cover"
               fill

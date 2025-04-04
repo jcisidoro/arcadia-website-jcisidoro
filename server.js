@@ -77,9 +77,10 @@ app.post("/api/upload", upload.single("image"), (req, res) => {
   res.json({ imageUrl: req.file.path }); // Return uploaded image URL
 });
 
+// Add event
 app.post("/api/events", async (req, res) => {
   try {
-    const { imageUrl, date, title, author, description, description1 } =
+    const { imageUrl, date, title, speakers, description, description1 } =
       req.body;
 
     if (!imageUrl) {
@@ -90,7 +91,7 @@ app.post("/api/events", async (req, res) => {
       imageUrl, // The image URL returned from the Cloudinary upload
       date: new Date(date),
       title,
-      author,
+      speakers,
       description,
       description1,
     });
@@ -103,6 +104,17 @@ app.post("/api/events", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error adding event", error });
+  }
+});
+
+// Fetch all events
+app.get("/api/events", async (req, res) => {
+  try {
+    const events = await Event.find(); // Fetch all events from the database
+    res.status(200).json(events);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error fetching events", error });
   }
 });
 
