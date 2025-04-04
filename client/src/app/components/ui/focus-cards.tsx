@@ -55,7 +55,8 @@ type Card = {
   src: string;
   description: ReactNode;
   description1: ReactNode;
-  author: string;
+  speakers: string;
+  imageUrl: string;
 };
 
 export function FocusCards({ cards }: { cards: Card[] }) {

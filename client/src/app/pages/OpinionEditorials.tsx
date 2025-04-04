@@ -4,7 +4,8 @@ export default function OpinionEditorials() {
   const cards = [
     {
       title: "The Future of Renewable Energy",
-      author: "By Jane Doe",
+      speakers: "By Jane Doe",
+      imageUrl: "/solarPanel.avif",
       src: "/solarPanel.avif",
       description:
         "As the world shifts away from fossil fuels, renewable energy sources like solar and wind power are becoming more viable. But are we moving fast enough?",
@@ -21,7 +22,8 @@ export default function OpinionEditorials() {
     },
     {
       title: "Is AI a Threat to Journalism?",
-      author: "By John Smith",
+      speakers: "By John Smith",
+      imageUrl: "/robot.avif",
       src: "/robot.avif",
       description:
         "Artificial Intelligence is transforming the media landscape, but is it helping or harming journalism?",
@@ -40,7 +42,8 @@ export default function OpinionEditorials() {
     },
     {
       title: "Plastic Waste: Are We Doing Enough?",
-      author: "By Emily Carter",
+      speakers: "By Emily Carter",
+      imageUrl: "/plastic-waste.avif",
       src: "/plastic-waste.avif",
       description:
         "Despite global awareness, plastic waste continues to be a major problem. Are bans on single-use plastics enough",
@@ -56,7 +59,8 @@ export default function OpinionEditorials() {
     },
     {
       title: "Can We Build Climate-Resilient Cities?",
-      author: "By Michael Green",
+      speakers: "By Michael Green",
+      imageUrl: "/flooded-city.avif",
       src: "/flooded-city.avif",
       description:
         "As extreme weather events become more common, urban planning must adapt. But are cities doing enough to become climate-resilient?",
@@ -72,7 +76,8 @@ export default function OpinionEditorials() {
     },
     {
       title: "The Ethics of Space Exploration",
-      author: "By Sarah Johnson",
+      speakers: "By Sarah Johnson",
+      imageUrl: "/astronaut.avif",
       src: "/astronaut.avif",
       description:
         "Space exploration is expanding rapidly, but do we need ethical guidelines before colonizing other planets?",

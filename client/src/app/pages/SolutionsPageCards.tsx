@@ -4,7 +4,8 @@ export function SolutionsPageCards() {
   const cards = [
     {
       title: "Plastic Waste Reduction",
-      author: "",
+      speakers: "",
+      imageUrl: "/recycle.avif",
       src: "/recycle.avif",
       description:
         "Plastic waste is a major environmental issue, as it pollutes oceans, harms wildlife, and contributes to climate change. Plastic waste reduction focuses on minimizing plastic use, improving recycling systems, and promoting alternatives like biodegradable materials. Key strategies include:",
@@ -35,7 +36,8 @@ export function SolutionsPageCards() {
     },
     {
       title: "Food Waste Recovery",
-      author: "",
+      speakers: "",
+      imageUrl: "/fertilizer.avif",
       src: "/fertilizer.avif",
       description:
         "Food waste is a global problem, leading to wasted resources (water, land, and energy) and increased greenhouse gas emissions. Food waste recovery aims to reduce food waste and redirect surplus food to those in need. Key approaches include:",
@@ -66,7 +68,8 @@ export function SolutionsPageCards() {
     },
     {
       title: "Waste-to-Energy",
-      author: "",
+      speakers: "",
+      imageUrl: "/landfill.avif",
       src: "/landfill.avif",
       description:
         "Waste-to-Energy refers to converting non-recyclable waste materials into usable forms of energy, such as electricity, heat, or biofuels. This helps reduce landfill waste while producing renewable energy. Key methods include:",
@@ -97,7 +100,8 @@ export function SolutionsPageCards() {
     },
     {
       title: "Disaster Risk Resilience",
-      author: "",
+      speakers: "",
+      imageUrl: "/housing.avif",
       src: "/housing.avif",
       description:
         "Disaster risk resilience refers to the ability of communities, infrastructure, and systems to withstand, adapt to, and recover from disasters such as floods, earthquakes, wildfires, and storms. Key elements include:",
@@ -129,7 +133,8 @@ export function SolutionsPageCards() {
     },
     {
       title: "Renewable Energy",
-      author: "",
+      speakers: "",
+      imageUrl: "/dam.avif",
       src: "/dam.avif",
       description:
         "Renewable energy comes from naturally replenished sources that have a lower environmental impact compared to fossil fuels. Major types include:",

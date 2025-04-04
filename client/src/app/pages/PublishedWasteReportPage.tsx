@@ -5,7 +5,8 @@ export default function PublishedWasteReportPage() {
     {
       title:
         "The Global Plastic Crisis: Challenges, Innovations, and Policy Solutions",
-      author: "Environmental Research Institute",
+      speakers: "Environmental Research Institute",
+      imageUrl: "/recycle.avif",
       src: "/recycle.avif",
       description:
         "A comprehensive report on the escalating plastic waste problem, its devastating effects on ecosystems, and the urgent need for sustainable solutions.",
@@ -39,7 +40,8 @@ export default function PublishedWasteReportPage() {
     },
     {
       title: "Food Waste and Sustainability: Turning Waste Into Opportunity",
-      author: "Global Sustainability Initiative",
+      speakers: "Global Sustainability Initiative",
+      imageUrl: "/fertilizer.avif",
       src: "/fertilizer.avif",
       description:
         "An in-depth study on the impact of food waste on global sustainability and how businesses, governments, and individuals can drive meaningful change.",
@@ -71,7 +73,8 @@ export default function PublishedWasteReportPage() {
     },
     {
       title: "From Waste to Energy: Transforming Trash Into Renewable Power",
-      author: "Energy & Environment Report 2024",
+      speakers: "Energy & Environment Report 2024",
+      imageUrl: "/landfill.avif",
       src: "/landfill.avif",
       description:
         "An analysis of how waste-to-energy (WTE) technologies are reshaping global energy markets by converting garbage into usable power.",
@@ -103,7 +106,8 @@ export default function PublishedWasteReportPage() {
     {
       title:
         "Building Climate-Resilient Cities: Strategies for a Sustainable Future",
-      author: "UN Climate Resilience Report",
+      speakers: "UN Climate Resilience Report",
+      imageUrl: "/housing.avif",
       src: "/housing.avif",
       description:
         "A detailed look at how urban areas can adapt to climate change by integrating sustainable infrastructure and disaster preparedness strategies.",
