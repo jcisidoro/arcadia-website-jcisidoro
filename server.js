@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const serverless = require("serverless-http");
 
 const User = require("./models/User"); // Import User model
 const Event = require("./models/Event"); // Import Event model
@@ -168,6 +169,9 @@ app.get("/api/past-events", async (req, res) => {
     res.status(500).json({ message: "Error fetching past events", error });
   }
 });
+
+module.exports = app;
+module.exports.handler = serverless(app);
 
 // Start server
 app.listen(PORT, () => {
