@@ -51,14 +51,30 @@ export default function UpcomingEvents() {
   }, []);
 
   const handleOpenModal = (event: EventItem) => {
-    setSelectedEvent(event);
-    setOpen(true);
+    setSelectedEvent(null); 
+    setTimeout(() => {
+      setSelectedEvent(event); 
+      setOpen(true);
+    }, 0);
   };
 
   const resetSelectedCard = () => {
     setSelectedEvent(null);
     setOpen(false);
   };
+
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+  
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+  
 
   return (
     <div className="flex flex-col items-center w-full h-full lg:h-[550px] relative bg-white mt-0.5">
