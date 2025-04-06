@@ -6,8 +6,8 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const serverless = require("serverless-http");
 
-const User = require("./models/User"); // Import User model
-const Event = require("./models/Event"); // Import Event model
+const User = require("./models/User");
+const Event = require("./models/Event");
 
 const multer = require("multer");
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
@@ -23,7 +23,10 @@ app.use(express.json()); // Parse JSON request bodies
 
 // CORS Configuration
 const corsOptions = {
-  origin: "https://arcadia-website-jcisidoro.onrender.com", // Replace with your Vercel frontend URL
+  origin: [
+    "https://arcadia-website-jcisidoro.onrender.com",
+    "https://arcadia-website-sustainability-hub.vercel.app",
+  ],
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
 };
