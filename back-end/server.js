@@ -24,6 +24,7 @@ app.use(express.json()); // Parse JSON request bodies
 // CORS Configuration
 const corsOptions = {
   origin: [
+    "http://localhost:3000",
     "https://arcadia-website-jcisidoro.onrender.com",
     "https://arcadia-website-sustainability-hub.vercel.app",
   ],
@@ -188,4 +189,10 @@ module.exports.handler = serverless(app);
 // Root route
 app.get("/", (req, res) => {
   res.send("Backend is running");
+});
+
+const port = process.env.PORT || 3100;
+
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
 });
