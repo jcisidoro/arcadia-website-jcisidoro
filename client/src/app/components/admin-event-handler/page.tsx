@@ -150,14 +150,12 @@ export default function AdminEventHandler() {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               className="bg-white/80 p-4 outline-none w-full lg:w-96 rounded-xl mb-2 h-32 resize-none"
-              maxLength={500}
             />
             <textarea
               placeholder="Another Description"
               value={description1}
               onChange={(e) => setDescription1(e.target.value)}
               className="bg-white/80 p-4 outline-none w-full lg:w-96 rounded-xl mb-2 h-32 resize-none"
-              maxLength={500}
             />
           </div>
           <div className="flex w-full bg-white/50 rounded-xl">
