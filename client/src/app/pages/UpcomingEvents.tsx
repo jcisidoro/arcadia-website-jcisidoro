@@ -1,9 +1,8 @@
 "use client";
 
-import EventCards from "@/app/components/EventCards";
 import { useEffect, useState } from "react";
-import { useModal } from "@/app/components/ui/animated-modal";
-import AnimatedModal from "@/app/components/AnimatedModal";
+import { Carousel, Card } from "@/app/components/ui/upcomingEventsCarousel";
+import Image from "next/image";
 
 // Define the type for events
 interface EventItem {
@@ -19,21 +18,7 @@ interface EventItem {
 }
 
 export default function UpcomingEvents() {
-  const { open, setOpen } = useModal();
-  const [selectedEvent, setSelectedEvent] = useState<EventItem | null>(null);
   const [events, setEvents] = useState<EventItem[]>([]);
-
-  const formatDate = (dateString: string) => {
-    const fromDate = new Date(dateString);
-
-    // Use UTC to avoid local time zone conversion
-    return fromDate.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      timeZone: "UTC", // This ensures the date is displayed in UTC
-    });
-  };
 
   // Fetch events from the backend when the component mounts
   useEffect(() => {
@@ -50,34 +35,46 @@ export default function UpcomingEvents() {
     fetchEvents();
   }, []);
 
-  const handleOpenModal = (event: EventItem) => {
-    setSelectedEvent(null); 
-    setTimeout(() => {
-      setSelectedEvent(event); 
-      setOpen(true);
-    }, 0);
-  };
+  const cards = events.map((item, index) => (
+    <Card
+      key={item._id}
+      card={{
+        category: "Event",
+        title: item.title,
+        src: item.imageUrl,
+        content: (
+          <div className="bg-[#0f9fa7]/10 dark:bg-neutral-800 p-8 md:p-14 rounded-3xl mb-4">
+            <h3 className="text-xl">
+              Speakers: <br />
+              <span className="font-bold">{item.speakers}</span>
+            </h3>
+            <div className="w-full h-96 relative my-10">
+              <Image
+                src={item.imageUrl}
+                alt={item.title}
+                fill
+                unoptimized
+                className="object-cover"
+              />
+            </div>
+            <p className="text-2xl">{item.description}</p>
 
-  const resetSelectedCard = () => {
-    setSelectedEvent(null);
-    setOpen(false);
-  };
-
-  useEffect(() => {
-    if (open) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-  
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [open]);
-  
+            <div className="w-full mt-10 flex flex-col gap-4">
+              <span>Click here to join event</span>
+              <button className="font-cormorant bg-[#326333] text-white text-2xl py-3 w-40 cursor-pointer hover:bg-[#326333]/80 transition-colors">
+                Join Event
+              </button>
+            </div>
+          </div>
+        ),
+        fromDate: item.fromDate,
+      }}
+      index={index}
+    />
+  ));
 
   return (
-    <div className="flex flex-col items-center w-full h-full lg:h-[550px] relative bg-white mt-0.5">
+    <div className="flex flex-col items-center w-full h-full relative bg-white mt-0.5">
       <h1 className="text-2xl lg:text-4xl xl:text-7xl font-bold uppercase mb-4 mt-8 text-[#326333] font-cormorant">
         Upcoming Events
       </h1>
@@ -93,44 +90,10 @@ export default function UpcomingEvents() {
           </div>
         ) : (
           <div className="w-full h-full flex flex-col lg:flex-row items-center justify-center gap-10">
-            {events.map((item, index) => (
-              <div key={index} className="flex flex-col items-center gap-4">
-                <span className="text-sm md:text-lg lg:text-2xl">
-                  {item.title}
-                </span>
-
-                <EventCards
-                  src={item.imageUrl}
-                  eventAltImg={item.eventAltImg}
-                  description={item.description}
-                  description1={item.description1}
-                  author={item.speakers}
-                  onClick={() => handleOpenModal(item)}
-                />
-                <div className="text-sm lg:text-xl">
-                  <span>Join us on - </span>
-                  <span className="font-semibold">
-                    {formatDate(item.fromDate)}
-                  </span>
-                </div>
-              </div>
-            ))}
+            <Carousel items={cards} />
           </div>
         )}
       </div>
-
-      {/* Modal - Show only when open */}
-      {open && selectedEvent && (
-        <AnimatedModal
-          isOpen={open}
-          onClose={() => {
-            setOpen(false);
-            setSelectedEvent(null);
-          }}
-          card={selectedEvent}
-          resetSelectedCard={resetSelectedCard}
-        />
-      )}
     </div>
   );
 }
