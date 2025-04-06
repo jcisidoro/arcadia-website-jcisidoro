@@ -273,7 +273,7 @@ export const Card = ({
           </motion.p>
 
           {/* DATE FORMAT HERE */}
-          <motion.p className="text-white text-xs md:text-sm lg:text-xl font-semibold max-w-xs [text-wrap:balance] bg-black/60 py-2 lg:py-4 w-40 md:w-48 lg:w-full flex justify-center absolute bottom-8 gap-1">
+          <motion.p className="text-white text-xs md:text-sm font-semibold max-w-xs [text-wrap:balance] bg-black/60 py-2 w-40 md:w-48 lg:w-64 flex justify-center absolute bottom-8 gap-1">
             <span>Join us on - </span>
             {card.fromDate && formatDate(card.fromDate)}
           </motion.p>
