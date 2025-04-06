@@ -11,6 +11,7 @@ interface SlideData {
   src: string;
   description: React.ReactNode;
   description1: React.ReactNode;
+  attendees: string;
   imageUrl: string;
   speakers: string;
 }
@@ -29,7 +30,7 @@ export function PreviousCarousel() {
         const events = await response.json();
 
         // Format the data as needed for the carousel
-        const formattedEvents = events.map((event: any) => ({
+        const formattedEvents = events.map((event: SlideData) => ({
           title: event.title,
           button: "Explore Event",
           src: event.imageUrl,
