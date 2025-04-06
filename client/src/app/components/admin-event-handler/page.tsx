@@ -8,6 +8,7 @@ export default function AdminEventHandler() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [title, setTitle] = useState("");
   const [speakers, setSpeakers] = useState("");
+  const [attendees, setAttendees] = useState("");
   const [description, setDescription] = useState("");
   const [description1, setDescription1] = useState("");
   const [fromDate, setFromDate] = useState("");
@@ -37,6 +38,7 @@ export default function AdminEventHandler() {
       !imageFile ||
       !title.trim() ||
       !speakers.trim() ||
+      !attendees.trim() ||
       !fromDate ||
       !toDate ||
       !description.trim()
@@ -74,6 +76,7 @@ export default function AdminEventHandler() {
         imageUrl: imageData.imageUrl,
         title,
         speakers,
+        attendees,
         description,
         description1,
       };
@@ -93,6 +96,7 @@ export default function AdminEventHandler() {
         setToDate("");
         setTitle("");
         setSpeakers("");
+        setAttendees("");
         setDescription("");
         setDescription1("");
         setResetKey((prev) => prev + 1);
@@ -129,6 +133,13 @@ export default function AdminEventHandler() {
               placeholder="Speakers"
               value={speakers}
               onChange={(e) => setSpeakers(e.target.value)}
+              className="bg-white/80 p-4 outline-none w-full lg:w-96 rounded-xl mb-2"
+            />
+            <input
+              type="text"
+              placeholder="Attendees"
+              value={attendees}
+              onChange={(e) => setAttendees(e.target.value)}
               className="bg-white/80 p-4 outline-none w-full lg:w-96 rounded-xl mb-2"
             />
             <input

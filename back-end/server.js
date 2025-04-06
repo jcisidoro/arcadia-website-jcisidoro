@@ -106,6 +106,7 @@ app.post("/api/events", async (req, res) => {
       toDate,
       title,
       speakers,
+      attendees,
       description,
       description1,
     } = req.body;
@@ -134,6 +135,7 @@ app.post("/api/events", async (req, res) => {
       toDate: parsedToDate,
       title,
       speakers,
+      attendees,
       description,
       description1,
     });
