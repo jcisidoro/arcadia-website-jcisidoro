@@ -17,7 +17,7 @@ export default function EventsIntroPage() {
           Deep Dive Dialogues
         </h1>
 
-        <p className="text-sm lg:text-lg xl:text-2xl flex-1 text-justify">
+        <p className="text-sm lg:text-lg xl:text-2xl flex-1 text-justify text-black">
           Our Deep Dive Dialogue sessions are structured discussions designed to
           encourage stakeholders to share their insights and experiences on the
           challenges and opportunities in sustainability. The sessions will
@@ -26,7 +26,7 @@ export default function EventsIntroPage() {
           adopted by other countries.
         </p>
 
-        <span className="text-sm lg:text-lg xl:text-2xl font-semibold">
+        <span className="text-sm lg:text-lg xl:text-2xl font-semibold text-black">
           Forums, Panel Discussions, Fireside Chats, Summits
         </span>
       </div>

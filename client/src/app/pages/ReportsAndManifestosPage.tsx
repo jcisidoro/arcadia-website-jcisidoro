@@ -17,7 +17,7 @@ export default function ReportsAndManifestosPage() {
           Reports and Manifestos
         </h1>
 
-        <p className="text-sm lg:text-lg xl:text-2xl flex-1 text-justify">
+        <p className="text-sm lg:text-lg xl:text-2xl flex-1 text-justify text-black">
           Our waste reports provide detailed assessments of current waste
           management practices, with a focus on gaps, inefficiencies, and
           opportunities for improvement. These reports highlight both local and

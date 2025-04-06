@@ -8,7 +8,7 @@ export default function ArcadiaComponents() {
         Three Key Components
       </h1>
 
-      <p className="text-lg lg:text-xl text-justify">
+      <p className="text-lg lg:text-xl text-justify text-black">
         Arcadia&apos;s methodology revolves around fostering a continuous cycle
         of dialogue, knowledge sharing, and innovation, to empower stakeholders
         and drive meaningful sustainability outcomes. Our key pillars include:
@@ -38,7 +38,7 @@ export default function ArcadiaComponents() {
             href: "#",
           },
         ].map((item, index) => (
-          <li key={index} className="flex flex-col gap-8 mt-4">
+          <li key={index} className="flex flex-col gap-8 mt-4 text-black">
             <h1 className="font-bold text-2xl">{item.title}</h1>
             <p className="text-lg flex-1 text-justify">{item.description}</p>
             <Link href={item.href}>

@@ -17,7 +17,7 @@ export default function CampaignsPage() {
           Hackathons and Campaigns
         </h1>
 
-        <p className="text-sm lg:text-lg xl:text-2xl flex-1 text-justify">
+        <p className="text-sm lg:text-lg xl:text-2xl flex-1 text-justify text-black">
           <span className="font-bold font-cormorant text-xl xl:text-[35px]">
             Arcadia{" "}
           </span>{" "}
@@ -32,7 +32,7 @@ export default function CampaignsPage() {
           impact.
         </p>
 
-        <span className="text-sm lg:text-lg xl:text-2xl font-semibold">
+        <span className="text-sm lg:text-lg xl:text-2xl font-semibold text-black">
           Hackathons, Workshops and Trainings
         </span>
       </div>

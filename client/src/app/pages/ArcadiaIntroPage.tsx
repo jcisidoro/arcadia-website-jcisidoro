@@ -18,7 +18,7 @@ export default function ArcadiaIntroPage() {
         <h1 className="font-bold text-3xl md:text-4xl lg:text-5xl xl:text-7xl text-[#326333] font-cormorant">
           A Growing Network for Impact
         </h1>
-        <p className="text-lg xl:text-2xl text-justify">
+        <p className="text-lg xl:text-2xl text-justify text-black">
           <span className="font-bold font-cormorant text-2xl xl:text-3xl">
             Arcadia{" "}
           </span>{" "}

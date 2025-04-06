@@ -12,7 +12,7 @@ export default function ArcadiaSolutionsPage() {
         </span>
       </div>
 
-      <p className="text-lg lg:text-xl text-justify">
+      <p className="text-lg lg:text-xl text-justify text-black">
         In the Philippines, we focus on five interconnected pillars that are
         critical to advancing a circular economy and building climate
         resilience.

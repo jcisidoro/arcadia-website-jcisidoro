@@ -17,7 +17,7 @@ export default function PositionPapersPage() {
           Position Papers
         </h1>
 
-        <p className="text-sm lg:text-lg xl:text-2xl flex-1 text-justify">
+        <p className="text-sm lg:text-lg xl:text-2xl flex-1 text-justify text-black">
           <span className="font-bold font-cormorant text-xl xl:text-[35px]">
             Arcadia{" "}
           </span>{" "}

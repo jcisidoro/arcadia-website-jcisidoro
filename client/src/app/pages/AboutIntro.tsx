@@ -10,7 +10,7 @@ export default function AboutIntro() {
             Arcadia
           </span>
         </h1>
-        <p className="text-lg lg:text-2xl">
+        <p className="text-lg lg:text-2xl text-black">
           <span className="italic text-[#1d241d] font-bold font-cormorant lg:text-3xl uppercase">
             Arcadia{" "}
           </span>
@@ -19,7 +19,7 @@ export default function AboutIntro() {
           economy.
         </p>
 
-        <p className="text-sm lg:text-xl font-bold mt-4">
+        <p className="text-sm lg:text-xl font-bold mt-4 text-black">
           As a hub, it facilitates the exchange of leading sustainability
           practices and resources, fostering the development of cost-effective
           and efficient to solutions to sustainability challenges.
