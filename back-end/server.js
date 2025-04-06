@@ -172,8 +172,3 @@ app.get("/api/past-events", async (req, res) => {
 
 module.exports = app;
 module.exports.handler = serverless(app);
-
-// Start server
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
