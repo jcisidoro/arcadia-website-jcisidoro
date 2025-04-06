@@ -14,13 +14,22 @@ const { CloudinaryStorage } = require("multer-storage-cloudinary");
 const cloudinary = require("cloudinary").v2;
 
 const app = express();
-const PORT = process.env.PORT || 3100;
 const MONGO_URL = process.env.MONGO_URL;
 const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret";
 
 // Middleware
 app.use(cors()); // Allow frontend to communicate with backend
 app.use(express.json()); // Parse JSON request bodies
+
+// CORS Configuration
+const corsOptions = {
+  origin: "https://arcadia-website-jcisidoro.onrender.com", // Replace with your Vercel frontend URL
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
+
+app.use(cors(corsOptions)); // Enable CORS with specified options
+app.options("*", cors(corsOptions));
 
 // Connect to MongoDB
 mongoose
@@ -172,3 +181,8 @@ app.get("/api/past-events", async (req, res) => {
 
 module.exports = app;
 module.exports.handler = serverless(app);
+
+// Root route
+app.get("/", (req, res) => {
+  res.send("Backend is running");
+});
