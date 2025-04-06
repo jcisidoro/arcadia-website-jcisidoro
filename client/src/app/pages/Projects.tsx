@@ -1,10 +1,10 @@
 export default function Projects() {
   return (
     <div className="flex flex-col w-full h-full lg:h-[800px] bg-white mt-0.5 p-10 gap-4">
-      <h1 className="text-lg xl:text-5xl uppercase">
+      <h1 className="text-lg xl:text-5xl uppercase text-black">
         <span className="font-bold">Flagship </span>Projects
       </h1>
-      <p className="text-lg xl:text-2xl text-justify">
+      <p className="text-lg xl:text-2xl text-justify text-black">
         Our flagship projects bring together key stakeholders to address
         pressing waste challenges through collaborative dialogue and innovation.
         By assesing on-the-ground realities and identifying gaps, we harness

@@ -16,7 +16,7 @@ export default function AboutPage() {
           sustainability practices and accelerating the transition to a circular
           economy.
         </p>
-        <p className=" text-xl xl:text-5xl mt-4 z-1 text-white font-cormorant text-center">
+        <p className="text-xl xl:text-5xl mt-4 z-1 text-white font-cormorant text-center">
           As a hub, it facilitates the exchange of leading sustainability
           practices and resources, fostering the development of cost-effective
           and efficient to solutions to sustainability challenges.

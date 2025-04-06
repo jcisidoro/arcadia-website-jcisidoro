@@ -68,10 +68,10 @@ export default function KeyPillarsOverview() {
 
   return (
     <div className="w-full h-full lg:h-[800px] bg-white p-10 flex flex-col gap-4">
-      <h1 className="text-2xl lg:text-5xl font-semibold">
+      <h1 className="text-2xl lg:text-5xl font-semibold text-black">
         Key Pillars Overview
       </h1>
-      <p className="text-sm lg:text-2xl text-justify">
+      <p className="text-sm lg:text-2xl text-justify text-black">
         Arcadia&apos;s methodology revolves around fostering a continuous cycle
         of dialogue, knowledge sharing, and innovation, to empower stakeholders
         and drive meaningful sustainability outcomes. Our key pillars include:
@@ -84,21 +84,21 @@ export default function KeyPillarsOverview() {
               onClick={() => setActiveIndex(index)}
               className={`cursor-pointer p-1.5 lg:p-4 w-[300px] sm:w-[350px] xl:w-[500px] rounded-xl text-white flex gap-3 transition-all duration-300 ${
                 activeIndex === index
-                  ? "bg-gradient-to-r from-[#0a9cab] via-[#3db789] to-[#7ed55f]" // Green if active
-                  : "bg-gradient-to-r from-[#b3b3b3] via-[#d9d9d9] to-[#f5f5f5]" // Gray if inactive
+                  ? "bg-gradient-to-r from-[#0a9cab] via-[#3db789] to-[#7ed55f]"
+                  : "bg-gradient-to-r from-[#b3b3b3] via-[#d9d9d9] to-[#f5f5f5]"
               }`}
             >
-              <div className="text-2xl lg:text-4xl xl:text-6xl font-thin flex items-center">{`0${
+              <div className="text-2xl lg:text-4xl xl:text-6xl font-thin flex items-center text-white">{`0${
                 index + 1
               }`}</div>
-              <div className="font-bold text-sm lg:text-xl xl:text-2xl text-left items-center flex">
+              <div className="font-bold text-sm lg:text-xl xl:text-2xl text-left items-center flex text-white">
                 {item.title}
               </div>
             </button>
           ))}
         </div>
 
-        <div className="w-full h-full flex justify-center items-center lg:px-10 mt-6">
+        <div className="w-full h-full flex justify-center items-center lg:px-10 mt-6 text-black">
           {content[activeIndex].description}
         </div>
       </div>
