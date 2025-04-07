@@ -20,10 +20,10 @@ export default function Footer() {
         />
       </div>
 
-      <div className="flex w-full h-48">
+      <div className="flex flex-col lg:flex-row w-full h-full lg:h-48">
         <div className="flex flex-col w-full h-full p-8 gap-4">
           <div className="flex flex-col w-full h-fit">
-            <h1 className="text-white font-semibold uppercase text-2xl leading-4">
+            <h1 className="text-white font-semibold uppercase text-xl xl:text-2xl leading-4">
               Sustainability Hub
             </h1>
             <span className="text-xs text-white">
@@ -41,7 +41,7 @@ export default function Footer() {
             </p>
           </div>
         </div>
-        <div className="flex w-full h-full not-first-of-type:justify-between items-center p-8">
+        <div className="flex flex-col xl:flex-row w-full h-full justify-between items-left xl:items-center p-8 gap-4 lg:gap-0">
           {[
             { buttonText: "Events", href: "/pages/events" },
             { buttonText: "Knowledge Portal", href: "#" },
@@ -53,7 +53,7 @@ export default function Footer() {
                 href={item.href}
                 className="text-white cursor-pointer"
               >
-                <span>{item.buttonText}</span>
+                <span className="text-sm lg:text-base">{item.buttonText}</span>
               </Link>
               <div className="w-full border-1 border-white scale-x-0 origin-center group-hover:scale-x-100 transition-all duration-300 ease-in-out" />
             </div>
