@@ -152,7 +152,7 @@ app.post("/api/events", async (req, res) => {
   }
 });
 
-// Fetch all events
+// Fetch upcoming events
 app.get("/api/events", async (req, res) => {
   try {
     const today = new Date();
@@ -160,12 +160,12 @@ app.get("/api/events", async (req, res) => {
 
     const events = await Event.find({
       fromDate: { $gte: today }, // Only fetch events where fromDate is today or in the future
-    });
+    }).sort({ fromDate: 1 });
 
     res.status(200).json(events);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error fetching events", error });
+    res.status(500).json({ message: "Error fetching upcoming events", error });
   }
 });
 
