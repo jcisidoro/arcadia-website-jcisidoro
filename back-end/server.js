@@ -25,7 +25,6 @@ app.use(express.json()); // Parse JSON request bodies
 // CORS Configuration
 const corsOptions = {
   origin: [
-    "http://localhost:3000",
     "https://arcadia-website-jcisidoro.onrender.com",
     "https://arcadia-website-sustainability-hub.vercel.app",
   ],
