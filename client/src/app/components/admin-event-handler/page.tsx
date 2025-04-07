@@ -176,20 +176,30 @@ export default function AdminEventHandler() {
                 />
               </div>
               <div className="w-full h-full flex flex-col">
-                <input
-                  type="date"
-                  value={fromDate}
-                  onChange={(e) => setFromDate(e.target.value)}
-                  className="bg-white/80 p-4 outline-none w-full rounded-xl mb-2"
-                  onKeyDown={(e) => e.preventDefault()}
-                />
-                <input
-                  type="date"
-                  value={toDate}
-                  onChange={(e) => setToDate(e.target.value)}
-                  className="bg-white/80 p-4 outline-none w-full rounded-xl mb-2"
-                  onKeyDown={(e) => e.preventDefault()}
-                />
+                <div className="flex flex-col relative">
+                  <label className="text-black text-xs absolute left-2 top-0.5">
+                    From Date
+                  </label>
+                  <input
+                    type="date"
+                    value={fromDate}
+                    onChange={(e) => setFromDate(e.target.value)}
+                    className="bg-white/80 p-4 outline-none w-full rounded-xl mb-2"
+                    onKeyDown={(e) => e.preventDefault()}
+                  />
+                </div>
+                <div className="flex flex-col relative">
+                  <label className="text-black text-xs absolute left-2 top-0.5">
+                    To Date
+                  </label>
+                  <input
+                    type="date"
+                    value={toDate}
+                    onChange={(e) => setToDate(e.target.value)}
+                    className="bg-white/80 p-4 outline-none w-full rounded-xl mb-2"
+                    onKeyDown={(e) => e.preventDefault()}
+                  />
+                </div>
                 <textarea
                   placeholder="Description"
                   value={description}
