@@ -51,7 +51,7 @@ export default function AdminAuthPage() {
           <input
             type="email"
             placeholder="Enter your email"
-            className="p-3 rounded-md text-lg border-none outline-none bg-white"
+            className="p-3 rounded-md text-lg border-none outline-none bg-white text-[#326333]"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -60,7 +60,7 @@ export default function AdminAuthPage() {
           <input
             type="password"
             placeholder="Enter your password"
-            className="p-3 rounded-md text-lg border-none outline-none bg-white"
+            className="p-3 rounded-md text-lg border-none outline-none bg-white text-[#326333]"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
