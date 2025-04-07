@@ -90,11 +90,11 @@ export const FileUpload = ({
                   </motion.p>
                 </div>
 
-                <div className="flex text-sm md:flex-row flex-col items-start md:items-center w-full mt-2 justify-between text-neutral-600 dark:text-neutral-400">
+                <div className="flex text-sm md:flex-row flex-col items-start md:items-center w-full mt-2 gap-4 justify-between text-neutral-600 dark:text-neutral-400">
                   <motion.p className="px-1 py-0.5 rounded-md bg-gray-100 dark:bg-neutral-800">
                     {file.type}
                   </motion.p>
-                  <motion.p>
+                  <motion.p className="text-nowrap text-xs">
                     modified {new Date(file.lastModified).toLocaleDateString()}
                   </motion.p>
                 </div>

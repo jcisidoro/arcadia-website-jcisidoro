@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { FileUploadDemo } from "../FileUpload";
 import Image from "next/image";
@@ -149,73 +149,98 @@ export default function AdminEventHandler() {
           <div className="w-full lg:w-2/3 h-full p-4">
             <div className="flex flex-col lg:flex-row w-full h-full gap-2">
               <div className="flex flex-col w-full h-full">
-                <input
-                  type="text"
-                  placeholder="Title"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  className="bg-white/80 p-4 outline-none w-full rounded-xl mb-2"
-                />
-                <input
-                  type="text"
-                  placeholder="Speakers"
-                  value={speakers}
-                  onChange={(e) => setSpeakers(e.target.value)}
-                  className="bg-white/80 p-4 outline-none w-full rounded-xl mb-2"
-                />
-                <input
-                  type="text"
-                  placeholder="Attendees"
-                  value={attendees}
-                  onChange={(e) => setAttendees(e.target.value)}
-                  className="bg-white/80 p-4 outline-none w-full rounded-xl mb-2"
-                />
+                {[
+                  {
+                    placeholder: "Title",
+                    value: title,
+                    onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
+                      setTitle(e.target.value),
+                  },
+                  {
+                    placeholder: "Speakers",
+                    value: speakers,
+                    onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
+                      setSpeakers(e.target.value),
+                  },
+                  {
+                    placeholder: "Attendees",
+                    value: attendees,
+                    onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
+                      setAttendees(e.target.value),
+                  },
+                ].map((item, index) => (
+                  <input
+                    key={index}
+                    type="text"
+                    placeholder={item.placeholder}
+                    value={item.value}
+                    onChange={item.onChange}
+                    className="bg-white/80 p-4 outline-none w-full rounded-xl mb-2"
+                  />
+                ))}
                 <FileUploadDemo
                   onChange={(file: File) => setImageFile(file)}
                   resetKey={resetKey}
                 />
               </div>
               <div className="w-full h-full flex flex-col">
-                <div className="flex flex-col relative">
-                  <label className="text-black text-xs absolute left-2 top-0.5">
-                    From Date
-                  </label>
-                  <input
-                    type="date"
-                    value={fromDate}
-                    onChange={(e) => setFromDate(e.target.value)}
-                    className="bg-white/80 p-4 outline-none w-full rounded-xl mb-2"
-                    onKeyDown={(e) => e.preventDefault()}
+                {[
+                  {
+                    labelText: "From Date",
+                    value: fromDate,
+                    onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
+                      setFromDate(e.target.value),
+                    onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) =>
+                      e.preventDefault(),
+                  },
+                  {
+                    labelText: "To Date",
+                    value: toDate,
+                    onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
+                      setToDate(e.target.value),
+                    onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) =>
+                      e.preventDefault(),
+                  },
+                ].map((item, index) => (
+                  <div key={index} className="flex flex-col relative">
+                    <label className="text-black text-xs absolute left-2 top-0.5">
+                      {item.labelText}
+                    </label>
+                    <input
+                      type="date"
+                      value={item.value}
+                      onChange={item.onChange}
+                      className="bg-white/80 p-4 outline-none w-full rounded-xl mb-2"
+                      onKeyDown={item.onKeyDown}
+                    />
+                  </div>
+                ))}
+                {[
+                  {
+                    placeholder: "Description",
+                    value: description,
+                    onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                      setDescription(e.target.value),
+                  },
+                  {
+                    placeholder: "Another Description",
+                    value: description1,
+                    onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                      setDescription1(e.target.value),
+                  },
+                ].map((item, index) => (
+                  <textarea
+                    key={index}
+                    placeholder={item.placeholder}
+                    value={item.value}
+                    onChange={item.onChange}
+                    className="bg-white/80 p-4 outline-none w-full rounded-xl mb-2 h-32 resize-none"
                   />
-                </div>
-                <div className="flex flex-col relative">
-                  <label className="text-black text-xs absolute left-2 top-0.5">
-                    To Date
-                  </label>
-                  <input
-                    type="date"
-                    value={toDate}
-                    onChange={(e) => setToDate(e.target.value)}
-                    className="bg-white/80 p-4 outline-none w-full rounded-xl mb-2"
-                    onKeyDown={(e) => e.preventDefault()}
-                  />
-                </div>
-                <textarea
-                  placeholder="Description"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  className="bg-white/80 p-4 outline-none w-full rounded-xl mb-2 h-32 resize-none"
-                />
-                <textarea
-                  placeholder="Another Description"
-                  value={description1}
-                  onChange={(e) => setDescription1(e.target.value)}
-                  className="bg-white/80 p-4 outline-none w-full rounded-xl mb-2 h-32 resize-none"
-                />
+                ))}
                 <div className="w-full h-1/4 flex items-center justify-center">
                   <button
                     onClick={handleAddEvent}
-                    className="bg-white text-black px-7 py-2 rounded cursor-pointer hover:bg-white/70 mt-4"
+                    className="bg-white text-[#326333] px-7 py-2 rounded cursor-pointer hover:bg-white/70 mt-4"
                     disabled={loading}
                   >
                     {loading ? "Adding event..." : "Add Event"}

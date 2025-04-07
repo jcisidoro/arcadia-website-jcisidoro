@@ -15,7 +15,7 @@ export default function AdminAuthKey() {
   };
 
   return (
-    <div className="fixed bottom-4 right-4 z-5">
+    <div className="fixed bottom-4 right-4 z-60">
       <button
         onClick={handleAdminClick}
         className="bg-[#326333] rounded-full w-10 h-10 flex items-center justify-center cursor-pointer hover:scale-110 transition-all border-1"
