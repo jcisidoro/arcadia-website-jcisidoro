@@ -15,7 +15,7 @@ export default function Projects() {
         circular economy practices.
       </p>
 
-      <div className="flex flex-col md:flex-row w-full h-full items-center justify-center gap-12 lg:gap-32">
+      <div className="flex flex-col md:flex-row w-full h-full items-center justify-center gap-8 lg:gap-32">
         <div className="flex flex-col justify-center gap-10 bg-gradient-to-r from-[#0a9cab] via-[#3db789] to-[#7ed55f] w-60 xl:w-96 h-60 xl:h-80 rounded-xl p-10">
           <h1 className="text-white text-2xl xl:text-4xl uppercase font-bold">
             Plastic Pathways

@@ -267,17 +267,18 @@ export const Card = ({
           </motion.p>
           <motion.p
             layoutId={layout ? `title-${card.title}` : undefined}
-            className="text-white text-xl md:text-3xl font-semibold max-w-xs text-left [text-wrap:balance] font-sans mt-2"
+            className="text-white text-left pl-2 text-xl md:text-3xl font-semibold max-w-xs [text-wrap:balance] font-sans mt-2"
           >
             {card.title}
           </motion.p>
 
           {/* DATE FORMAT HERE */}
-          <motion.p className="text-white text-xs md:text-sm font-semibold max-w-xs [text-wrap:balance] bg-black/60 py-2 w-44 md:w-48 lg:w-64 flex justify-center absolute bottom-8 gap-1">
+          <motion.p className="text-white text-xs md:text-sm font-semibold max-w-xs [text-wrap:balance] py-2 w-44 md:w-48 lg:w-64 flex justify-center absolute bottom-8 gap-1">
             <span>Date - </span>
             {card.fromDate && formatDate(card.fromDate)}
           </motion.p>
         </div>
+
         <BlurImage
           src={card.src}
           alt={card.title}
