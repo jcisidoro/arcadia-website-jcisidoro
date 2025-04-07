@@ -5,7 +5,7 @@ import Link from "next/link";
 export default function LandingPage() {
   return (
     <div>
-      <BackgroundVideo />
+      <BackgroundVideo width="w-[100vw]" height="h-[100vh]" />
       <div className="w-full h-[100vh]">
         <div className="flex flex-col items-center justify-center w-full h-full">
           <div className="w-64 h-64 relative z-1">

@@ -65,11 +65,11 @@ export const FileUpload = ({
           <GridPattern />
         </div>
         <div className="flex flex-col items-center justify-center">
-          <p className="relative z-20 font-sans font-bold text-neutral-700 dark:text-neutral-300 text-base">
-            Upload file
+          <p className="relative z-20 font-sans font-bold text-neutral-700 dark:text-neutral-300 text-base text-center">
+            Upload Image (jpeg, png, and avif)
           </p>
           <p className="relative z-20 font-sans font-normal text-neutral-400 dark:text-neutral-400 text-base mt-2 text-center">
-            Drag or drop your file here or click to upload
+            Drag or drop your image here or click to upload
           </p>
 
           <div className="relative w-full mt-10 max-w-xl mx-auto">

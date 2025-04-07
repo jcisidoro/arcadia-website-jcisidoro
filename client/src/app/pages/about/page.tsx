@@ -5,7 +5,7 @@ import Projects from "../Projects";
 export default function AboutPage() {
   return (
     <div className="bg-black">
-      <BackgroundVideo />
+      <BackgroundVideo width="w-[100vw]" height="h-[100vh]" />
 
       <div className="flex flex-col w-full h-[100vh] justify-center items-center px-10 lg:px-20">
         <h1 className="text-white z-1 font-cormorant text-4xl lg:text-5xl xl:text-7xl text-center font-bold mb-4">

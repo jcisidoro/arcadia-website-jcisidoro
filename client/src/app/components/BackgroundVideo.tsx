@@ -1,7 +1,17 @@
 "use client";
 import React, { useEffect } from "react";
 
-export default function BackgroundVideo() {
+interface BackgroundVideoProps {
+  width?: string;
+  height?: string;
+  className?: string;
+}
+
+export default function BackgroundVideo({
+  width,
+  height,
+  className,
+}: BackgroundVideoProps) {
   useEffect(() => {
     const videoElement = document.querySelector("video");
 
@@ -31,7 +41,7 @@ export default function BackgroundVideo() {
       autoPlay
       playsInline
       preload="auto"
-      className="absolute w-[100vw] h-[100vh] object-cover z-1"
+      className={`absolute ${width} ${height} object-cover z-1 ${className}`}
     />
   );
 }
