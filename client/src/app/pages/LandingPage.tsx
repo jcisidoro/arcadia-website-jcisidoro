@@ -31,7 +31,7 @@ export default function LandingPage() {
             <span className="font-bold">Circular Economy</span>
           </p>
           <Link href="/pages/events" className="z-1">
-            <button className="text-white cursor-pointer p-3 lg:p-4 border-1 mt-4 font-cormorant text-2xl lg:text-3xl hover:bg-white hover:text-black duration-300">
+            <button className="text-white cursor-pointer px-7 py-3 lg:px-7 lg:py-3 border-1 mt-4 font-cormorant text-2xl lg:text-3xl hover:bg-white hover:text-black duration-300">
               Join Us
             </button>
           </Link>
