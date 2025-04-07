@@ -108,7 +108,7 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
           <div
             className={cn(
               "flex flex-row justify-start gap-4 pl-4",
-              "max-w-7xl mx-auto" // remove max-w-4xl if you want the carousel to span the full width of its container
+              "max-w-7xl mx-auto"
             )}
           >
             {items.map((item, index) => (
@@ -229,7 +229,7 @@ export const Card = ({
               className="max-w-5xl mx-auto bg-white dark:bg-neutral-900 h-fit  z-[60] my-10 p-4 md:p-10 rounded-3xl font-sans relative"
             >
               <button
-                className="sticky top-4 h-8 w-8 right-0 ml-auto bg-black dark:bg-white rounded-full flex items-center justify-center"
+                className="sticky top-4 h-8 w-8 right-0 ml-auto bg-black dark:bg-white rounded-full flex items-center justify-center cursor-pointer"
                 onClick={handleClose}
               >
                 <IconX className="h-6 w-6 text-neutral-100 dark:text-neutral-900" />
@@ -255,7 +255,7 @@ export const Card = ({
       <motion.button
         layoutId={layout ? `card-${card.title}` : undefined}
         onClick={handleOpen}
-        className="bg-gray-100 dark:bg-neutral-900 h-80 w-56 md:h-[18rem] md:w-[500px] overflow-hidden flex flex-col items-start justify-start relative z-10 group"
+        className="bg-gray-100 dark:bg-neutral-900 h-80 w-56 md:h-[18rem] md:w-[500px] overflow-hidden flex flex-col items-start justify-start relative z-10 group cursor-pointer"
       >
         <div className="absolute h-full top-0 inset-x-0 bg-gradient-to-b from-black/50 via-transparent to-transparent z-30 pointer-events-none" />
         <div className="relative z-40 p-8 h-full w-full">
