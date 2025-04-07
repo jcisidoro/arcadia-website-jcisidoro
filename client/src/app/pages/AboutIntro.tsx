@@ -6,7 +6,7 @@ export default function AboutIntro() {
       <div className="flex flex-col p-4 text-center gap-10 mx-4 xl:mx-32">
         <h1 className="text-3xl lg:text-5xl">
           <span className="font-bold text-[#326333]">About </span>
-          <span className="lg:text-6xl font-cormorant font-extrabold uppercase">
+          <span className="lg:text-6xl font-cormorant font-extrabold uppercase text-black">
             Arcadia
           </span>
         </h1>

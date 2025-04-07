@@ -177,7 +177,7 @@ app.get("/api/past-events", async (req, res) => {
 
     const events = await Event.find({
       fromDate: { $lt: today }, // Only fetch events where fromDate is strictly before today
-    });
+    }).sort({ fromDate: 1 });
 
     res.status(200).json(events);
   } catch (error) {

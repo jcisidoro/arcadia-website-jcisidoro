@@ -14,6 +14,8 @@ interface SlideData {
   attendees: string;
   imageUrl: string;
   speakers: string;
+  toDate: string;
+  fromDate: string;
 }
 
 export function PreviousCarousel() {
@@ -31,7 +33,6 @@ export function PreviousCarousel() {
         }
         const events = await response.json();
 
-        // Format the data as needed for the carousel
         const formattedEvents = events.map((event: SlideData) => ({
           title: event.title,
           button: "Explore Event",
@@ -55,14 +56,30 @@ export function PreviousCarousel() {
                 </div>
               </div>
               <div className="flex flex-col gap-4">
+                <div className="flex flex-col">
+                  <span>Speakers:</span>
+                  <span className="font-bold">
+                    {event.speakers || "No speakers"}
+                  </span>
+                </div>
                 <span className="font-bold">
-                  {event.speakers || "No speakers"}
+                  {event.attendees || "No attendees"}
                 </span>
-                <span>{event.attendees || "No attendees"}</span>
+                <div className="flex gap-1">
+                  <span>Start Date:</span>
+                  <span className="font-bold">
+                    {formatDate(event.fromDate) || "No start date specified."}
+                  </span>
+                </div>
+                <div className="flex gap-1">
+                  <span>End Date:</span>
+                  <span className="font-bold">
+                    {formatDate(event.toDate) || "No end date specified."}
+                  </span>
+                </div>
               </div>
             </div>
           ),
-          speakers: event.speakers || "No speakers",
           imageUrl: event.imageUrl,
         }));
 
@@ -74,6 +91,16 @@ export function PreviousCarousel() {
 
     fetchPastEvents();
   }, []);
+
+  const formatDate = (dateString: string) => {
+    const fromDate = new Date(dateString);
+    return fromDate.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      timeZone: "UTC",
+    });
+  };
 
   return (
     <div className="relative overflow-hidden w-full h-full py-20">

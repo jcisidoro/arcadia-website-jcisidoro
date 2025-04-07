@@ -35,7 +35,7 @@ const AnimatedModal: React.FC<AnimatedModalProps> = ({
     <Modal>
       <ModalBody
         resetSelectedCard={resetSelectedCard}
-        className="overflow-y-auto scrollbar-none"
+        className="overflow-y-auto"
       >
         <ModalContent>
           <h2 className="text-6xl text-[#326333] font-bold font-cormorant">

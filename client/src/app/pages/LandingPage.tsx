@@ -32,7 +32,7 @@ export default function LandingPage() {
           </p>
           <Link href="/pages/events" className="z-1">
             <button className="text-white cursor-pointer p-3 lg:p-4 border-1 mt-4 font-cormorant text-2xl lg:text-3xl hover:bg-white hover:text-black duration-300">
-              Join Events
+              Join Us
             </button>
           </Link>
         </div>
