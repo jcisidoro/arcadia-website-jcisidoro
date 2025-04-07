@@ -42,12 +42,8 @@ export default function Footer() {
             { buttonText: "Knowledge Portal", href: "#" },
             { buttonText: "Initiatives", href: "#" },
           ].map((item, index) => (
-            <div className="flex flex-col group">
-              <Link
-                key={index}
-                href={item.href}
-                className="text-white cursor-pointer"
-              >
+            <div key={index} className="flex flex-col group">
+              <Link href={item.href} className="text-white cursor-pointer">
                 <span className="text-sm lg:text-base">{item.buttonText}</span>
               </Link>
               <div className="w-full border-1 border-white scale-x-0 origin-center group-hover:scale-x-100 transition-all duration-300 ease-in-out" />
