@@ -126,7 +126,7 @@ export default function AdminEventHandler() {
             <BackgroundVideo
               width="w-[100vw]"
               height="h-full"
-              className="rounded-t-2xl lg:rounded-l-2xl"
+              className="rounded-t-2xl lg:rounded-l-2xl lg:rounded-t-none"
             />
             <div className="w-40 h-40 relative z-2">
               <Image
