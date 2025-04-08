@@ -4,6 +4,9 @@ import { useRouter } from "next/navigation";
 import { FileUploadDemo } from "../FileUpload";
 import Image from "next/image";
 import BackgroundVideo from "../BackgroundVideo";
+// import Link from "next/link";
+
+// import { IoIosArrowBack } from "react-icons/io";
 
 export default function AdminEventHandler() {
   const router = useRouter();
@@ -32,7 +35,7 @@ export default function AdminEventHandler() {
   // Logout function
   const handleLogout = () => {
     localStorage.removeItem("token"); // Remove token
-    router.push("/pages/who-we-are"); // Redirect to login page
+    router.push("/pages/admin-page"); // Redirect to login page
   };
 
   const handleAddEvent = async () => {
@@ -103,7 +106,12 @@ export default function AdminEventHandler() {
 
   return (
     <div className="relative w-full h-[1700px] lg:h-[1000px] flex flex-col items-center justify-center bg-[#326333]/50">
-      <div className="flex flex-col w-full h-[900px] lg:h-[700px] sm:w-[450px] md:w-[750px] lg:w-[800px] xl:w-[1050px] p-4 items-center justify-center">
+      <div className="flex flex-col w-full h-[900px] lg:h-[700px] sm:w-[450px] md:w-[750px] lg:w-[800px] xl:w-[1050px] p-4 items-center justify-center relative">
+        {/* <Link href="/components/admin-page-handler">
+          <button className="rounded-full w-10 h-10 text-white bg-[#326333] flex justify-center items-center text-3xl cursor-pointer hover:scale-105 transition-all duration-300 absolute top-0 left-0">
+            <IoIosArrowBack />
+          </button>
+        </Link> */}
         <h2 className="text-3xl lg:text-4xl font-bold mb-4 text-white">
           Add Event
         </h2>

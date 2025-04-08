@@ -8,7 +8,7 @@ export default function AdminAuthKey() {
   const handleAdminClick = () => {
     const token = localStorage.getItem("token"); // Always check latest token
     if (token) {
-      router.push("/components/admin-event-handler"); // Redirect to Admin Panel
+      router.push("/components/admin-page-handler"); // Redirect to Admin Panel
     } else {
       router.push("/pages/admin-page"); // Redirect to Login Page
     }

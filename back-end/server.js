@@ -6,7 +6,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const serverless = require("serverless-http");
 
-const User = require("./models/User");
+const Admin = require("./models/Admin");
 const Event = require("./models/Event");
 
 const multer = require("multer");
@@ -74,17 +74,21 @@ app.post("/api/admin/login", async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const user = await User.findOne({ email });
-    if (!user) return res.status(400).json({ message: "Invalid credentials" });
+    const admin = await Admin.findOne({ email });
+    if (!admin) return res.status(400).json({ message: "Invalid credentials" });
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(password, admin.password);
     if (!isMatch)
       return res.status(400).json({ message: "Invalid credentials" });
 
     // Generate a JWT token
-    const token = jwt.sign({ id: user._id, email: user.email }, JWT_SECRET, {
-      expiresIn: "1h",
-    });
+    const token = jwt.sign(
+      { id: admin._id, email: admin.email, role: admin.role },
+      JWT_SECRET,
+      {
+        expiresIn: "1h",
+      }
+    );
 
     res.json({ message: "Login successful", token });
   } catch (error) {

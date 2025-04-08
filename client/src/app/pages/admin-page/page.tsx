@@ -29,7 +29,7 @@ export default function AdminAuthPage() {
 
       localStorage.setItem("token", data.token);
       alert("Login successful!");
-      router.push("/components/admin-event-handler");
+      router.push("/components/admin-page-handler");
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);
