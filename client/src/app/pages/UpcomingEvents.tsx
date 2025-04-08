@@ -65,15 +65,24 @@ export default function UpcomingEvents() {
             <p className="text-xl mt-6 text-justify">{item.description1}</p>
             <div className="w-full mt-10 flex flex-col gap-4">
               <span>Click here to join event</span>
-              <Link
-                href={item.eventLink}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <button className="font-cormorant bg-[#326333] text-white text-2xl py-3 w-40 cursor-pointer hover:bg-[#326333]/80 transition-colors">
+              {item.eventLink ? (
+                <Link
+                  href={item.eventLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <button className="font-cormorant bg-[#326333] text-white text-2xl py-3 w-40 cursor-pointer hover:bg-[#326333]/80 transition-colors">
+                    Join Event
+                  </button>
+                </Link>
+              ) : (
+                <button
+                  disabled
+                  className="font-cormorant bg-gray-400 text-white text-2xl py-3 w-40 cursor-not-allowed"
+                >
                   Join Event
                 </button>
-              </Link>
+              )}
             </div>
           </div>
         ),
