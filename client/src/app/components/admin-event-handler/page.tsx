@@ -79,7 +79,7 @@ export default function AdminEventHandler() {
       );
 
       if (response.ok) {
-        const result = await response.json();
+        // const result = await response.json();
         router.push("/pages/events#upcoming-events");
 
         // Clear fields after submission
