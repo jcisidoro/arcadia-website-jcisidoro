@@ -30,7 +30,7 @@ export default function LandingPage() {
             Driving Progress Towards a{" "}
             <span className="font-bold">Circular Economy</span>
           </p>
-          <Link href="/pages/events" className="z-1">
+          <Link href="/pages/events#upcoming-events" className="z-1">
             <button className="text-white cursor-pointer px-7 py-3 lg:px-7 lg:py-3 border-1 mt-4 font-cormorant text-2xl lg:text-3xl hover:bg-white hover:text-black duration-300">
               Join Us
             </button>

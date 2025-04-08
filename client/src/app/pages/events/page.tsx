@@ -10,7 +10,9 @@ export default function SecondPage() {
       <EventsPage />
       <EventsIntroPage />
       <CampaignsPage />
-      <UpcomingEvents />
+      <div id="upcoming-events">
+        <UpcomingEvents />
+      </div>
       <PreviousEvents />
     </div>
   );

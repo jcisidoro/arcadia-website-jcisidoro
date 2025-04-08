@@ -21,7 +21,7 @@ export default function ArcadiaComponents() {
             description:
               "Deep dive dialogues, summits, and touchpoints that bridge stakeholders and generate sustainable ideas.",
             btnText: "Learn More",
-            href: "/pages/events",
+            href: "/pages/events#upcoming-events",
           },
           {
             title: "Knowledge Portal",
