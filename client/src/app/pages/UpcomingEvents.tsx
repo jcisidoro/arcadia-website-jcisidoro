@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Carousel, Card } from "@/app/components/ui/upcomingEventsCarousel";
 import Image from "next/image";
+import Link from "next/link";
 
 // Define the type for events
 interface EventItem {
@@ -14,6 +15,7 @@ interface EventItem {
   description1: React.ReactNode;
   speakers: string;
   imageUrl: string;
+  eventLink: string;
   _id: string;
 }
 
@@ -63,9 +65,15 @@ export default function UpcomingEvents() {
             <p className="text-xl mt-6 text-justify">{item.description1}</p>
             <div className="w-full mt-10 flex flex-col gap-4">
               <span>Click here to join event</span>
-              <button className="font-cormorant bg-[#326333] text-white text-2xl py-3 w-40 cursor-pointer hover:bg-[#326333]/80 transition-colors">
-                Join Event
-              </button>
+              <Link
+                href={item.eventLink}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <button className="font-cormorant bg-[#326333] text-white text-2xl py-3 w-40 cursor-pointer hover:bg-[#326333]/80 transition-colors">
+                  Join Event
+                </button>
+              </Link>
             </div>
           </div>
         ),

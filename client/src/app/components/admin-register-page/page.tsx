@@ -36,8 +36,8 @@ export default function AdminRegisterPage() {
   if (!isAuthenticated) return <div>Loading...</div>;
 
   return (
-    <div className="flex w-full h-[1300px] sm:h-[1050px] lg:h-[850px] 2xl:h-[800px] bg-[#326333]/50 px-10 pb-10 pt-24 relative justify-center">
-      <div className="w-full h-[1050px] sm:h-[850px] md:h-[800px] lg:h-[600px] flex justify-center">
+    <div className="flex w-full h-[1350px] sm:h-[1200px] lg:h-[900px] bg-[#326333]/50 px-10 pb-10 pt-24 relative justify-center">
+      <div className="w-full h-[1100px] sm:h-[950px] md:h-[900px] lg:h-[650px] xl:h-[680px] flex justify-center">
         {/* CONTAINER */}
         <div className="flex flex-col lg:flex-row w-[650px] lg:w-[900px] h-full bg-[#326333]/90 rounded-2xl">
           <div className="flex w-full lg:w-1/3 h-full relative rounded-t-2xl lg:rounded-l-2xl lg:rounded-t-none">
@@ -123,6 +123,13 @@ export default function AdminRegisterPage() {
                   />
                 </div>
               ))}
+              <div className="flex flex-col gap-1">
+                <label className="text-white text-sm">Role</label>
+                <select className="bg-white rounded-lg outline-none p-3 w-full text-[#326333]">
+                  <option value="accCreator">accCreator</option>
+                  <option value="eventHandler">eventHandler</option>
+                </select>
+              </div>
             </div>
             <button className="bg-white hover:bg-white/80 p-3 rounded-lg text-[#326333] mt-4 cursor-pointer transition-colors duration-300 w-32 block lg:absolute bottom-6 right-6">
               Submit

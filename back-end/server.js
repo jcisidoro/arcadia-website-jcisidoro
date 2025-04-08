@@ -69,6 +69,42 @@ const streamUpload = (buffer, publicId) => {
   });
 };
 
+// Admin Registration Route
+app.post("/api/admin/register", async (req, res) => {
+  const { firstName, lastName, email, password, confirmPassword } = req.body;
+
+  // Basic validation
+  if (!firstName || !lastName || !email || !password || !confirmPassword) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
+
+  if (password !== confirmPassword) {
+    return res.status(400).json({ message: "Passwords do not match" });
+  }
+
+  try {
+    const existingAdmin = await Admin.findOne({ email });
+    if (existingAdmin) {
+      return res.status(409).json({ message: "Email already exists" });
+    }
+
+    const newAdmin = new Admin({
+      firstName,
+      lastName,
+      email,
+      password,
+      role: "accCreator",
+    });
+
+    await newAdmin.save();
+
+    res.status(201).json({ message: "Admin registered successfully" });
+  } catch (error) {
+    console.error("Error during registration:", error);
+    res.status(500).json({ message: "Server error", error });
+  }
+});
+
 // Admin Login Route
 app.post("/api/admin/login", async (req, res) => {
   const { email, password } = req.body;
@@ -83,7 +119,11 @@ app.post("/api/admin/login", async (req, res) => {
 
     // Generate a JWT token
     const token = jwt.sign(
-      { id: admin._id, email: admin.email, role: admin.role },
+      {
+        id: admin._id,
+        email: admin.email,
+        role: admin.role,
+      },
       JWT_SECRET,
       {
         expiresIn: "1h",
@@ -106,6 +146,7 @@ app.post("/api/events", upload.single("image"), async (req, res) => {
     attendees,
     description,
     description1,
+    eventLink,
   } = req.body;
 
   if (!req.file) {
@@ -139,6 +180,7 @@ app.post("/api/events", upload.single("image"), async (req, res) => {
       attendees,
       description,
       description1,
+      eventLink,
     });
 
     await newEvent.save();

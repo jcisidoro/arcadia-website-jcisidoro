@@ -8,6 +8,7 @@ const EventSchema = new mongoose.Schema({
   toDate: { type: Date, required: true },
   description: { type: String, required: true },
   description1: { type: String, required: false },
+  eventLink: { type: String, required: true },
   imageUrl: { type: String, required: true },
 });
 

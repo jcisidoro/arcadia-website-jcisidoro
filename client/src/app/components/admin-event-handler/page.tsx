@@ -16,6 +16,7 @@ export default function AdminEventHandler() {
   const [attendees, setAttendees] = useState("");
   const [description, setDescription] = useState("");
   const [description1, setDescription1] = useState("");
+  const [eventLink, setEventLink] = useState("");
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
   const [, setImageUrl] = useState<string | null>(null);
@@ -46,7 +47,8 @@ export default function AdminEventHandler() {
       !attendees.trim() ||
       !fromDate ||
       !toDate ||
-      !description.trim()
+      !description.trim() ||
+      !eventLink
     ) {
       alert("Please input necessary fields.");
       return;
@@ -65,6 +67,7 @@ export default function AdminEventHandler() {
       formData.append("toDate", toDate);
       formData.append("description", description);
       formData.append("description1", description1);
+      formData.append("eventLink", eventLink);
 
       // Send all data to backend in one request
       const response = await fetch(
@@ -89,6 +92,7 @@ export default function AdminEventHandler() {
         setAttendees("");
         setDescription("");
         setDescription1("");
+        setEventLink("");
         setResetKey((prev) => prev + 1);
       } else {
         const result = await response.json();
@@ -169,7 +173,7 @@ export default function AdminEventHandler() {
                     placeholder={item.placeholder}
                     value={item.value}
                     onChange={item.onChange}
-                    className="bg-white/80 p-4 outline-none w-full rounded-xl mb-2"
+                    className="bg-white/80 p-4 outline-none w-full rounded-xl mb-2 text-black"
                   />
                 ))}
                 <FileUploadDemo
@@ -204,7 +208,7 @@ export default function AdminEventHandler() {
                       type="date"
                       value={item.value}
                       onChange={item.onChange}
-                      className="bg-white/80 p-4 outline-none w-full rounded-xl mb-2"
+                      className="bg-white/80 p-4 outline-none w-full rounded-xl mb-2 text-black"
                       onKeyDown={item.onKeyDown}
                     />
                   </div>
@@ -228,9 +232,16 @@ export default function AdminEventHandler() {
                     placeholder={item.placeholder}
                     value={item.value}
                     onChange={item.onChange}
-                    className="bg-white/80 p-4 outline-none w-full rounded-xl mb-2 h-32 resize-none"
+                    className="bg-white/80 p-4 outline-none w-full rounded-xl mb-2 h-32 resize-none text-black"
                   />
                 ))}
+                <input
+                  type="text"
+                  value={eventLink}
+                  onChange={(e) => setEventLink(e.target.value)}
+                  placeholder="Add event link"
+                  className="bg-white/80 p-4 outline-none w-full rounded-xl mb-2 text-black"
+                />
                 <div className="w-full h-1/4 flex items-center justify-center">
                   <button
                     onClick={handleAddEvent}
