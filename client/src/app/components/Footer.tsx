@@ -50,9 +50,9 @@ export default function Footer() {
             </div>
           ))}
         </div>
-        <div className="flex flex-col w-full h-full p-8 justify-between">
+        <div className="flex flex-col w-full h-full p-8">
           <span className="text-white text-xl font-semibold">Contact Us</span>
-          <div className="flex flex-col text-white">
+          <div className="flex flex-col text-white h-full justify-center">
             <span>For general inquiries:</span>
             <span>gsm.arcadia@gmail.com</span>
           </div>
