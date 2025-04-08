@@ -16,7 +16,7 @@ export default function AdminAuthPage() {
 
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/events`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/admin/login`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
