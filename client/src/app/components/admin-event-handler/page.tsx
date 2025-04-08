@@ -80,7 +80,7 @@ export default function AdminEventHandler() {
 
       if (response.ok) {
         const result = await response.json();
-        alert(result.message);
+        router.push("/pages/events#upcoming-events");
 
         // Clear fields after submission
         setImageFile(null);
