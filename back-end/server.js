@@ -41,6 +41,27 @@ mongoose
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.error("MongoDB Connection Error:", err));
 
+// Configure Cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+// Setup Multer Storage for Cloudinary
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: "events",
+    public_id: (req, file) => {
+      const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+      return file.originalname.split(".")[0] + "-" + uniqueSuffix;
+    },
+  },
+});
+
+const upload = multer({ storage });
+
 // Admin Login Route
 app.post("/api/admin/login", async (req, res) => {
   const { email, password } = req.body;
@@ -63,27 +84,6 @@ app.post("/api/admin/login", async (req, res) => {
     res.status(500).json({ message: "Server error", error });
   }
 });
-
-// Configure Cloudinary
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
-
-// Setup Multer Storage for Cloudinary
-const storage = new CloudinaryStorage({
-  cloudinary,
-  params: {
-    folder: "events",
-    public_id: (req, file) => {
-      const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-      return file.originalname.split(".")[0] + "-" + uniqueSuffix;
-    },
-  },
-});
-
-const upload = multer({ storage });
 
 // Image upload
 app.post("/api/upload", upload.single("image"), (req, res) => {
@@ -112,7 +112,7 @@ app.post("/api/events", async (req, res) => {
     } = req.body;
 
     if (!imageUrl) {
-      return res.status(400).json({ message: "All fields are required" });
+      return res.status(400).json({ message: "Please upload image." });
     }
 
     const parsedFromDate = new Date(fromDate);
