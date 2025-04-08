@@ -27,12 +27,12 @@ export default function AdminAuthPage() {
       const data = await response.json();
       if (!response.ok) throw new Error(data.message);
 
-      localStorage.setItem("token", data.token); // Save token
+      localStorage.setItem("token", data.token);
       alert("Login successful!");
-      router.push("/components/admin-event-handler"); // Redirect after login
+      router.push("/components/admin-event-handler");
     } catch (err: unknown) {
       if (err instanceof Error) {
-        setError(err.message); // Access message safely
+        setError(err.message);
       } else {
         setError("An unknown error occurred.");
       }
