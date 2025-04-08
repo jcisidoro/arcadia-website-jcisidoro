@@ -10,7 +10,7 @@ const User = require("./models/User");
 const Event = require("./models/Event");
 
 const multer = require("multer");
-const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const streamifier = require("streamifier");
 const cloudinary = require("cloudinary").v2;
 
 const app = express();
@@ -48,19 +48,26 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// Setup Multer Storage for Cloudinary
-const storage = new CloudinaryStorage({
-  cloudinary,
-  params: {
-    folder: "events",
-    public_id: (req, file) => {
-      const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-      return file.originalname.split(".")[0] + "-" + uniqueSuffix;
-    },
-  },
-});
-
+// Multer config for memory storage
+const storage = multer.memoryStorage();
 const upload = multer({ storage });
+
+// Upload helper
+const streamUpload = (buffer, publicId) => {
+  return new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      {
+        folder: "events",
+        public_id: publicId,
+      },
+      (error, result) => {
+        if (result) resolve(result);
+        else reject(error);
+      }
+    );
+    streamifier.createReadStream(buffer).pipe(stream);
+  });
+};
 
 // Admin Login Route
 app.post("/api/admin/login", async (req, res) => {
@@ -85,52 +92,42 @@ app.post("/api/admin/login", async (req, res) => {
   }
 });
 
-// Image upload
-app.post("/api/upload", upload.single("image"), (req, res) => {
-  if (!req.file) return res.status(400).json({ error: "No file uploaded" });
-
-  if (!req.file.path || !req.file.filename) {
-    return res
-      .status(500)
-      .json({ error: "Failed to upload image to Cloudinary" });
-  }
-  res.json({ imageUrl: req.file.path });
-});
-
 // Add event
-app.post("/api/events", async (req, res) => {
+app.post("/api/events", upload.single("image"), async (req, res) => {
+  const {
+    fromDate,
+    toDate,
+    title,
+    speakers,
+    attendees,
+    description,
+    description1,
+  } = req.body;
+
+  if (!req.file) {
+    return res.status(400).json({ message: "Image is required" });
+  }
+
+  const parsedFromDate = new Date(fromDate);
+  const parsedToDate = new Date(toDate);
+
+  if (isNaN(parsedFromDate) || isNaN(parsedToDate)) {
+    return res.status(400).json({ message: "Invalid date format" });
+  }
+
+  if (parsedFromDate >= parsedToDate) {
+    return res
+      .status(400)
+      .json({ message: "Start date must be before end date" });
+  }
+
   try {
-    const {
-      imageUrl,
-      fromDate,
-      toDate,
-      title,
-      speakers,
-      attendees,
-      description,
-      description1,
-    } = req.body;
-
-    if (!imageUrl) {
-      return res.status(400).json({ message: "Please upload image." });
-    }
-
-    const parsedFromDate = new Date(fromDate);
-    const parsedToDate = new Date(toDate);
-
-    // Check if parsed dates are valid
-    if (isNaN(parsedFromDate) || isNaN(parsedToDate)) {
-      return res.status(400).json({ message: "Invalid date format" });
-    }
-
-    if (parsedFromDate >= parsedToDate) {
-      return res
-        .status(400)
-        .json({ message: "Start date must be before end date" });
-    }
+    // Upload image to Cloudinary
+    const publicId = req.file.originalname.split(".")[0] + "-" + Date.now();
+    const uploadResult = await streamUpload(req.file.buffer, publicId);
 
     const newEvent = new Event({
-      imageUrl,
+      imageUrl: uploadResult.secure_url,
       fromDate: parsedFromDate,
       toDate: parsedToDate,
       title,
@@ -140,7 +137,7 @@ app.post("/api/events", async (req, res) => {
       description1,
     });
 
-    await newEvent.save(); // Save the new event to the database
+    await newEvent.save();
 
     res
       .status(201)

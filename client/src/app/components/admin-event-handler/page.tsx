@@ -52,45 +52,30 @@ export default function AdminEventHandler() {
     setLoading(true);
 
     try {
-      // Prepare form data for image upload
+      // Prepare form data for image upload and event details
       const formData = new FormData();
       formData.append("image", imageFile);
+      formData.append("title", title);
+      formData.append("speakers", speakers);
+      formData.append("attendees", attendees);
+      formData.append("fromDate", fromDate);
+      formData.append("toDate", toDate);
+      formData.append("description", description);
+      formData.append("description1", description1);
 
-      // Upload image to backend first
-      const imageUploadResponse = await fetch(
-        "http://localhost:3100/api/upload",
+      // Send all data to backend in one request
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/events`,
         {
           method: "POST",
           body: formData,
         }
       );
 
-      if (!imageUploadResponse.ok) {
-        throw new Error("Image upload failed");
-      }
-
-      const imageData = await imageUploadResponse.json();
-      setImageUrl(imageData.imageUrl);
-
-      const eventData = {
-        fromDate: new Date(fromDate).toISOString().split("T")[0],
-        toDate: new Date(toDate).toISOString().split("T")[0],
-        imageUrl: imageData.imageUrl,
-        title,
-        speakers,
-        attendees,
-        description,
-        description1,
-      };
-
-      const response = await fetch("http://localhost:3100/api/events", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(eventData),
-      });
-
       if (response.ok) {
-        alert("Event added successfully!");
+        const result = await response.json();
+        alert(result.message);
+
         // Clear fields after submission
         setImageFile(null);
         setImageUrl(null);
@@ -103,7 +88,8 @@ export default function AdminEventHandler() {
         setDescription1("");
         setResetKey((prev) => prev + 1);
       } else {
-        alert("Error adding event");
+        const result = await response.json();
+        alert(result.message);
       }
     } catch (error) {
       console.error("Error:", error);
