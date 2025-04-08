@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 
 export default function AdminRegisterPage() {
   const router = useRouter();
-  const [role, setRole] = useState(null);
+  const [, setRole] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
