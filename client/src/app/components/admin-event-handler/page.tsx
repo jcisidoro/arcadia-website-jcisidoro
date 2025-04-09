@@ -23,20 +23,53 @@ export default function AdminEventHandler() {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [resetKey, setResetKey] = useState(0);
+  const [, setCheckRole] = useState("");
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      router.push("/pages/admin-page"); // Redirect to login if no token
-    } else {
-      setIsAuthenticated(true);
-    }
-  }, []);
+    const checkAuth = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/admin/check-auth`,
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
+
+        if (!response.ok) {
+          router.replace("/pages/admin-page"); // Not authenticated
+          return;
+        }
+
+        const data = await response.json();
+        const userRole = data.user.role;
+
+        if (!["superAdmin", "eventHandler"].includes(userRole)) {
+          router.replace("/pages/admin-page");
+        } else {
+          setIsAuthenticated(true);
+          setCheckRole(userRole);
+        }
+      } catch (err) {
+        router.replace("/pages/admin-page");
+      }
+    };
+
+    checkAuth();
+  }, [router]);
 
   // Logout function
-  const handleLogout = () => {
-    localStorage.removeItem("token"); // Remove token
-    router.push("/pages/admin-page"); // Redirect to login page
+  const handleLogout = async () => {
+    try {
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/admin/logout`, {
+        method: "POST",
+        credentials: "include",
+      });
+
+      router.replace("/pages/admin-page"); // or wherever you want to redirect
+    } catch (err) {
+      console.error("Logout failed", err);
+    }
   };
 
   const handleAddEvent = async () => {
@@ -79,7 +112,6 @@ export default function AdminEventHandler() {
       );
 
       if (response.ok) {
-        // const result = await response.json();
         router.push("/pages/events#upcoming-events");
 
         // Clear fields after submission

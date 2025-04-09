@@ -7,30 +7,96 @@ import { useRouter } from "next/navigation";
 
 export default function AdminRegisterPage() {
   const router = useRouter();
-  const [, setRole] = useState(null);
+  const [role, setRole] = useState("accCreator");
+  const [, setCheckRole] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      router.push("/pages/admin-page"); // Redirect to login if no token
-    } else {
-      setIsAuthenticated(true);
-    }
-  }, []);
+    const checkAuth = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/admin/check-auth`,
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      const decodedToken = JSON.parse(atob(token.split(".")[1]));
-      setRole(decodedToken.role);
-    }
-  }, []);
+        if (!response.ok) {
+          router.replace("/pages/admin-page"); // Not authenticated
+          return;
+        }
+
+        const data = await response.json();
+        const userRole = data.user.role;
+
+        if (!["superAdmin", "accCreator"].includes(userRole)) {
+          router.replace("/pages/admin-page");
+        } else {
+          setIsAuthenticated(true);
+          setCheckRole(userRole);
+        }
+      } catch (err) {
+        router.replace("/pages/admin-page");
+      }
+    };
+
+    checkAuth();
+  }, [router]);
 
   // Logout function
-  const handleLogout = () => {
-    localStorage.removeItem("token"); // Remove token
-    router.push("/pages/admin-page"); // Redirect to login page
+  const handleLogout = async () => {
+    try {
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/admin/logout`, {
+        method: "POST",
+        credentials: "include",
+      });
+
+      router.replace("/pages/admin-page"); // or wherever you want to redirect
+    } catch (err) {
+      console.error("Logout failed", err);
+    }
+  };
+
+  const handleAdminRegister = async () => {
+    console.log(role);
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/admin/register`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          email,
+          password,
+          confirmPassword,
+          role,
+        }),
+      }
+    );
+
+    const data = await res.json();
+
+    if (res.ok) {
+      router.push("/components/admin-register-page");
+      // reset form
+      setFirstName("");
+      setLastName("");
+      setEmail("");
+      setPassword("");
+      setConfirmPassword("");
+      setRole("accCreator");
+    } else {
+      alert(data.message || "Something went wrong.");
+    }
   };
 
   if (!isAuthenticated) return <div>Loading...</div>;
@@ -79,17 +145,25 @@ export default function AdminRegisterPage() {
                   type: "text",
                   placeholder: "Juan",
                   labelText: "First Name",
+                  value: firstName,
+                  onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
+                    setFirstName(e.target.value),
                 },
                 {
                   type: "text",
                   placeholder: "Dela Cruz",
                   labelText: "Last Name",
+                  value: lastName,
+                  onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
+                    setLastName(e.target.value),
                 },
               ].map((item, index) => (
                 <div key={index} className="flex flex-col gap-1">
                   <label className="text-white text-sm">{item.labelText}</label>
                   <input
                     type={item.type}
+                    value={item.value}
+                    onChange={item.onChange}
                     className="bg-white rounded-lg outline-none p-3 w-full text-[#326333]"
                     placeholder={item.placeholder}
                   />
@@ -102,22 +176,33 @@ export default function AdminRegisterPage() {
                   type: "email",
                   placeholder: "admin@example.com",
                   labelText: "Email",
+                  value: email,
+                  onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
+                    setEmail(e.target.value),
                 },
                 {
                   type: "password",
                   placeholder: "securepassword123",
                   labelText: "Password",
+                  value: password,
+                  onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
+                    setPassword(e.target.value),
                 },
                 {
                   type: "password",
                   placeholder: "securepassword123",
                   labelText: "Confirm Password",
+                  value: confirmPassword,
+                  onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
+                    setConfirmPassword(e.target.value),
                 },
               ].map((item, index) => (
                 <div key={index} className="flex flex-col gap-1">
                   <label className="text-white text-sm">{item.labelText}</label>
                   <input
                     type={item.type}
+                    value={item.value}
+                    onChange={item.onChange}
                     className="bg-white rounded-lg outline-none p-3 w-full text-[#326333]"
                     placeholder={item.placeholder}
                   />
@@ -125,13 +210,20 @@ export default function AdminRegisterPage() {
               ))}
               <div className="flex flex-col gap-1">
                 <label className="text-white text-sm">Role</label>
-                <select className="bg-white rounded-lg outline-none p-3 w-full text-[#326333]">
+                <select
+                  value={role}
+                  onChange={(e) => setRole(e.target.value)}
+                  className="bg-white rounded-lg outline-none p-3 w-full text-[#326333]"
+                >
                   <option value="accCreator">accCreator</option>
                   <option value="eventHandler">eventHandler</option>
                 </select>
               </div>
             </div>
-            <button className="bg-white hover:bg-white/80 p-3 rounded-lg text-[#326333] mt-4 cursor-pointer transition-colors duration-300 w-32 block lg:absolute bottom-6 right-6">
+            <button
+              onClick={handleAdminRegister}
+              className="bg-white hover:bg-white/80 p-3 rounded-lg text-[#326333] mt-4 cursor-pointer transition-colors duration-300 w-32 block lg:absolute bottom-6 right-6"
+            >
               Submit
             </button>
           </div>

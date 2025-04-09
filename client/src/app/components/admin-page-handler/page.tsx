@@ -6,30 +6,54 @@ import { useRouter } from "next/navigation";
 
 export default function AdminPageHandler() {
   const router = useRouter();
-  const [role, setRole] = useState(null);
+  const [checkRole, setCheckRole] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      router.push("/pages/admin-page"); // Redirect to login if no token
-    } else {
-      setIsAuthenticated(true);
-    }
-  }, []);
+    const checkAuth = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/admin/check-auth`,
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      const decodedToken = JSON.parse(atob(token.split(".")[1]));
-      setRole(decodedToken.role);
-    }
-  }, []);
+        if (!response.ok) {
+          router.replace("/pages/admin-page"); // Not authenticated
+          return;
+        }
+
+        const data = await response.json();
+        const userRole = data.user.role;
+
+        if (!["superAdmin", "accCreator", "eventHandler"].includes(userRole)) {
+          router.replace("/pages/admin-page");
+        } else {
+          setIsAuthenticated(true);
+          setCheckRole(userRole);
+        }
+      } catch (err) {
+        router.replace("/pages/admin-page");
+      }
+    };
+
+    checkAuth();
+  }, [router]);
 
   // Logout function
-  const handleLogout = () => {
-    localStorage.removeItem("token"); // Remove token
-    router.push("/pages/admin-page"); // Redirect to login page
+  const handleLogout = async () => {
+    try {
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/admin/logout`, {
+        method: "POST",
+        credentials: "include",
+      });
+
+      router.replace("/pages/admin-page"); // or wherever you want to redirect
+    } catch (err) {
+      console.error("Logout failed", err);
+    }
   };
 
   if (!isAuthenticated) return <div>Loading...</div>;
@@ -44,9 +68,11 @@ export default function AdminPageHandler() {
         <div className="flex flex-col gap-4 md:items-center justify-center w-full h-full">
           <Link href="/components/admin-event-handler">
             <button
-              disabled={role !== "superAdmin" && role !== "eventHandler"}
+              disabled={
+                checkRole !== "superAdmin" && checkRole !== "eventHandler"
+              }
               className={`bg-[#326333] text-white rounded-2xl py-4 px-3 text-lg sm:text-4xl lg:text-5xl 2xl:text-7xl w-full md:w-[500px] lg:w-[700px] 2xl:w-[900px] uppercase font-cormorant font-semibold  transition-all duration-300 ${
-                role !== "superAdmin" && role !== "eventHandler"
+                checkRole !== "superAdmin" && checkRole !== "eventHandler"
                   ? "opacity-50 cursor-not-allowed"
                   : "hover:scale-105 cursor-pointer"
               }`}
@@ -57,9 +83,11 @@ export default function AdminPageHandler() {
 
           <Link href="/components/admin-register-page">
             <button
-              disabled={role !== "superAdmin" && role !== "accCreator"}
+              disabled={
+                checkRole !== "superAdmin" && checkRole !== "accCreator"
+              }
               className={`bg-[#326333] text-white rounded-2xl py-4 px-3 text-lg sm:text-4xl lg:text-5xl 2xl:text-6xl w-full md:w-[500px] lg:w-[700px] 2xl:w-[900px] uppercase font-cormorant font-semibold transition-all duration-300 ${
-                role !== "superAdmin" && role !== "accCreator"
+                checkRole !== "superAdmin" && checkRole !== "accCreator"
                   ? "opacity-50 cursor-not-allowed"
                   : "hover:scale-105 cursor-pointer"
               }`}

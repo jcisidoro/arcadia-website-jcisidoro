@@ -5,12 +5,24 @@ import { FaKey } from "react-icons/fa";
 export default function AdminAuthKey() {
   const router = useRouter();
 
-  const handleAdminClick = () => {
-    const token = localStorage.getItem("token"); // Always check latest token
-    if (token) {
-      router.push("/components/admin-page-handler"); // Redirect to Admin Panel
-    } else {
-      router.push("/pages/admin-page"); // Redirect to Login Page
+  const handleAdminClick = async () => {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/admin/check-auth`,
+        {
+          method: "GET",
+          credentials: "include",
+        }
+      );
+
+      if (response.ok) {
+        router.push("/components/admin-page-handler");
+      } else {
+        router.push("/pages/admin-page");
+      }
+    } catch (error) {
+      console.error("Error checking authentication:", error);
+      router.push("/pages/admin-page");
     }
   };
 

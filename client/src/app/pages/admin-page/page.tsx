@@ -1,13 +1,13 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation"; // Import useRouter
+import { useRouter } from "next/navigation";
 
 export default function AdminAuthPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const router = useRouter(); // Initialize router
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,13 +21,13 @@ export default function AdminAuthPage() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, password }),
+          credentials: "include",
         }
       );
 
       const data = await response.json();
       if (!response.ok) throw new Error(data.message);
 
-      localStorage.setItem("token", data.token);
       alert("Login successful!");
       router.push("/components/admin-page-handler");
     } catch (err: unknown) {
