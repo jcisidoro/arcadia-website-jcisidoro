@@ -4,7 +4,8 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const serverless = require("serverless-http");
+const cron = require("node-cron");
+const https = require("https");
 
 const Admin = require("./models/Admin");
 const Event = require("./models/Event");
@@ -228,12 +229,18 @@ app.get("/api/past-events", async (req, res) => {
   }
 });
 
-module.exports = app;
-module.exports.handler = serverless(app);
+const PING_URL = "https://arcadia-website-jcisidoro.onrender.com/api/events";
 
-// Root route
-app.get("/", (req, res) => {
-  res.send("Backend is running");
+cron.schedule("*/5 * * * *", () => {
+  console.log("Pinging self to prevent sleep...");
+
+  https
+    .get(PING_URL, (res) => {
+      console.log(`Pinged successfully. Status Code: ${res.statusCode}`);
+    })
+    .on("error", (err) => {
+      console.error("Error pinging self:", err);
+    });
 });
 
 app.listen(port, () => {
