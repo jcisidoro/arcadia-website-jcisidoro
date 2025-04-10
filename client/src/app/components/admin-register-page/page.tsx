@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import BackgroundVideo from "../BackgroundVideo";
 import Image from "next/image";
-import Cookies from "js-cookie";
 
 import { useRouter } from "next/navigation";
 import LogoutButton from "../LogoutButton";
@@ -24,15 +23,12 @@ export default function AdminRegisterPage() {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const token = Cookies.get("authToken");
-
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/api/admin/check-auth`,
           {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
             },
             credentials: "include",
           }
