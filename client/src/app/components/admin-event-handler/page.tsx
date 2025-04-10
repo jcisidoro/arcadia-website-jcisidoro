@@ -40,6 +40,7 @@ export default function AdminEventHandler() {
         );
 
         if (!response.ok) {
+          showToast("You are not authenticated. Redirecting...", "error");
           router.replace("/pages/admin-page"); // Not authenticated
           return;
         }
@@ -48,6 +49,7 @@ export default function AdminEventHandler() {
         const userRole = data.user.role;
 
         if (!["superAdmin", "eventHandler"].includes(userRole)) {
+          showToast("You do not have admin access.", "error");
           router.replace("/pages/admin-page");
         } else {
           setIsAuthenticated(true);
@@ -55,12 +57,16 @@ export default function AdminEventHandler() {
         }
       } catch (err) {
         console.error(err);
+        showToast(
+          "Error while verifying authentication. Please try again.",
+          "error"
+        );
         router.replace("/pages/admin-page");
       }
     };
 
     checkAuth();
-  }, [router]);
+  }, [router, showToast]);
 
   const handleAddEvent = async () => {
     if (
@@ -73,7 +79,7 @@ export default function AdminEventHandler() {
       !description.trim() ||
       !eventLink
     ) {
-      alert("Please input necessary fields.");
+      showToast("Please input necessary fields.", "error");
       return;
     }
 

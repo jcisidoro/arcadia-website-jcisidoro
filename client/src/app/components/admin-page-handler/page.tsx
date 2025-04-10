@@ -4,9 +4,11 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import LogoutButton from "../LogoutButton";
+import { useToast } from "../provider/ToastContext";
 
 export default function AdminPageHandler() {
   const router = useRouter();
+  const { showToast } = useToast();
   const [checkRole, setCheckRole] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -22,6 +24,7 @@ export default function AdminPageHandler() {
         );
 
         if (!response.ok) {
+          showToast("You are not authenticated. Redirecting...", "error");
           router.replace("/pages/admin-page"); // Not authenticated
           return;
         }
@@ -30,6 +33,7 @@ export default function AdminPageHandler() {
         const userRole = data.user.role;
 
         if (!["superAdmin", "accCreator", "eventHandler"].includes(userRole)) {
+          showToast("You do not have admin access.", "error");
           router.replace("/pages/admin-page");
         } else {
           setIsAuthenticated(true);
@@ -37,12 +41,16 @@ export default function AdminPageHandler() {
         }
       } catch (err) {
         console.error(err);
+        showToast(
+          "Error while verifying authentication. Please try again.",
+          "error"
+        );
         router.replace("/pages/admin-page");
       }
     };
 
     checkAuth();
-  }, [router]);
+  }, [router, showToast]);
 
   if (!isAuthenticated) return <div>Loading...</div>;
 

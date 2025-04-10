@@ -32,6 +32,7 @@ export default function AdminRegisterPage() {
         );
 
         if (!response.ok) {
+          showToast("You are not authenticated. Redirecting...", "error");
           router.replace("/pages/admin-page");
           return;
         }
@@ -40,6 +41,7 @@ export default function AdminRegisterPage() {
         const userRole = data.user.role;
 
         if (!["superAdmin", "accCreator"].includes(userRole)) {
+          showToast("You do not have admin access.", "error");
           router.replace("/pages/admin-page");
         } else {
           setIsAuthenticated(true);
@@ -47,12 +49,16 @@ export default function AdminRegisterPage() {
         }
       } catch (err) {
         console.error(err);
+        showToast(
+          "Error while verifying authentication. Please try again.",
+          "error"
+        );
         router.replace("/pages/admin-page");
       }
     };
 
     checkAuth();
-  }, [router]);
+  }, [router, showToast]);
 
   const handleAdminRegister = async () => {
     console.log(role);

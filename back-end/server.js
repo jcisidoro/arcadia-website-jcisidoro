@@ -247,11 +247,11 @@ app.post("/api/admin/login", limiter, async (req, res) => {
     res.cookie("authToken", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "Strict", // Mitigates CSRF
+      sameSite: "Strict",
       maxAge: 3600000, // Token expires in 1 hour
     });
 
-    res.json({ message: "Login successful", token });
+    res.json({ message: "Login successful!", token });
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
   }
@@ -315,7 +315,13 @@ app.post(
         .json({ message: "Event added successfully", event: newEvent });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: "Error adding event", error });
+      res
+        .status(500)
+        .json({
+          message:
+            "An error occurred while adding the event. Please try again later.",
+          error,
+        });
     }
   }
 );
