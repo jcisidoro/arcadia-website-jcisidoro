@@ -213,11 +213,16 @@ app.post("/api/admin/login", limiter, async (req, res) => {
 
   try {
     const admin = await Admin.findOne({ email });
-    if (!admin) return res.status(400).json({ message: "Invalid credentials" });
+    if (!admin)
+      return res
+        .status(400)
+        .json({ message: "No admin access found with that email address." });
 
     const isMatch = await bcrypt.compare(password, admin.password);
     if (!isMatch)
-      return res.status(400).json({ message: "Invalid credentials" });
+      return res.status(400).json({
+        message: "The password you entered is incorrect. Please try again..",
+      });
 
     const validRoles = ["superAdmin", "accCreator", "eventHandler"];
     if (!validRoles.includes(admin.role)) {

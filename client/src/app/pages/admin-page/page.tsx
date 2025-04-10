@@ -53,8 +53,6 @@ export default function AdminAuthPage() {
           Admin Login
         </h1>
 
-        {error && <p className="text-red-500 text-center">{error}</p>}
-
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <input
             type="email"
