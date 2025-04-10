@@ -39,24 +39,32 @@ app.use(limiter); // rate limiting
 // Middleware to check if the user has the required role
 function checkRole(requiredRoles) {
   return (req, res, next) => {
-    const token = req.headers["authorization"];
+    const token = req.cookies.authToken;
+
+    console.log("Token in cookies:", token);
 
     if (!token) {
-      return res.status(401).json({ message: "Unauthorized" });
+      return res
+        .status(401)
+        .json({ message: "Unauthorized - Token is missing" });
     }
 
     try {
       const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+      console.log("Decoded Token:", decodedToken);
       const userRole = decodedToken.role;
 
       if (!requiredRoles.includes(userRole)) {
-        return res.status(403).json({ message: "Forbidden" });
+        return res
+          .status(403)
+          .json({ message: "Forbidden - Insufficient role" });
       }
 
       req.user = decodedToken;
       next();
     } catch (err) {
-      return res.status(401).json({ message: "Unauthorized" });
+      console.error("Token verification failed:", err);
+      return res.status(401).json({ message: "Unauthorized - Invalid token" });
     }
   };
 }

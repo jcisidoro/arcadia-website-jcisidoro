@@ -95,6 +95,7 @@ export default function AdminEventHandler() {
         {
           method: "POST",
           body: formData,
+          credentials: "include",
         }
       );
 

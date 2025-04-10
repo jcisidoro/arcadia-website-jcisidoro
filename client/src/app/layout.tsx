@@ -6,6 +6,7 @@ import Footer from "./components/Footer";
 import { NavigationProvider } from "./providers/NavigationContext";
 import { ModalProvider } from "@/app/components/ui/animated-modal";
 import AdminAuthKey from "./components/AdminAuthKey";
+import { ToastProvider } from "./components/provider/ToastContext";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -32,14 +33,16 @@ export default function RootLayout({
       <body
         className={`relative ${montserrat.className} ${cormorant.variable}`}
       >
-        <NavigationProvider>
-          <Navbar />
-          <ModalProvider>
-            <AdminAuthKey />
-            {children}
-          </ModalProvider>
-          <Footer />
-        </NavigationProvider>
+        <ToastProvider>
+          <NavigationProvider>
+            <Navbar />
+            <ModalProvider>
+              <AdminAuthKey />
+              {children}
+            </ModalProvider>
+            <Footer />
+          </NavigationProvider>
+        </ToastProvider>
       </body>
     </html>
   );

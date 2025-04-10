@@ -2,12 +2,16 @@
 import React, { useEffect, useState } from "react";
 import BackgroundVideo from "../BackgroundVideo";
 import Image from "next/image";
+import Toast from "../Toast";
 
 import { useRouter } from "next/navigation";
 import LogoutButton from "../LogoutButton";
 
+import { useToast } from "@/app/components/provider/ToastContext";
+
 export default function AdminRegisterPage() {
   const router = useRouter();
+  const { showToast } = useToast();
   const [role, setRole] = useState("accCreator");
   const [, setCheckRole] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -29,7 +33,7 @@ export default function AdminRegisterPage() {
         );
 
         if (!response.ok) {
-          router.replace("/pages/admin-page"); // Not authenticated
+          router.replace("/pages/admin-page");
           return;
         }
 
@@ -67,12 +71,14 @@ export default function AdminRegisterPage() {
           confirmPassword,
           role,
         }),
+        credentials: "include",
       }
     );
 
     const data = await res.json();
 
     if (res.ok) {
+      showToast("Admin account created successfully!");
       router.push("/components/admin-register-page");
       // reset form
       setFirstName("");
@@ -82,7 +88,7 @@ export default function AdminRegisterPage() {
       setConfirmPassword("");
       setRole("accCreator");
     } else {
-      alert(data.message || "Something went wrong.");
+      showToast(data.message || "Something went wrong.");
     }
   };
 
