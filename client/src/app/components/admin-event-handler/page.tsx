@@ -54,6 +54,7 @@ export default function AdminEventHandler() {
           setCheckRole(userRole);
         }
       } catch (err) {
+        console.error(err);
         router.replace("/pages/admin-page");
       }
     };

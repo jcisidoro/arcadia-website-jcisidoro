@@ -46,6 +46,7 @@ export default function AdminRegisterPage() {
           setCheckRole(userRole);
         }
       } catch (err) {
+        console.error(err);
         router.replace("/pages/admin-page");
       }
     };
