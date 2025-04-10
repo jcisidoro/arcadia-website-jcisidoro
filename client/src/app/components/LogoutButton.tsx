@@ -1,8 +1,10 @@
 import React from "react";
 import { useRouter } from "next/navigation";
+import { useToast } from "./provider/ToastContext";
 
 export default function LogoutButton() {
   const router = useRouter();
+  const { showToast } = useToast();
 
   // Logout function
   const handleLogout = async () => {
@@ -12,9 +14,14 @@ export default function LogoutButton() {
         credentials: "include",
       });
 
+      showToast("Logged out successfully!", "success");
       router.replace("/pages/admin-page");
     } catch (err) {
       console.error("Logout failed", err);
+      showToast(
+        "An error occurred while logging out. Please try again.",
+        "error"
+      );
     }
   };
   return (
