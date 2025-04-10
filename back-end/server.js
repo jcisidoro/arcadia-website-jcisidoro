@@ -79,9 +79,9 @@ const corsOptions = {
     ];
 
     if (allowedOrigins.includes(origin) || !origin) {
-      callback(null, true); // Allow the request
+      callback(null, true);
     } else {
-      callback(new Error("Not allowed by CORS")); // Block the request
+      callback(new Error("Not allowed by CORS"));
     }
   },
   methods: ["GET", "POST", "PUT", "DELETE"],
@@ -246,7 +246,7 @@ app.post("/api/admin/login", limiter, async (req, res) => {
 
     res.cookie("authToken", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: process.env.NODE_ENV,
       sameSite: "Strict",
       maxAge: 3600000, // Token expires in 1 hour
     });
