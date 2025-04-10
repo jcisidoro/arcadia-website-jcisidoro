@@ -6,7 +6,7 @@ import { useToast } from "@/app/components/provider/ToastContext";
 export default function AdminAuthPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { showToast } = useToast();
