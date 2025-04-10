@@ -4,7 +4,6 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import LogoutButton from "../LogoutButton";
-import Toast from "../Toast";
 
 export default function AdminPageHandler() {
   const router = useRouter();

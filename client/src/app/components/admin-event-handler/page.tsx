@@ -5,12 +5,14 @@ import { FileUploadDemo } from "../FileUpload";
 import Image from "next/image";
 import BackgroundVideo from "../BackgroundVideo";
 import LogoutButton from "../LogoutButton";
+import { useToast } from "../provider/ToastContext";
 // import Link from "next/link";
 
 // import { IoIosArrowBack } from "react-icons/io";
 
 export default function AdminEventHandler() {
   const router = useRouter();
+  const { showToast } = useToast();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [title, setTitle] = useState("");
   const [speakers, setSpeakers] = useState("");
@@ -100,6 +102,7 @@ export default function AdminEventHandler() {
       );
 
       if (response.ok) {
+        showToast("Event created successfully!", "success");
         router.push("/pages/events#upcoming-events");
 
         // Clear fields after submission
@@ -116,11 +119,11 @@ export default function AdminEventHandler() {
         setResetKey((prev) => prev + 1);
       } else {
         const result = await response.json();
-        alert(result.message);
+        showToast(result.message || "Error creating event", "error");
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("Failed to add event");
+      showToast("Failed to add event", "error");
     }
 
     setLoading(false);

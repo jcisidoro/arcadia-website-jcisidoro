@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import BackgroundVideo from "../BackgroundVideo";
 import Image from "next/image";
-import Toast from "../Toast";
 
 import { useRouter } from "next/navigation";
 import LogoutButton from "../LogoutButton";
@@ -78,7 +77,7 @@ export default function AdminRegisterPage() {
     const data = await res.json();
 
     if (res.ok) {
-      showToast("Admin account created successfully!");
+      showToast("Admin account created successfully!", "success");
       router.push("/components/admin-register-page");
       // reset form
       setFirstName("");
@@ -88,7 +87,7 @@ export default function AdminRegisterPage() {
       setConfirmPassword("");
       setRole("accCreator");
     } else {
-      showToast(data.message || "Something went wrong.");
+      showToast(data.message || "Something went wrong.", "error");
     }
   };
 
@@ -222,7 +221,6 @@ export default function AdminRegisterPage() {
           </div>
         </div>
       </div>
-
       {/* LOGOUT BUTTON */}
       <LogoutButton />
     </div>

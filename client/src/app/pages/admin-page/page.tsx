@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/app/components/provider/ToastContext";
 
 export default function AdminAuthPage() {
   const [email, setEmail] = useState("");
@@ -8,6 +9,7 @@ export default function AdminAuthPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const { showToast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,13 +31,15 @@ export default function AdminAuthPage() {
       console.log(data);
       if (!response.ok) throw new Error(data.message);
 
-      alert("Login successful!");
+      showToast("Login successful!", "success");
       router.push("/components/admin-page-handler");
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);
+        showToast(err.message, "error");
       } else {
         setError("An unknown error occurred.");
+        showToast("An unknown error occurred.", "error");
       }
     } finally {
       setLoading(false);

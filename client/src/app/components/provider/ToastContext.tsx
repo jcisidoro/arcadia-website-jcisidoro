@@ -1,15 +1,10 @@
 "use client";
-import React, {
-  createContext,
-  useContext,
-  useState,
-  ReactNode,
-  useEffect,
-} from "react";
-import Toast from "../Toast";
+import React, { createContext, useContext, ReactNode, useEffect } from "react";
+import { ToastContainer, toast, Slide } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface ToastContextType {
-  showToast: (message: string) => void;
+  showToast: (message: string, type?: "success" | "error") => void;
 }
 
 const ToastContext = createContext<ToastContextType | undefined>(undefined);
@@ -27,26 +22,57 @@ interface ToastProviderProps {
 }
 
 export const ToastProvider: React.FC<ToastProviderProps> = ({ children }) => {
-  const [message, setMessage] = useState<string | null>(null);
+  const showToast = (
+    message: string,
+    type: "success" | "error" = "success"
+  ) => {
+    localStorage.setItem("toastMessage", message);
+    localStorage.setItem("toastType", type);
+
+    toast(message, {
+      type,
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      transition: Slide,
+      style:
+        type === "success"
+          ? { backgroundColor: "#326333", color: "white" }
+          : { backgroundColor: "#d70404", color: "white" },
+      onClose: () => {
+        localStorage.removeItem("toastMessage");
+        localStorage.removeItem("toastType");
+      },
+    });
+  };
 
   useEffect(() => {
-    // Check if there's a message in localStorage on page load
     const storedMessage = localStorage.getItem("toastMessage");
-    if (storedMessage) {
-      setMessage(storedMessage);
-      localStorage.removeItem("toastMessage"); // Remove message after loading
+    const storedType = localStorage.getItem("toastType");
+
+    if (storedMessage && storedType) {
+      showToast(storedMessage, storedType as "success" | "error");
     }
   }, []);
 
-  const showToast = (msg: string) => {
-    setMessage(msg);
-    localStorage.setItem("toastMessage", msg);
-    setTimeout(() => setMessage(null), 3000); // Hide after 3 seconds
-  };
-
   return (
     <ToastContext.Provider value={{ showToast }}>
-      {message && <Toast message={message} />}
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={true}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+        transition={Slide}
+      />
       {children}
     </ToastContext.Provider>
   );
