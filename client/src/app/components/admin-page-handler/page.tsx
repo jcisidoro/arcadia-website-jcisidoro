@@ -30,7 +30,9 @@ export default function AdminPageHandler() {
         }
 
         const data = await response.json();
-        const userRole = data.user.role;
+        console.log("Auth Data:", data);
+
+        const userRole = data.user?.role;
 
         if (!["superAdmin", "accCreator", "eventHandler"].includes(userRole)) {
           showToast("You do not have admin access.", "error");

@@ -315,13 +315,11 @@ app.post(
         .json({ message: "Event added successfully", event: newEvent });
     } catch (error) {
       console.error(error);
-      res
-        .status(500)
-        .json({
-          message:
-            "An error occurred while adding the event. Please try again later.",
-          error,
-        });
+      res.status(500).json({
+        message:
+          "An error occurred while adding the event. Please try again later.",
+        error,
+      });
     }
   }
 );
