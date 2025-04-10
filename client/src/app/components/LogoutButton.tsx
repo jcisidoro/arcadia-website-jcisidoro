@@ -28,7 +28,7 @@ export default function LogoutButton() {
     <div>
       <button
         onClick={handleLogout}
-        className="px-6 py-2 lg:py-3 bg-[#326333] text-white rounded-md lg:hover:bg-red-600 transition-colors duration-300 cursor-pointer absolute bottom-10 lg:right-10"
+        className="px-6 py-2 lg:py-3 bg-[#326333] text-white rounded-md lg:hover:bg-red-600 transition-colors duration-300 cursor-pointer absolute bottom-10 right-10"
       >
         Logout
       </button>
