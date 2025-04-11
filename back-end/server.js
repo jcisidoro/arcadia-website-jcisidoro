@@ -160,45 +160,50 @@ app.post("/api/admin/logout", (req, res) => {
 });
 
 // Admin Registration Route
-app.post("/api/admin/register", limiter, async (req, res) => {
-  const { firstName, lastName, email, password, confirmPassword, role } =
-    req.body;
+app.post(
+  "/api/admin/register",
+  checkRole[("superAdmin", "accCreator")],
+  limiter,
+  async (req, res) => {
+    const { firstName, lastName, email, password, confirmPassword, role } =
+      req.body;
 
-  if (!firstName || !lastName || !email || !password || !confirmPassword) {
-    return res.status(400).json({ message: "All fields are required" });
-  }
-
-  if (password !== confirmPassword) {
-    return res.status(400).json({ message: "Passwords do not match" });
-  }
-
-  try {
-    const existingAdmin = await Admin.findOne({ email });
-    if (existingAdmin) {
-      return res.status(409).json({ message: "Email already exists" });
+    if (!firstName || !lastName || !email || !password || !confirmPassword) {
+      return res.status(400).json({ message: "All fields are required" });
     }
 
-    const validRoles = ["accCreator", "eventHandler"];
-    if (!validRoles.includes(role)) {
-      return res.status(400).json({ message: "Invalid role selected" });
+    if (password !== confirmPassword) {
+      return res.status(400).json({ message: "Passwords do not match" });
     }
 
-    const newAdmin = new Admin({
-      firstName,
-      lastName,
-      email,
-      password,
-      role,
-    });
+    try {
+      const existingAdmin = await Admin.findOne({ email });
+      if (existingAdmin) {
+        return res.status(409).json({ message: "Email already exists" });
+      }
 
-    await newAdmin.save();
+      const validRoles = ["accCreator", "eventHandler"];
+      if (!validRoles.includes(role)) {
+        return res.status(400).json({ message: "Invalid role selected" });
+      }
 
-    res.status(201).json({ message: "Admin registered successfully" });
-  } catch (error) {
-    console.error("Error during registration:", error);
-    res.status(500).json({ message: "Server error", error });
+      const newAdmin = new Admin({
+        firstName,
+        lastName,
+        email,
+        password,
+        role,
+      });
+
+      await newAdmin.save();
+
+      res.status(201).json({ message: "Admin registered successfully" });
+    } catch (error) {
+      console.error("Error during registration:", error);
+      res.status(500).json({ message: "Server error", error });
+    }
   }
-});
+);
 
 // Admin Login Route
 app.post("/api/admin/login", limiter, async (req, res) => {
@@ -251,66 +256,71 @@ app.post("/api/admin/login", limiter, async (req, res) => {
 });
 
 // Add event
-app.post("/api/events", upload.single("image"), async (req, res) => {
-  const {
-    fromDate,
-    toDate,
-    title,
-    speakers,
-    attendees,
-    description,
-    description1,
-    eventLink,
-  } = req.body;
-
-  if (!req.file) {
-    return res.status(400).json({ message: "Image is required" });
-  }
-
-  const parsedFromDate = new Date(fromDate);
-  const parsedToDate = new Date(toDate);
-
-  if (isNaN(parsedFromDate) || isNaN(parsedToDate)) {
-    return res.status(400).json({ message: "Invalid date format" });
-  }
-
-  if (parsedFromDate >= parsedToDate) {
-    return res
-      .status(400)
-      .json({ message: "Start date must be before end date" });
-  }
-
-  try {
-    // Upload image to Cloudinary
-    const publicId = req.file.originalname.split(".")[0] + "-" + Date.now();
-    const uploadResult = await streamUpload(req.file.buffer, publicId);
-
-    const newEvent = new Event({
-      imageUrl: uploadResult.secure_url,
-      fromDate: parsedFromDate,
-      toDate: parsedToDate,
+app.post(
+  "/api/events",
+  checkRole[("superAdmin", "eventHandler")],
+  upload.single("image"),
+  async (req, res) => {
+    const {
+      fromDate,
+      toDate,
       title,
       speakers,
       attendees,
       description,
       description1,
       eventLink,
-    });
+    } = req.body;
 
-    await newEvent.save();
+    if (!req.file) {
+      return res.status(400).json({ message: "Image is required" });
+    }
 
-    res
-      .status(201)
-      .json({ message: "Event added successfully", event: newEvent });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      message:
-        "An error occurred while adding the event. Please try again later.",
-      error,
-    });
+    const parsedFromDate = new Date(fromDate);
+    const parsedToDate = new Date(toDate);
+
+    if (isNaN(parsedFromDate) || isNaN(parsedToDate)) {
+      return res.status(400).json({ message: "Invalid date format" });
+    }
+
+    if (parsedFromDate >= parsedToDate) {
+      return res
+        .status(400)
+        .json({ message: "Start date must be before end date" });
+    }
+
+    try {
+      // Upload image to Cloudinary
+      const publicId = req.file.originalname.split(".")[0] + "-" + Date.now();
+      const uploadResult = await streamUpload(req.file.buffer, publicId);
+
+      const newEvent = new Event({
+        imageUrl: uploadResult.secure_url,
+        fromDate: parsedFromDate,
+        toDate: parsedToDate,
+        title,
+        speakers,
+        attendees,
+        description,
+        description1,
+        eventLink,
+      });
+
+      await newEvent.save();
+
+      res
+        .status(201)
+        .json({ message: "Event added successfully", event: newEvent });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        message:
+          "An error occurred while adding the event. Please try again later.",
+        error,
+      });
+    }
   }
-});
+);
 
 // Fetch upcoming events
 app.get("/api/events", async (req, res) => {
