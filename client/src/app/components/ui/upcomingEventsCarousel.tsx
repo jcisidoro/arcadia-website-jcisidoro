@@ -89,6 +89,24 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
     return window && window.innerWidth < 768;
   };
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (carouselRef.current) {
+        const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current;
+
+        if (scrollLeft >= scrollWidth - clientWidth - 10) {
+          carouselRef.current.scrollTo({ left: 0, behavior: "smooth" });
+          setCurrentIndex(0);
+        } else {
+          carouselRef.current.scrollBy({ left: 700, behavior: "smooth" });
+          setCurrentIndex((prev) => prev + 1);
+        }
+      }
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <CarouselContext.Provider
       value={{ onCardClose: handleCardClose, currentIndex }}
@@ -135,7 +153,7 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
             ))}
           </div>
         </div>
-        <div className="flex justify-end gap-2 mr-10">
+        <div className="flex justify-center gap-2">
           <button
             className="relative z-40 h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center disabled:opacity-50"
             onClick={scrollLeft}

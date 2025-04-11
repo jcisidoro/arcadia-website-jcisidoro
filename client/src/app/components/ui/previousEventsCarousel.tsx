@@ -158,7 +158,7 @@ const CarouselControl = ({
   return (
     // CONTROL LEFT AND RIGHT BUTTON
     <button
-      className={`w-10 h-10 lg:w-16 lg:h-16 flex items-center mx-2 justify-center bg-neutral-200 dark:bg-neutral-800 border-3 border-transparent rounded-full focus:border-[#50c179] focus:outline-none hover:-translate-y-0.5 active:translate-y-0.5 transition duration-200 cursor-pointer ${
+      className={`w-10 h-10 flex items-center mx-1 justify-center bg-neutral-200 dark:bg-neutral-800 border-3 border-transparent rounded-full focus:border-[#50c179] focus:outline-none hover:-translate-y-0.5 active:translate-y-0.5 transition duration-200 cursor-pointer ${
         type === "previous" ? "rotate-180" : ""
       }`}
       title={title}
@@ -223,7 +223,7 @@ export function Carousel({ slides }: CarouselProps) {
 
   return (
     <div
-      className="relative w-[50vmin] h-[50vmin] mx-auto"
+      className="w-[85vw] h-[50vmin] mx-auto relative"
       aria-labelledby={`carousel-heading-${id}`}
     >
       <ul
@@ -240,16 +240,14 @@ export function Carousel({ slides }: CarouselProps) {
             current={current}
             handleSlideClick={handleSlideClick}
             onClick={() => {
-              console.log("Button clicked, opening modal...");
               setOpen(true);
               setSelectedCard(slide);
-              console.log("Selected card:", slide);
             }}
           />
         ))}
       </ul>
 
-      <div className="absolute flex justify-center w-full top-[calc(100%+1rem)]">
+      <div className="absolute flex top-[calc(90%+1rem)] justify-center w-full">
         <CarouselControl
           type="previous"
           title="Go to previous slide"
