@@ -17,11 +17,18 @@ export default function AdminAuthKey() {
 
       if (response.ok) {
         router.push("/components/admin-page-handler");
+      } else if (response.status === 401) {
+        console.log("👋 You're not logged in — redirecting to login page...");
+        router.push("/pages/admin-page");
       } else {
+        console.warn(
+          "⚠️ Unexpected response from auth check:",
+          response.status
+        );
         router.push("/pages/admin-page");
       }
     } catch (error) {
-      console.error("Error checking authentication:", error);
+      console.error("Network error during auth check:", error);
       router.push("/pages/admin-page");
     }
   };
