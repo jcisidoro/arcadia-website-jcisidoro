@@ -70,6 +70,16 @@ export async function POST(req: NextRequest) {
           <div style="text-align: center;">
             <img src="https://arcadia-website-sustainability-hub.vercel.app/arcadiaLogo.png" alt="Arcadia Logo" style="width: 150px; height: auto; object-fit: cover; display: block; margin: 10px auto;" />
             <span style="font-family: 'Cormorant', serif; font-size: 32px; font-weight: bold; text-transform: uppercase; ">Arcadia</span>
+            <p style="
+              color: white;
+              font-size: 12px;
+              text-transform: uppercase;
+              font-weight: 600;
+              letter-spacing: 0.3rem;
+              margin: 0;
+            ">
+              Sustainability Hub
+            </p>
           </div>
 
           <p style="font-size: 16px; text-align: center;">Thank you for choosing Arcadia!<br/> This email was sent via Nodemailer & Gmail 🚀</p>
