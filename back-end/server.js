@@ -9,13 +9,20 @@ const cron = require("node-cron");
 const https = require("https");
 const cookieParser = require("cookie-parser");
 const helmet = require("helmet");
+const multer = require("multer");
+const streamifier = require("streamifier");
+const cloudinary = require("cloudinary").v2;
 
 const Admin = require("./models/Admin");
 const Event = require("./models/Event");
 
-const multer = require("multer");
-const streamifier = require("streamifier");
-const cloudinary = require("cloudinary").v2;
+const {
+  checkRole,
+  limiter,
+  corsOptions,
+  helmet,
+  cookieParser,
+} = require("./middleware/middleware");
 
 const app = express();
 const port = process.env.PORT;
@@ -28,65 +35,11 @@ const limiter = rateLimit({
   message: "Too many requests from this IP, please try again later",
 });
 
-// secure HTTP headers
-app.use(helmet());
-
 // Middleware
+app.use(helmet()); // secure HTTP headers
 app.use(express.json()); // Parse JSON request bodies
 app.use(cookieParser()); // cookie parsing
 app.use(limiter); // rate limiting
-
-// Middleware to check if the user has the required role
-function checkRole(requiredRoles) {
-  return (req, res, next) => {
-    const token = req.cookies.authToken;
-
-    if (!token) {
-      return res
-        .status(401)
-        .json({ message: "Unauthorized - Token is missing" });
-    }
-
-    try {
-      const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-      console.log("Decoded Token:", decodedToken);
-      const userRole = decodedToken.role;
-
-      if (!requiredRoles.includes(userRole)) {
-        return res
-          .status(403)
-          .json({ message: "Forbidden - Insufficient role" });
-      }
-
-      req.user = decodedToken;
-      next();
-    } catch (err) {
-      console.error("Token verification failed:", err);
-      return res.status(401).json({ message: "Unauthorized - Invalid token" });
-    }
-  };
-}
-
-// CORS Configuration
-const corsOptions = {
-  origin: (origin, callback) => {
-    const allowedOrigins = [
-      process.env.NEXT_PUBLIC_FRONTEND_URL,
-      "https://arcadia-website-jcisidoro.onrender.com",
-      "https://arcadia-website-sustainability-hub.vercel.app",
-    ];
-
-    if (allowedOrigins.includes(origin) || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true,
-};
-
 app.use(cors(corsOptions)); // Enable CORS with specified options
 app.options("*", (req, res, next) => {
   console.log("Preflight request detected:", req.method, req.headers);
