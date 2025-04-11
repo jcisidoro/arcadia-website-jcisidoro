@@ -16,6 +16,14 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(email)) {
+      return NextResponse.json(
+        { message: "Please provide a valid email address." },
+        { status: 400 }
+      );
+    }
+
     const transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
       port: 465,
@@ -60,7 +68,7 @@ export async function POST(req: NextRequest) {
           <p style="font-size: 16px;">For general inquiries, please reach out to us at: <a href="mailto:gsm.arcadia@gmail.com" style="color: #326333;">gsm.arcadia@gmail.com</a></p>
 
           <div style="text-align: center;">
-            <img src="https://arcadia-website-sustainability-hub.vercel.app/arcadiaLogo1.png" alt="Arcadia Logo" style="width: 150px; height: auto; object-fit: cover; display: block; margin: 10px auto;" />
+            <img src="https://arcadia-website-sustainability-hub.vercel.app/arcadiaLogo.png" alt="Arcadia Logo" style="width: 150px; height: auto; object-fit: cover; display: block; margin: 10px auto;" />
             <span style="font-family: 'Cormorant', serif; font-size: 32px; font-weight: bold; text-transform: uppercase; ">Arcadia</span>
           </div>
 
