@@ -246,7 +246,7 @@ app.post("/api/admin/login", limiter, async (req, res) => {
 
     res.cookie("authToken", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV,
+      secure: true,
       sameSite: "None",
       maxAge: 3600000, // Token expires in 1 hour
     });
