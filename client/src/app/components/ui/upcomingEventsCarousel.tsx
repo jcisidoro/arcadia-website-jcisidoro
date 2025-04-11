@@ -41,34 +41,36 @@ export const CarouselContext = createContext<{
 
 export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
   const carouselRef = React.useRef<HTMLDivElement>(null);
-  const [canScrollLeft, setCanScrollLeft] = React.useState(false);
-  const [canScrollRight, setCanScrollRight] = React.useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
-
-  useEffect(() => {
-    if (carouselRef.current) {
-      carouselRef.current.scrollLeft = initialScroll;
-      checkScrollability();
-    }
-  }, [initialScroll]);
-
-  const checkScrollability = () => {
-    if (carouselRef.current) {
-      const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current;
-      setCanScrollLeft(scrollLeft > 0);
-      setCanScrollRight(scrollLeft < scrollWidth - clientWidth);
-    }
-  };
 
   const scrollLeft = () => {
     if (carouselRef.current) {
-      carouselRef.current.scrollBy({ left: -700, behavior: "smooth" });
+      const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current;
+
+      if (scrollLeft <= 0) {
+        carouselRef.current.scrollTo({
+          left: scrollWidth - clientWidth,
+          behavior: "smooth",
+        });
+        setCurrentIndex(items.length - 1);
+      } else {
+        carouselRef.current.scrollBy({ left: -500, behavior: "smooth" });
+        setCurrentIndex((prev) => Math.max(prev - 1, 0));
+      }
     }
   };
 
   const scrollRight = () => {
     if (carouselRef.current) {
-      carouselRef.current.scrollBy({ left: 700, behavior: "smooth" });
+      const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current;
+
+      if (scrollLeft >= scrollWidth - clientWidth - 10) {
+        carouselRef.current.scrollTo({ left: 0, behavior: "smooth" });
+        setCurrentIndex(0);
+      } else {
+        carouselRef.current.scrollBy({ left: 500, behavior: "smooth" });
+        setCurrentIndex((prev) => prev + 1);
+      }
     }
   };
 
@@ -115,7 +117,6 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
         <div
           className="flex w-full overflow-x-scroll overscroll-x-auto py-10 md:py-20 scroll-smooth [scrollbar-width:none]"
           ref={carouselRef}
-          onScroll={checkScrollability}
         >
           <div
             className={cn(
@@ -153,20 +154,18 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
             ))}
           </div>
         </div>
-        <div className="flex justify-center gap-2">
+        <div className="flex justify-center gap-2 ">
           <button
-            className="relative z-40 h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center disabled:opacity-50"
+            className="relative z-40 h-10 w-10 rounded-full bg-neutral-200/80 flex items-center justify-center focus:border-[#50c179] focus:outline-none cursor-pointer hover:-translate-y-0.5 border-3 border-transparent  active:translate-y-0.5 transition duration-200"
             onClick={scrollLeft}
-            disabled={!canScrollLeft}
           >
-            <IconArrowNarrowLeft className="h-6 w-6 text-gray-500" />
+            <IconArrowNarrowLeft className="h-6 w-6 text-neutral-600" />
           </button>
           <button
-            className="relative z-40 h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center disabled:opacity-50"
+            className="relative z-40 h-10 w-10 rounded-full bg-neutral-200 flex items-center justify-center focus:border-[#50c179] focus:outline-none cursor-pointer hover:-translate-y-0.5 border-3 border-transparent  active:translate-y-0.5 transition duration-200"
             onClick={scrollRight}
-            disabled={!canScrollRight}
           >
-            <IconArrowNarrowRight className="h-6 w-6 text-gray-500" />
+            <IconArrowNarrowRight className="h-6 w-6 text-neutral-600" />
           </button>
         </div>
       </div>
