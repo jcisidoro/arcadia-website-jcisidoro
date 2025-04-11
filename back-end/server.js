@@ -18,18 +18,13 @@ const {
   corsOptions,
   helmet,
   cookieParser,
+  cors,
 } = require("./middleware/middleware");
 
 const app = express();
 const port = process.env.PORT;
 const MONGO_URL = process.env.MONGO_URL;
 const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret";
-
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // Limit each IP to 10 requests per windowMs
-  message: "Too many requests from this IP, please try again later",
-});
 
 // Middleware
 app.use(helmet()); // secure HTTP headers
@@ -111,7 +106,7 @@ app.post("/api/admin/logout", (req, res) => {
 // Admin Registration Route
 app.post(
   "/api/admin/register",
-  checkRole[("superAdmin", "accCreator")],
+  checkRole(["superAdmin", "accCreator"]),
   limiter,
   async (req, res) => {
     const { firstName, lastName, email, password, confirmPassword, role } =
@@ -207,7 +202,7 @@ app.post("/api/admin/login", limiter, async (req, res) => {
 // Add event
 app.post(
   "/api/events",
-  checkRole[("superAdmin", "eventHandler")],
+  checkRole(["superAdmin", "accCreator"]),
   upload.single("image"),
   async (req, res) => {
     const {
