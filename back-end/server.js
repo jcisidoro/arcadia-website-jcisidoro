@@ -1,14 +1,10 @@
 require("dotenv").config();
 const express = require("express");
-const rateLimit = require("express-rate-limit");
 const mongoose = require("mongoose");
-const cors = require("cors");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const cron = require("node-cron");
 const https = require("https");
-const cookieParser = require("cookie-parser");
-const helmet = require("helmet");
 const multer = require("multer");
 const streamifier = require("streamifier");
 const cloudinary = require("cloudinary").v2;
