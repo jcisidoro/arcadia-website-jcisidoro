@@ -51,6 +51,12 @@ export async function POST(req: NextRequest) {
           <p style="font-size: 16px; font-weight: bold;">Contact Us</p>
           <p style="font-size: 16px;">For general inquiries, please reach out to us at: <a href="mailto:gsm.arcadia@gmail.com" style="color: #326333;">gsm.arcadia@gmail.com</a></p>
     
+          <!-- Contact and Notes Section -->
+          <p style="font-size: 16px; font-weight: bold;">Your Submitted Information:</p>
+          <p style="font-size: 16px;"><strong>Contact:</strong> ${firstName} ${lastName}</p>
+          <p style="font-size: 16px;"><strong>Contact:</strong> ${contact}</p>
+          <p style="font-size: 16px;"><strong>Notes:</strong> ${notes}</p>
+
           <p style="text-align: center;">
             <img src="https://arcadia-website-sustainability-hub.vercel.app/arcadiaLogo1.png" alt="Arcadia Logo" style="width: 150px; height: auto; object-fit: cover; display: block; margin: 20px auto;" />
           </p>

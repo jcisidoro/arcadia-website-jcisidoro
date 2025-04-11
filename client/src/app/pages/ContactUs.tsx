@@ -78,7 +78,7 @@ export default function ContactUs() {
           Contact Us
         </h1>
         <span className="text-sm md:text-base text-justify text-black font-medium">
-          Send us a message, and we'll get back to you as soon as we can.
+          Send us a message, and we&apos;ll get back to you as soon as we can.
         </span>
       </div>
       <form onSubmit={handleSubmit}>

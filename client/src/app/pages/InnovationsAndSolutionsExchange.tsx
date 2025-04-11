@@ -1,4 +1,3 @@
-import { p } from "motion/react-client";
 import Image from "next/image";
 import React from "react";
 
