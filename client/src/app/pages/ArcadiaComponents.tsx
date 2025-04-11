@@ -35,7 +35,7 @@ export default function ArcadiaComponents() {
             description:
               "Flagship papers and pilot programs that deliver real-world solutions, advancing circular economy practices in the business.",
             btnText: "Learn More",
-            href: "#",
+            href: "/pages/initiatives",
           },
         ].map((item, index) => (
           <li key={index} className="flex flex-col gap-8 mt-4 text-black">

@@ -75,6 +75,10 @@ export default function Navbar() {
             href: "/pages/about",
             text: "About",
           },
+          {
+            href: "/pages/initiatives",
+            text: "Initiatives",
+          },
         ].map((item, index) => {
           const isActive = currentPage === item.href;
           return (
@@ -137,6 +141,10 @@ export default function Navbar() {
             {
               href: "/pages/about",
               text: "About",
+            },
+            {
+              href: "/pages/initiatives",
+              text: "Initiatives",
             },
           ].map((item, index) => {
             const isActive = currentPage === item.href;
