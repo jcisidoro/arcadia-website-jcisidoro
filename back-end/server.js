@@ -151,8 +151,8 @@ app.get("/api/admin/check-auth", (req, res) => {
 app.post("/api/admin/logout", (req, res) => {
   res.clearCookie("authToken", {
     httpOnly: true,
-    secure: process.env.NODE_ENV,
-    sameSite: "Strict",
+    secure: true,
+    sameSite: "None",
     path: "/",
   });
 
