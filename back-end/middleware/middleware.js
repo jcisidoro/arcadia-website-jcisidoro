@@ -6,7 +6,7 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 
 // Middleware for JWT token validation and role checking
-function checkRole(requiredRoles) {
+function checkRole() {
   return (req, res, next) => {
     const token = req.cookies.authToken;
 
@@ -18,18 +18,22 @@ function checkRole(requiredRoles) {
 
     try {
       const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-      const userRole = decodedToken.role;
+      const userRole = decodedToken;
 
-      if (!requiredRoles.includes(userRole)) {
+      if (
+        userRole.role !== "superAdmin" &&
+        userRole.role !== "accCreator" &&
+        userRole.role === "eventHandler"
+      ) {
         return res
           .status(403)
           .json({ message: "Forbidden - Insufficient role" });
       }
-
-      req.user = decodedToken;
+      req.user = userRole;
       next();
     } catch (err) {
-      return res.status(401).json({ message: "Unauthorized - Invalid token" });
+      console.log(err);
+      return res.status(401).json({ err });
     }
   };
 }
