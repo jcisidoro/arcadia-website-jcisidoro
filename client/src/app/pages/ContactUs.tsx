@@ -1,8 +1,11 @@
 // /pages/ContactUs.tsx
 "use client";
 import React, { useState } from "react";
+import { useToast } from "@/app/components/provider/ToastContext";
 
 export default function ContactUs() {
+  const { showToast } = useToast();
+
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -12,7 +15,6 @@ export default function ContactUs() {
   });
 
   const [isLoading, setIsLoading] = useState(false);
-  const [responseMsg, setResponseMsg] = useState("");
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -24,7 +26,6 @@ export default function ContactUs() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    setResponseMsg("");
 
     try {
       const res = await fetch(
@@ -36,11 +37,10 @@ export default function ContactUs() {
         }
       );
 
-      const text = await res.text(); // Read raw response as text first
-      console.log("Response text:", text);
+      const text = await res.text();
 
       if (!text) {
-        setResponseMsg("Server sent an empty response.");
+        showToast("Server sent an empty response.", "error");
         return;
       }
 
@@ -49,7 +49,8 @@ export default function ContactUs() {
         data = JSON.parse(text); // Safely parse
       } catch (err) {
         console.error("Failed to parse JSON:", err);
-        setResponseMsg("Server sent an invalid response.");
+
+        showToast("Server sent an invalid response.", "error");
         return;
       }
 
@@ -61,11 +62,11 @@ export default function ContactUs() {
           contact: "",
           notes: "",
         });
-        setResponseMsg(data.message || "Message sent!");
+        showToast(data.message || "Message sent!", "success");
       }
     } catch (err) {
       console.error("Failed to send:", err);
-      setResponseMsg("Failed to send message.");
+      showToast("Failed to send message.", "error");
     } finally {
       setIsLoading(false);
     }
@@ -127,12 +128,6 @@ export default function ContactUs() {
           </div>
         </div>
       </form>
-      {/* RESPONSE MESSAGE AFTER SUBMITTING */}
-      {responseMsg && (
-        <div className="col-span-2 text-center text-black font-medium">
-          {responseMsg}
-        </div>
-      )}
     </div>
   );
 }
