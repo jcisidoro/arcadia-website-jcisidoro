@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
       from: process.env.GMAIL_USER,
       to: email,
       subject:
-        "Thank You for Reaching Out to Arcadia - We&apos;ll Be in Touch Soon!",
+        "Thank You for Reaching Out to Arcadia - We'll Be in Touch Soon!",
       html: `
         <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6; padding: 20px;">
           <h2 style="font-size: 24px; color: #326333;">Hello ${firstName} ${lastName},</h2>
