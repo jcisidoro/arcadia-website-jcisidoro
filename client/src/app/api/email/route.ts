@@ -81,7 +81,7 @@ export async function POST(req: NextRequest) {
             </p>
           </div>
 
-          <p style="font-size: 16px; text-align: center;">Thank you for choosing Arcadia!<br/> This email was sent via Nodemailer & Gmail 🚀</p>
+          <p style="font-size: 16px; text-align: center;">Thank you for choosing Arcadia!<br/> This email was sent via Nodemailer & Gmail</p>
     
           <p style="font-size: 16px; text-align: center; color: #888;">&copy; ${new Date().getFullYear()} Arcadia. All rights reserved.</p>
         </div>
