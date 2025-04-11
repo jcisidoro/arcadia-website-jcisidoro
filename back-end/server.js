@@ -48,7 +48,10 @@ function checkRole(requiredRoles) {
     }
 
     try {
-      const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+      const decodedToken = jwt.verify(
+        token,
+        process.env.JWT_SECRET || "your_jwt_secret"
+      );
       console.log("Decoded Token:", decodedToken);
       const userRole = decodedToken.role;
 
@@ -160,45 +163,50 @@ app.post("/api/admin/logout", (req, res) => {
 });
 
 // Admin Registration Route
-app.post("/api/admin/register", limiter, async (req, res) => {
-  const { firstName, lastName, email, password, confirmPassword, role } =
-    req.body;
+app.post(
+  "/api/admin/register",
+  limiter,
+  checkRole[("superAdmin", "accCreator")],
+  async (req, res) => {
+    const { firstName, lastName, email, password, confirmPassword, role } =
+      req.body;
 
-  if (!firstName || !lastName || !email || !password || !confirmPassword) {
-    return res.status(400).json({ message: "All fields are required" });
-  }
-
-  if (password !== confirmPassword) {
-    return res.status(400).json({ message: "Passwords do not match" });
-  }
-
-  try {
-    const existingAdmin = await Admin.findOne({ email });
-    if (existingAdmin) {
-      return res.status(409).json({ message: "Email already exists" });
+    if (!firstName || !lastName || !email || !password || !confirmPassword) {
+      return res.status(400).json({ message: "All fields are required" });
     }
 
-    const validRoles = ["accCreator", "eventHandler"];
-    if (!validRoles.includes(role)) {
-      return res.status(400).json({ message: "Invalid role selected" });
+    if (password !== confirmPassword) {
+      return res.status(400).json({ message: "Passwords do not match" });
     }
 
-    const newAdmin = new Admin({
-      firstName,
-      lastName,
-      email,
-      password,
-      role,
-    });
+    try {
+      const existingAdmin = await Admin.findOne({ email });
+      if (existingAdmin) {
+        return res.status(409).json({ message: "Email already exists" });
+      }
 
-    await newAdmin.save();
+      const validRoles = ["accCreator", "eventHandler"];
+      if (!validRoles.includes(role)) {
+        return res.status(400).json({ message: "Invalid role selected" });
+      }
 
-    res.status(201).json({ message: "Admin registered successfully" });
-  } catch (error) {
-    console.error("Error during registration:", error);
-    res.status(500).json({ message: "Server error", error });
+      const newAdmin = new Admin({
+        firstName,
+        lastName,
+        email,
+        password,
+        role,
+      });
+
+      await newAdmin.save();
+
+      res.status(201).json({ message: "Admin registered successfully" });
+    } catch (error) {
+      console.error("Error during registration:", error);
+      res.status(500).json({ message: "Server error", error });
+    }
   }
-});
+);
 
 // Admin Login Route
 app.post("/api/admin/login", limiter, async (req, res) => {
