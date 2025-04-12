@@ -259,7 +259,7 @@ export const Card = ({
               </motion.p>
               <motion.p
                 layoutId={layout ? `title-${card.title}` : undefined}
-                className="text-2xl md:text-5xl lg:text-7xl font-semibold text-[#326333] mt-4 dark:text-white font-cormorant"
+                className="text-6xl font-semibold text-[#326333] mt-4 dark:text-white font-cormorant"
               >
                 {card.title}
               </motion.p>
