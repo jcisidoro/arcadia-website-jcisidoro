@@ -95,7 +95,12 @@ app.get("/api/admin/check-auth", csrfProtection, (req, res) => {
     res.status(200).json({ message: "Authenticated", user: decodedToken });
   } catch (err) {
     console.error("Token verification failed:", err);
-    res.status(401).json({ message: "Invalid or expired token" });
+    if (err.name === "TokenExpiredError") {
+      return res
+        .status(401)
+        .json({ message: "Session expired", expired: true });
+    }
+    return res.status(401).json({ message: "Invalid or expired token" });
   }
 });
 
