@@ -24,7 +24,7 @@ const {
 const app = express();
 const port = process.env.PORT;
 const MONGO_URL = process.env.MONGO_URL;
-const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret";
+const JWT_SECRET = process.env.JWT_SECRET;
 
 // Middleware
 app.use(helmet()); // secure HTTP headers
@@ -122,7 +122,7 @@ app.post("/api/admin/register", checkRole(), limiter, async (req, res) => {
       return res.status(409).json({ message: "Email already exists" });
     }
 
-    const validRoles = ["accCreator", "eventHandler"];
+    const validRoles = ["accCreator", "eventHandler", "adminManager"];
     if (!validRoles.includes(role)) {
       return res.status(400).json({ message: "Invalid role selected" });
     }
@@ -161,7 +161,12 @@ app.post("/api/admin/login", limiter, async (req, res) => {
         message: "The password you entered is incorrect. Please try again..",
       });
 
-    const validRoles = ["superAdmin", "accCreator", "eventHandler"];
+    const validRoles = [
+      "superAdmin",
+      "accCreator",
+      "eventHandler",
+      "adminManager",
+    ];
     if (!validRoles.includes(admin.role)) {
       return res
         .status(403)
@@ -175,7 +180,7 @@ app.post("/api/admin/login", limiter, async (req, res) => {
         email: admin.email,
         role: admin.role,
       },
-      JWT_SECRET,
+      process.env.JWT_SECRET,
       {
         expiresIn: "1h",
       }

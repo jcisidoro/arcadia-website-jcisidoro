@@ -27,9 +27,6 @@ export default function AdminRegisterPage() {
           `${process.env.NEXT_PUBLIC_API_URL}/api/admin/check-auth`,
           {
             method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
             credentials: "include",
           }
         );
@@ -219,6 +216,7 @@ export default function AdminRegisterPage() {
                 >
                   <option value="accCreator">accCreator</option>
                   <option value="eventHandler">eventHandler</option>
+                  <option value="adminManager">adminManager</option>
                 </select>
               </div>
             </div>

@@ -23,6 +23,7 @@ function checkRole() {
       if (
         userRole.role !== "superAdmin" &&
         userRole.role !== "accCreator" &&
+        userRole.role !== "adminManager" &&
         userRole.role === "eventHandler"
       ) {
         return res

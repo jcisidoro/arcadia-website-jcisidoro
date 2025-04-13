@@ -5,7 +5,6 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import LogoutButton from "../LogoutButton";
 import { useToast } from "../provider/ToastContext";
-import Cookies from "js-cookie";
 
 export default function AdminPageHandler() {
   const router = useRouter();
@@ -16,16 +15,10 @@ export default function AdminPageHandler() {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const token = Cookies.get("authToken");
-
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/api/admin/check-auth`,
           {
             method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
             credentials: "include",
           }
         );
@@ -37,11 +30,17 @@ export default function AdminPageHandler() {
         }
 
         const data = await response.json();
-        console.log("Auth Data:", data);
 
         const userRole = data.user?.role;
 
-        if (!["superAdmin", "accCreator", "eventHandler"].includes(userRole)) {
+        if (
+          ![
+            "superAdmin",
+            "accCreator",
+            "eventHandler",
+            "adminManager",
+          ].includes(userRole)
+        ) {
           showToast("You do not have admin access.", "error");
           router.replace("/pages/admin-page");
         } else {
@@ -98,6 +97,21 @@ export default function AdminPageHandler() {
               }`}
             >
               Create Admin Account
+            </button>
+          </Link>
+
+          <Link href="/components/admin-page-settings">
+            <button
+              disabled={
+                checkRole !== "superAdmin" && checkRole !== "adminManager"
+              }
+              className={`bg-[#326333] text-white rounded-2xl py-4 px-3 text-lg sm:text-4xl lg:text-5xl 2xl:text-6xl w-full md:w-[500px] lg:w-[700px] 2xl:w-[900px] uppercase font-cormorant font-semibold transition-all duration-300 ${
+                checkRole !== "superAdmin" && checkRole !== "adminManager"
+                  ? "opacity-50 cursor-not-allowed"
+                  : "hover:scale-105 cursor-pointer"
+              }`}
+            >
+              Admin Settings
             </button>
           </Link>
         </div>
