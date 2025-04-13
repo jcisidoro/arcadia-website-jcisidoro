@@ -4,16 +4,16 @@ const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
-const csurf = require("csurf");
+// const csurf = require("csurf");
 
 // CSRF Protection (set token in cookie)
-const csrfProtection = csurf({
-  cookie: {
-    httpOnly: true,
-    secure: true,
-    sameSite: "None",
-  },
-});
+// const csrfProtection = csurf({
+//   cookie: {
+//     httpOnly: true,
+//     secure: true,
+//     sameSite: "Lax",
+//   },
+// });
 
 // Middleware for JWT token validation and role checking
 function checkRole() {
@@ -66,7 +66,8 @@ const corsOptions = {
     }
   },
   methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization", "CSRF-Token"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  // allowedHeaders: ["Content-Type", "Authorization", "CSRF-Token"],
   credentials: true,
 };
 
@@ -85,5 +86,5 @@ module.exports = {
   helmet,
   cookieParser,
   cors,
-  csrfProtection,
+  // csrfProtection,
 };

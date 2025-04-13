@@ -29,32 +29,32 @@ export default function AdminEventHandler() {
 
   const [, setImageUrl] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const [csrfToken, setCsrfToken] = useState<string | null>(null);
+  // const [csrfToken, setCsrfToken] = useState<string | null>(null);
 
   const [resetKey, setResetKey] = useState(0);
 
-  useEffect(() => {
-    const fetchCsrfToken = async () => {
-      try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/csrf-token`,
-          {
-            method: "GET",
-            credentials: "include",
-          }
-        );
+  // useEffect(() => {
+  //   const fetchCsrfToken = async () => {
+  //     try {
+  //       const response = await fetch(
+  //         `${process.env.NEXT_PUBLIC_API_URL}/api/csrf-token`,
+  //         {
+  //           method: "GET",
+  //           credentials: "include",
+  //         }
+  //       );
 
-        if (response.ok) {
-          const data = await response.json();
-          setCsrfToken(data.csrfToken);
-        }
-      } catch (error) {
-        console.error("Error fetching CSRF token", error);
-      }
-    };
+  //       if (response.ok) {
+  //         const data = await response.json();
+  //         setCsrfToken(data.csrfToken);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching CSRF token", error);
+  //     }
+  //   };
 
-    fetchCsrfToken();
-  }, []);
+  //   fetchCsrfToken();
+  // }, []);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -111,10 +111,10 @@ export default function AdminEventHandler() {
       return;
     }
 
-    if (!csrfToken) {
-      showToast("CSRF Token is missing!", "error");
-      return;
-    }
+    // if (!csrfToken) {
+    //   showToast("CSRF Token is missing!", "error");
+    //   return;
+    // }
 
     setLoading(true);
 
@@ -137,9 +137,9 @@ export default function AdminEventHandler() {
         {
           method: "POST",
           body: formData,
-          headers: {
-            "CSRF-Token": csrfToken,
-          },
+          // headers: {
+          //   "CSRF-Token": csrfToken,
+          // },
           credentials: "include",
         }
       );

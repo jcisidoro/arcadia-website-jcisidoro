@@ -1,46 +1,46 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useRouter } from "next/navigation";
 import { useToast } from "./provider/ToastContext";
 
 export default function LogoutButton() {
   const router = useRouter();
   const { showToast } = useToast();
-  const [csrfToken, setCsrfToken] = useState(null);
+  // const [csrfToken, setCsrfToken] = useState(null);
 
-  useEffect(() => {
-    const fetchCsrfToken = async () => {
-      try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/csrf-token`,
-          {
-            credentials: "include",
-          }
-        );
-        const data = await response.json();
-        setCsrfToken(data.csrfToken);
-      } catch (error) {
-        console.error("Error fetching CSRF token", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchCsrfToken = async () => {
+  //     try {
+  //       const response = await fetch(
+  //         `${process.env.NEXT_PUBLIC_API_URL}/api/csrf-token`,
+  //         {
+  //           credentials: "include",
+  //         }
+  //       );
+  //       const data = await response.json();
+  //       setCsrfToken(data.csrfToken);
+  //     } catch (error) {
+  //       console.error("Error fetching CSRF token", error);
+  //     }
+  //   };
 
-    fetchCsrfToken();
-  }, []);
+  //   fetchCsrfToken();
+  // }, []);
 
   // Logout function
   const handleLogout = async () => {
-    if (!csrfToken) {
-      console.error("CSRF token is missing");
-      return;
-    }
+    // if (!csrfToken) {
+    //   console.error("CSRF token is missing");
+    //   return;
+    // }
 
     try {
       await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/admin/logout`, {
         method: "POST",
         credentials: "include",
-        headers: {
-          "CSRF-Token": csrfToken, // Include CSRF token in the headers
-        },
+        // headers: {
+        //   "CSRF-Token": csrfToken,
+        // },
       });
 
       showToast("Logged out successfully!", "success");

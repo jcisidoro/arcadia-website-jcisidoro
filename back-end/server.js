@@ -20,7 +20,7 @@ const {
   helmet,
   cookieParser,
   cors,
-  csrfProtection,
+  // csrfProtection,
 } = require("./middleware/middleware");
 
 const app = express();
@@ -34,7 +34,7 @@ app.use(express.json()); // Parse JSON request bodies
 app.use(helmet()); // secure HTTP headers
 app.use(limiter); // rate limiting
 app.use(cors(corsOptions)); // Enable CORS with specified options
-app.use(csrfProtection);
+// app.use(csrfProtection);
 
 // Connect to MongoDB
 mongoose
@@ -74,9 +74,9 @@ const streamUpload = (buffer, publicId) => {
 };
 
 // Route to GET CSRF token
-app.get("/api/csrf-token", (req, res) => {
-  res.json({ csrfToken: req.csrfToken() });
-});
+// app.get("/api/csrf-token", (req, res) => {
+//   res.json({ csrfToken: req.csrfToken() });
+// });
 
 // Check Authentication Route
 app.get("/api/admin/check-auth", (req, res) => {

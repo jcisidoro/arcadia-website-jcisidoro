@@ -17,11 +17,11 @@ export default function AdminAuthPage() {
     setLoading(true);
 
     try {
-      const csrfRes = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/csrf-token`,
-        { credentials: "include" }
-      );
-      const { csrfToken } = await csrfRes.json();
+      // const csrfRes = await fetch(
+      //   `${process.env.NEXT_PUBLIC_API_URL}/api/csrf-token`,
+      //   { credentials: "include" }
+      // );
+      // const { csrfToken } = await csrfRes.json();
 
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/admin/login`,
@@ -29,7 +29,7 @@ export default function AdminAuthPage() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "CSRF-Token": csrfToken,
+            // "CSRF-Token": csrfToken,
           },
           credentials: "include",
           body: JSON.stringify({ email, password }),
