@@ -1,3 +1,4 @@
+//server.js
 require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
@@ -8,7 +9,6 @@ const https = require("https");
 const multer = require("multer");
 const streamifier = require("streamifier");
 const cloudinary = require("cloudinary").v2;
-const csurf = require("csurf");
 
 const Admin = require("./models/Admin");
 const Event = require("./models/Event");
@@ -20,16 +20,8 @@ const {
   helmet,
   cookieParser,
   cors,
+  csrfProtection,
 } = require("./middleware/middleware");
-
-// CSRF Protection (set token in cookie)
-const csrfProtection = csurf({
-  cookie: {
-    httpOnly: true,
-    secure: true,
-    sameSite: "None",
-  },
-});
 
 const app = express();
 const port = process.env.PORT;
