@@ -134,7 +134,7 @@ export default function AdminRegisterPage() {
   if (!isAuthenticated) return <div>Loading...</div>;
 
   return (
-    <div className="flex w-full h-[1350px] sm:h-[1200px] lg:h-[900px] bg-[#326333]/50 px-10 pb-10 pt-24 relative justify-center">
+    <div className="flex w-full h-[1350px] sm:h-[1200px] lg:h-[900px] bg-[#326333]/50 px-4 lg:px-10 pb-10 pt-24 relative justify-center">
       <div className="w-full h-[1100px] sm:h-[950px] md:h-[900px] lg:h-[650px] xl:h-[680px] flex justify-center">
         {/* CONTAINER */}
         <div className="flex flex-col lg:flex-row w-[650px] lg:w-[900px] h-full bg-[#326333]/90 rounded-2xl">
