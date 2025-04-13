@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useToast } from "../provider/ToastContext";
+import { AdminSettingsSidebar } from "../AdminSettingsSidebar";
 
 export default function AdminPageSettings() {
   const { showToast } = useToast();
@@ -54,8 +55,8 @@ export default function AdminPageSettings() {
   if (!isAuthenticated) return <div>Loading...</div>;
 
   return (
-    <div className="flex w-full h-[100vh] bg-[#326333]/50">
-      AdminPageSettings
+    <div className="flex w-full h-[100vh] bg-[#326333]/50 justify-center items-center">
+      <AdminSettingsSidebar />
     </div>
   );
 }

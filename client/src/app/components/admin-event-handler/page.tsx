@@ -322,9 +322,6 @@ export default function AdminEventHandler() {
           </div>
         </div>
       </div>
-
-      {/* Logout Button */}
-      <LogoutButton />
     </div>
   );
 }

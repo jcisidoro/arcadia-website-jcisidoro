@@ -31,7 +31,7 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`h-20 lg:h-24 fixed top-0 z-60 w-full flex items-center px-4 lg:px-6 justify-between ${
+      className={`h-20 lg:h-24 fixed top-0 z-90 w-full flex items-center px-4 lg:px-6 justify-between ${
         scrolled
           ? "bg-[#f7f7f7]/90 transition-all duration-300 ease-in"
           : "bg-transparent transition-all duration-300 ease-out"
@@ -120,7 +120,7 @@ export default function Navbar() {
 
       {/* Mobile Burger Menu */}
       <div
-        className={`fixed top-0 left-0 w-full h-full bg-[#326333] text-white flex flex-col items-center justify-center transition-transform duration-300 ${
+        className={`fixed top-0 left-0 w-full h-full bg-[#326333] text-white flex flex-col items-center justify-center transition-transform duration-300 z-90 ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >

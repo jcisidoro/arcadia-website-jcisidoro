@@ -262,8 +262,6 @@ export default function AdminRegisterPage() {
           </div>
         </div>
       </div>
-      {/* LOGOUT BUTTON */}
-      <LogoutButton />
     </div>
   );
 }
