@@ -1,4 +1,4 @@
-// middleware.js
+// /middleware/middleware.js
 const jwt = require("jsonwebtoken");
 const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");

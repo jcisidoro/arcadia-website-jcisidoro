@@ -19,7 +19,7 @@ export default function AdminAuthPage() {
     try {
       const csrfRes = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/csrf-token`,
-        { credentials: "include" } // must include cookies
+        { credentials: "include" }
       );
       const { csrfToken } = await csrfRes.json();
 

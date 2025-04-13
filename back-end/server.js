@@ -35,9 +35,14 @@ app.use(csrfProtection); // CSRF Protection
 app.use(helmet()); // secure HTTP headers
 app.use(limiter); // rate limiting
 app.use(cors(corsOptions)); // Enable CORS with specified options
-app.options("*", (req, res, next) => {
-  console.log("Preflight request detected:", req.method, req.headers);
-  next();
+app.options("*", (req, res) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Content-Type, Authorization, CSRF-Token"
+  );
+  res.status(200).send();
 });
 
 // Connect to MongoDB
