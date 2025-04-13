@@ -52,7 +52,10 @@ function checkRole() {
 // CORS configuration
 const corsOptions = {
   origin: (origin, callback) => {
-    const allowedOrigins = [NEXT_PUBLIC_FRONTEND_URL, NEXT_PUBLIC_API_URL];
+    const allowedOrigins = [
+      process.env.NEXT_PUBLIC_FRONTEND_URL,
+      process.env.NEXT_PUBLIC_API_URL,
+    ];
 
     if (allowedOrigins.includes(origin) || !origin) {
       callback(null, true);
