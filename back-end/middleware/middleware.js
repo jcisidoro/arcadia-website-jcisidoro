@@ -54,6 +54,7 @@ const corsOptions = {
   origin: (origin, callback) => {
     const allowedOrigins = [
       process.env.NEXT_PUBLIC_FRONTEND_URL,
+      process.env.NEXT_PUBLIC_API_URL,
       "https://arcadia-website-jcisidoro.onrender.com",
       "https://arcadia-website-sustainability-hub.vercel.app",
     ];
