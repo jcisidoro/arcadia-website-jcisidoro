@@ -6,6 +6,15 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const csurf = require("csurf");
 
+// CSRF Protection (set token in cookie)
+const csrfProtection = csurf({
+  cookie: {
+    httpOnly: true,
+    secure: true,
+    sameSite: "None",
+  },
+});
+
 // Middleware for JWT token validation and role checking
 function checkRole() {
   return (req, res, next) => {
@@ -66,15 +75,6 @@ const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // Limit each IP to 100 requests per windowMs
   message: "Too many requests from this IP, please try again later",
-});
-
-// CSRF Protection (set token in cookie)
-const csrfProtection = csurf({
-  cookie: {
-    httpOnly: true,
-    secure: true,
-    sameSite: "None",
-  },
 });
 
 // Export middleware functions
