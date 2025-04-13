@@ -11,7 +11,7 @@ const csrfProtection = csurf({
   cookie: {
     httpOnly: true,
     secure: true,
-    sameSite: "None",
+    sameSite: "Lax",
   },
 });
 
