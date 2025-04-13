@@ -4,7 +4,6 @@ import BackgroundVideo from "../BackgroundVideo";
 import Image from "next/image";
 
 import { useRouter } from "next/navigation";
-import LogoutButton from "../LogoutButton";
 
 import { useToast } from "@/app/components/provider/ToastContext";
 

@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import { FileUploadDemo } from "../FileUpload";
 import Image from "next/image";
 import BackgroundVideo from "../BackgroundVideo";
-import LogoutButton from "../LogoutButton";
 import { useToast } from "../provider/ToastContext";
 // import Link from "next/link";
 
