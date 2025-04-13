@@ -34,7 +34,6 @@ app.use(express.json()); // Parse JSON request bodies
 app.use(helmet()); // secure HTTP headers
 app.use(limiter); // rate limiting
 app.use(cors(corsOptions)); // Enable CORS with specified options
-app.use(csrfProtection); // CSRF Protection
 
 // Connect to MongoDB
 mongoose
