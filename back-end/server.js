@@ -8,6 +8,7 @@ const https = require("https");
 const multer = require("multer");
 const streamifier = require("streamifier");
 const cloudinary = require("cloudinary").v2;
+const csurf = require("csurf");
 
 const Admin = require("./models/Admin");
 const Event = require("./models/Event");
@@ -21,15 +22,25 @@ const {
   cors,
 } = require("./middleware/middleware");
 
+// CSRF Protection (set token in cookie)
+const csrfProtection = csurf({
+  cookie: {
+    httpOnly: true,
+    secure: true,
+    sameSite: "None",
+  },
+});
+
 const app = express();
 const port = process.env.PORT;
 const MONGO_URL = process.env.MONGO_URL;
 const JWT_SECRET = process.env.JWT_SECRET;
 
 // Middleware
-app.use(helmet()); // secure HTTP headers
-app.use(express.json()); // Parse JSON request bodies
 app.use(cookieParser()); // cookie parsing
+app.use(express.json()); // Parse JSON request bodies
+app.use(csrfProtection); // CSRF Protection
+app.use(helmet()); // secure HTTP headers
 app.use(limiter); // rate limiting
 app.use(cors(corsOptions)); // Enable CORS with specified options
 app.options("*", (req, res, next) => {
@@ -74,8 +85,13 @@ const streamUpload = (buffer, publicId) => {
   });
 };
 
+// Route to GET CSRF token
+app.get("/api/csrf-token", (req, res) => {
+  res.json({ csrfToken: req.csrfToken() });
+});
+
 // Check Authentication Route
-app.get("/api/admin/check-auth", (req, res) => {
+app.get("/api/admin/check-auth", csrfProtection, (req, res) => {
   const token = req.cookies.authToken;
 
   if (!token) {
@@ -180,7 +196,7 @@ app.post("/api/admin/login", limiter, async (req, res) => {
         email: admin.email,
         role: admin.role,
       },
-      process.env.JWT_SECRET,
+      JWT_SECRET,
       {
         expiresIn: "1h",
       }

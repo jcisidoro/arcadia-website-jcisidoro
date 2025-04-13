@@ -13,7 +13,10 @@ import { useToast } from "../provider/ToastContext";
 export default function AdminEventHandler() {
   const router = useRouter();
   const { showToast } = useToast();
+
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const [title, setTitle] = useState("");
   const [speakers, setSpeakers] = useState("");
   const [attendees, setAttendees] = useState("");
@@ -22,11 +25,36 @@ export default function AdminEventHandler() {
   const [eventLink, setEventLink] = useState("");
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
+  const [, setCheckRole] = useState("");
+
   const [, setImageUrl] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [csrfToken, setCsrfToken] = useState<string | null>(null);
+
   const [resetKey, setResetKey] = useState(0);
-  const [, setCheckRole] = useState("");
+
+  useEffect(() => {
+    const fetchCsrfToken = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/csrf-token`,
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          setCsrfToken(data.csrfToken);
+        }
+      } catch (error) {
+        console.error("Error fetching CSRF token", error);
+      }
+    };
+
+    fetchCsrfToken();
+  }, []);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -83,6 +111,11 @@ export default function AdminEventHandler() {
       return;
     }
 
+    if (!csrfToken) {
+      showToast("CSRF Token is missing!", "error");
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -104,6 +137,9 @@ export default function AdminEventHandler() {
         {
           method: "POST",
           body: formData,
+          headers: {
+            "CSRF-Token": csrfToken,
+          },
           credentials: "include",
         }
       );

@@ -11,14 +11,42 @@ import { useToast } from "@/app/components/provider/ToastContext";
 export default function AdminRegisterPage() {
   const router = useRouter();
   const { showToast } = useToast();
+
   const [role, setRole] = useState("accCreator");
+
   const [, setCheckRole] = useState("");
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const [csrfToken, setCsrfToken] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchCsrfToken = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/csrf-token`,
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          setCsrfToken(data.csrfToken);
+        }
+      } catch (error) {
+        console.error("Error fetching CSRF token", error);
+      }
+    };
+
+    fetchCsrfToken();
+  }, []);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -61,13 +89,18 @@ export default function AdminRegisterPage() {
   }, [router, showToast]);
 
   const handleAdminRegister = async () => {
-    console.log(role);
+    if (!csrfToken) {
+      showToast("CSRF Token is missing!", "error");
+      return;
+    }
+
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/admin/register`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "CSRF-Token": csrfToken,
         },
         body: JSON.stringify({
           firstName,

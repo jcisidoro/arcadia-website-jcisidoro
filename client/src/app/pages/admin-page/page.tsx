@@ -17,18 +17,26 @@ export default function AdminAuthPage() {
     setLoading(true);
 
     try {
+      const csrfRes = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/csrf-token`,
+        { credentials: "include" } // must include cookies
+      );
+      const { csrfToken } = await csrfRes.json();
+
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/admin/login`,
         {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password }),
+          headers: {
+            "Content-Type": "application/json",
+            "CSRF-Token": csrfToken,
+          },
           credentials: "include",
+          body: JSON.stringify({ email, password }),
         }
       );
 
       const data = await response.json();
-      console.log(data);
       if (!response.ok) throw new Error(data.message);
 
       showToast("Login successful!", "success");

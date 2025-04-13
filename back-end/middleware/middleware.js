@@ -24,7 +24,7 @@ function checkRole() {
         userRole.role !== "superAdmin" &&
         userRole.role !== "accCreator" &&
         userRole.role !== "adminManager" &&
-        userRole.role === "eventHandler"
+        userRole.role !== "eventHandler"
       ) {
         return res
           .status(403)
