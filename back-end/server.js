@@ -309,7 +309,7 @@ app.get("/api/past-events", async (req, res) => {
   }
 });
 
-// Update event route - PATCH request to update an event
+// Update event route - PATCH request
 app.patch("/api/events/:id", checkRole(), async (req, res) => {
   const { id } = req.params;
   const {
@@ -323,8 +323,6 @@ app.patch("/api/events/:id", checkRole(), async (req, res) => {
     toDate,
     imageUrl,
   } = req.body;
-
-  console.log("Received event data:", req.body);
 
   try {
     const event = await Event.findById(id);

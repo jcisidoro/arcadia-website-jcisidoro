@@ -87,8 +87,6 @@ export default function ManageEvent() {
     }
 
     try {
-      console.log("Event ID to update:", eventId);
-
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/events/${eventId}`,
         {
@@ -101,7 +99,6 @@ export default function ManageEvent() {
         }
       );
       const data = await res.json();
-      console.log("Update response:", data);
 
       if (res.ok) {
         showToast("Event updated successfully", "success");
