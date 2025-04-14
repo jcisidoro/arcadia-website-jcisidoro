@@ -8,6 +8,7 @@ import { FileUploadDemo } from "./FileUpload";
 import { useToast } from "./provider/ToastContext";
 
 interface Event {
+  _id: string;
   title: string;
   speakers: string;
   attendees: string;
@@ -33,33 +34,107 @@ export default function ManageEvent() {
 
   const [events, setEvents] = useState<Event[]>([]);
   const [existingImageUrl, setExistingImageUrl] = useState<string | null>(null);
-  const [, setImageFile] = useState<File | null>(null);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
 
   const [resetKey, setResetKey] = useState(0);
 
-  useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/events`
-        );
-        const data = await res.json();
-        setEvents(data);
-      } catch (error) {
-        console.error("Error fetching events:", error);
-        showToast("Error fetching events:", "error");
-      }
-    };
+  const fetchEvents = async () => {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/events`);
+      const data = await res.json();
+      setEvents(data);
+    } catch (error) {
+      console.error("Error fetching events:", error);
+      showToast("Error fetching events:", "error");
+    }
+  };
 
+  useEffect(() => {
     fetchEvents();
   }, []);
+
+  const handleEditEvent = async (eventId: string) => {
+    const eventData = {
+      title,
+      speakers,
+      attendees,
+      description,
+      description1,
+      eventLink,
+      fromDate,
+      toDate,
+      imageUrl: existingImageUrl || undefined,
+    };
+
+    // If a new image is selected, upload it
+    if (imageFile) {
+      const formData = new FormData();
+      formData.append("image", imageFile);
+      const uploadRes = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/events/upload`,
+        {
+          method: "POST",
+          body: formData,
+          credentials: "include",
+        }
+      );
+
+      const uploadData = await uploadRes.json();
+      if (uploadData.imageUrl) {
+        eventData.imageUrl = uploadData.imageUrl;
+      }
+    }
+
+    try {
+      console.log("Event ID to update:", eventId);
+
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/events/${eventId}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(eventData),
+          credentials: "include",
+        }
+      );
+      const data = await res.json();
+      console.log("Update response:", data);
+
+      if (res.ok) {
+        showToast("Event updated successfully", "success");
+        // Reset form after updating
+        fetchEvents();
+
+        setTitle("");
+        setSpeakers("");
+        setAttendees("");
+        setDescription("");
+        setDescription1("");
+        setEventLink("");
+        setFromDate("");
+        setToDate("");
+        setImageFile(null);
+        setExistingImageUrl(null);
+        setSelectedEventId(null);
+        setResetKey((prev) => prev + 1);
+      } else {
+        showToast(data.message || "Failed to update event", "error");
+      }
+    } catch (error) {
+      showToast("Error updating event", "error");
+      console.error("Error updating event:", error);
+    }
+  };
 
   return (
     <div className="flex w-full h-full rounded gap-4">
       {/* CONTENT 1 */}
       <div className="hidden lg:flex flex-col w-full lg:w-1/3 max-h-full p-4 gap-4 bg-[#326333] rounded">
         <div className="flex gap-1 font-medium text-white">
-          <MdEvent size={24} className="text-[#326333]" /> Manage Event
+          <MdEvent size={24} className="text-[#326333]/50" /> Manage Event
         </div>
 
         <div className="flex flex-col w-full h-full overflow-y-auto">
@@ -93,9 +168,7 @@ export default function ManageEvent() {
             />
           ))}
           <FileUploadDemo
-            onChange={(file: File) => {
-              setImageFile(file);
-            }}
+            onChange={(file: File) => setImageFile(file)}
             resetKey={resetKey}
             key={resetKey}
             existingImageUrl={existingImageUrl}
@@ -165,11 +238,17 @@ export default function ManageEvent() {
         </div>
         <div className="w-full flex items-center justify-center">
           <button
-            //   onClick={handleAddEvent}
+            onClick={() => {
+              console.log("Editing event with ID:", selectedEventId);
+              if (selectedEventId) {
+                handleEditEvent(selectedEventId);
+              } else {
+                showToast("No event selected", "error");
+              }
+            }}
             className="bg-white text-black px-7 py-2 rounded cursor-pointer hover:bg-white/80 transition-all duration-300"
-            // disabled={loading}
           >
-            {/* {loading ? "Adding event..." : "Add Event"} */} Add Event
+            Add Event
           </button>
         </div>
       </div>
@@ -190,6 +269,7 @@ export default function ManageEvent() {
               setToDate(event.toDate?.substring(0, 10));
               setExistingImageUrl(event.imageUrl || null);
               setResetKey((prev) => prev + 1);
+              setSelectedEventId(event._id);
             }}
             className="flex flex-col lg:flex-row gap-2 w-full bg-white/50 p-2 cursor-pointer rounded"
           >

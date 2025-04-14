@@ -309,6 +309,57 @@ app.get("/api/past-events", async (req, res) => {
   }
 });
 
+// Update event route - PATCH request to update an event
+app.patch("/api/events/:id", checkRole(), async (req, res) => {
+  const { id } = req.params;
+  const {
+    title,
+    speakers,
+    attendees,
+    description,
+    description1,
+    eventLink,
+    fromDate,
+    toDate,
+    imageUrl,
+  } = req.body;
+
+  console.log("Received event data:", req.body);
+
+  try {
+    const event = await Event.findById(id);
+    if (!event) {
+      return res.status(404).json({ message: "Event not found" });
+    }
+
+    // Delete old image from Cloudinary if a new image is provided
+    if (imageUrl && event.imageUrl && imageUrl !== event.imageUrl) {
+      const publicId = event.imageUrl.split("/").pop().split(".")[0];
+      await cloudinary.uploader.destroy(publicId);
+    }
+
+    // Update the event with new data
+    event.title = title || event.title;
+    event.speakers = speakers || event.speakers;
+    event.attendees = attendees || event.attendees;
+    event.description = description || event.description;
+    event.description1 = description1 || event.description1;
+    event.eventLink = eventLink || event.eventLink;
+    event.fromDate = new Date(fromDate) || event.fromDate;
+    event.toDate = new Date(toDate) || event.toDate;
+    event.imageUrl = imageUrl || event.imageUrl;
+
+    await event.save();
+    res.status(200).json({ message: "Event updated successfully", event });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "An error occurred while updating the event",
+      error,
+    });
+  }
+});
+
 const PING_URL = "https://arcadia-website-jcisidoro.onrender.com/api/events";
 
 cron.schedule("*/5 * * * *", () => {
