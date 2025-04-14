@@ -72,9 +72,9 @@ export default function ManageEvent() {
       const formData = new FormData();
       formData.append("image", imageFile);
       const uploadRes = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/events/upload`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/events/${eventId}`,
         {
-          method: "POST",
+          method: "PATCH",
           body: formData,
           credentials: "include",
         }
@@ -245,7 +245,7 @@ export default function ManageEvent() {
             }}
             className="bg-white text-black px-7 py-2 rounded cursor-pointer hover:bg-white/80 transition-all duration-300"
           >
-            Add Event
+            {selectedEventId ? "Update Event" : "Select Event to Edit"}
           </button>
         </div>
       </div>

@@ -310,53 +310,72 @@ app.get("/api/past-events", async (req, res) => {
 });
 
 // Update event route - PATCH request
-app.patch("/api/events/:id", checkRole(), async (req, res) => {
-  const { id } = req.params;
-  const {
-    title,
-    speakers,
-    attendees,
-    description,
-    description1,
-    eventLink,
-    fromDate,
-    toDate,
-    imageUrl,
-  } = req.body;
+app.patch(
+  "/api/events/:id",
+  checkRole(),
+  upload.single("image"),
+  async (req, res) => {
+    const { id } = req.params;
+    const {
+      title,
+      speakers,
+      attendees,
+      description,
+      description1,
+      eventLink,
+      fromDate,
+      toDate,
+    } = req.body;
 
-  try {
-    const event = await Event.findById(id);
-    if (!event) {
-      return res.status(404).json({ message: "Event not found" });
+    try {
+      const event = await Event.findById(id);
+      if (!event) {
+        return res.status(404).json({ message: "Event not found" });
+      }
+
+      let newImageUrl = event.imageUrl;
+
+      if (req.file) {
+        // Upload new image
+        const publicId = req.file.originalname.split(".")[0] + "-" + Date.now();
+        const uploadResult = await streamUpload(req.file.buffer, publicId);
+
+        // Delete old image from Cloudinary
+        if (event.imageUrl) {
+          const oldUrlParts = event.imageUrl.split("/");
+          const oldPublicId = oldUrlParts
+            .slice(oldUrlParts.indexOf("upload") + 1)
+            .join("/")
+            .split(".")[0];
+          await cloudinary.uploader.destroy(oldPublicId);
+        }
+
+        newImageUrl = uploadResult.secure_url;
+      }
+
+      // Update event fields
+      event.title = title || event.title;
+      event.speakers = speakers || event.speakers;
+      event.attendees = attendees || event.attendees;
+      event.description = description || event.description;
+      event.description1 = description1 || event.description1;
+      event.eventLink = eventLink || event.eventLink;
+      event.fromDate = fromDate ? new Date(fromDate) : event.fromDate;
+      event.toDate = toDate ? new Date(toDate) : event.toDate;
+      event.imageUrl = newImageUrl;
+
+      await event.save();
+
+      res.status(200).json({ message: "Event updated successfully", event });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        message: "An error occurred while updating the event",
+        error,
+      });
     }
-
-    // Delete old image from Cloudinary if a new image is provided
-    if (imageUrl && event.imageUrl && imageUrl !== event.imageUrl) {
-      const publicId = event.imageUrl.split("/").pop().split(".")[0];
-      await cloudinary.uploader.destroy(publicId);
-    }
-
-    // Update the event with new data
-    event.title = title || event.title;
-    event.speakers = speakers || event.speakers;
-    event.attendees = attendees || event.attendees;
-    event.description = description || event.description;
-    event.description1 = description1 || event.description1;
-    event.eventLink = eventLink || event.eventLink;
-    event.fromDate = new Date(fromDate) || event.fromDate;
-    event.toDate = new Date(toDate) || event.toDate;
-    event.imageUrl = imageUrl || event.imageUrl;
-
-    await event.save();
-    res.status(200).json({ message: "Event updated successfully", event });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      message: "An error occurred while updating the event",
-      error,
-    });
   }
-});
+);
 
 const PING_URL = "https://arcadia-website-jcisidoro.onrender.com/api/events";
 
