@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Sidebar, SidebarBody, SidebarLink } from "@/app/components/ui/sidebar";
 import {
   IconCalendarEvent,
@@ -8,32 +8,36 @@ import {
 } from "@tabler/icons-react";
 import { motion } from "motion/react";
 import { cn } from "@/app/lib/utils";
+import ManageEvent from "./ManageEvent";
 
 export function AdminSettingsSidebar() {
+  const [open, setOpen] = useState(false);
+  const [selectedTab, setSelectedTab] = useState("Manage Event");
+
   const links = [
     {
       label: "Manage Event",
-      href: "#",
+      href: "#manageEvent",
       icon: (
         <IconCalendarEvent className="h-5 w-5 shrink-0 text-[#326333] dark:text-neutral-200" />
       ),
     },
     {
       label: "Admin Management",
-      href: "#",
+      href: "#adminManagement",
       icon: (
         <IconUserCog className="h-5 w-5 shrink-0 text-[#326333] dark:text-neutral-200" />
       ),
     },
     {
       label: "Manage Company Partners",
-      href: "#",
+      href: "#manageCompanyPartners",
       icon: (
         <IconHeartHandshake className="h-5 w-5 shrink-0 text-[#326333] dark:text-neutral-200" />
       ),
     },
   ];
-  const [open, setOpen] = useState(false);
+
   return (
     <div
       className={cn(
@@ -47,13 +51,22 @@ export function AdminSettingsSidebar() {
             {open ? <Logo /> : <LogoIcon />}
             <div className="mt-8 flex flex-col gap-2">
               {links.map((link, idx) => (
-                <SidebarLink key={idx} link={link} />
+                <div
+                  key={idx}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setSelectedTab(link.href);
+                    setOpen(false);
+                  }}
+                >
+                  <SidebarLink link={link} />
+                </div>
               ))}
             </div>
           </div>
         </SidebarBody>
       </Sidebar>
-      <Dashboard />
+      <Dashboard selectedTab={selectedTab} />
     </div>
   );
 }
@@ -79,26 +92,43 @@ export const LogoIcon = () => {
   );
 };
 
-const Dashboard = () => {
+const Dashboard = ({ selectedTab }: { selectedTab: string }) => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setIsLoading(true);
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [selectedTab]);
+
   return (
-    <div className="flex flex-1">
-      <div className="flex h-full w-full flex-1 flex-col gap-2 rounded-tl-2xl border border-neutral-200 bg-white p-2 md:p-10 dark:border-neutral-700 dark:bg-neutral-900">
-        <div className="flex gap-2">
-          {[...new Array(4)].map((i, idx) => (
-            <div
-              key={"first-array" + idx}
-              className="h-20 w-full animate-pulse rounded-lg bg-gray-100 dark:bg-neutral-800"
-            ></div>
-          ))}
-        </div>
-        <div className="flex flex-1 gap-2">
-          {[...new Array(2)].map((i, idx) => (
-            <div
-              key={"second-array" + idx}
-              className="h-full w-full animate-pulse rounded-lg bg-gray-100 dark:bg-neutral-800"
-            ></div>
-          ))}
-        </div>
+    <div className="flex w-full">
+      {/* this right here */}
+      <div className="flex h-full w-full gap-2 rounded-tl-2xl border border-neutral-200 bg-white p-2 md:p-10 dark:border-neutral-700 dark:bg-neutral-900">
+        {isLoading ? (
+          <div className="flex flex-1 gap-2">
+            {[...new Array(2)].map((i, idx) => (
+              <div
+                key={"second-array" + idx}
+                className="h-full w-full animate-pulse rounded-lg bg-gray-100 dark:bg-neutral-800"
+              ></div>
+            ))}
+          </div>
+        ) : (
+          <>
+            {selectedTab === "Manage Event" && <ManageEvent />}
+            {selectedTab === "#manageEvent" && <ManageEvent />}
+            {selectedTab === "#adminManagement" && (
+              <div>👨‍💼 Admin Management Content</div>
+            )}
+            {selectedTab === "#manageCompanyPartners" && (
+              <div>🤝 Company Partners Content</div>
+            )}
+          </>
+        )}
       </div>
     </div>
   );

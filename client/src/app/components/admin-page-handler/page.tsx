@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import LogoutButton from "../LogoutButton";
 import { useToast } from "../provider/ToastContext";
+import Loading from "../Loading";
 
 export default function AdminPageHandler() {
   const router = useRouter();
@@ -60,7 +61,7 @@ export default function AdminPageHandler() {
     checkAuth();
   }, [router, showToast]);
 
-  if (!isAuthenticated) return <div>Loading...</div>;
+  if (!isAuthenticated) return <Loading />;
 
   return (
     <div className="flex w-full h-[100vh] bg-[#326333]/50 px-10 pb-10 py-24 relative justify-center">

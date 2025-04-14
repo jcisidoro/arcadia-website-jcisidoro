@@ -1,5 +1,5 @@
 import { cn } from "@/app/lib/utils";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
 import { IconUpload } from "@tabler/icons-react";
 import { FileRejection, useDropzone } from "react-dropzone";
@@ -16,23 +16,39 @@ const secondaryVariant = {
 
 export const FileUpload = ({
   onChange,
+  existingImageUrl,
 }: {
   onChange?: (files: File[]) => void;
+  existingImageUrl?: string;
 }) => {
   const [file, setFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const existingFileName = existingImageUrl
+    ? decodeURIComponent(existingImageUrl.split("/").pop() ?? "")
+    : null;
+
+  const [remoteFileInfo, setRemoteFileInfo] = useState<{
+    size?: number;
+    type?: string;
+    lastModified?: string;
+  } | null>(null);
+
   const handleFileChange = (newFiles: File[]) => {
     if (newFiles.length > 0) {
-      const selectedFile = newFiles[0]; // Only keep one file
+      const selectedFile = newFiles[0];
       setFile(selectedFile);
       if (onChange) {
         onChange([selectedFile]);
-      } // Keep it as an array for compatibility
+      }
     }
   };
 
   const handleClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+    setFile(null);
     fileInputRef.current?.click();
   };
 
@@ -46,6 +62,32 @@ export const FileUpload = ({
     onDrop: handleFileChange,
     onDropRejected: handleDropRejected,
   });
+
+  useEffect(() => {
+    const fetchRemoteFileInfo = async () => {
+      if (!existingImageUrl) return;
+
+      try {
+        const response = await fetch(existingImageUrl, {
+          method: "HEAD",
+        });
+
+        const size = response.headers.get("content-length");
+        const type = response.headers.get("content-type");
+        const lastModified = response.headers.get("last-modified");
+
+        setRemoteFileInfo({
+          size: size ? Number(size) : undefined,
+          type: type ?? undefined,
+          lastModified: lastModified ?? undefined,
+        });
+      } catch (error) {
+        console.error("Failed to fetch image metadata:", error);
+      }
+    };
+
+    fetchRemoteFileInfo();
+  }, [existingImageUrl]);
 
   return (
     <div className="w-full" {...getRootProps()}>
@@ -73,7 +115,7 @@ export const FileUpload = ({
           </p>
 
           <div className="relative w-full mt-10 max-w-xl mx-auto">
-            {file ? (
+            {file || existingImageUrl ? (
               <motion.div
                 layoutId="file-upload"
                 className={cn(
@@ -83,20 +125,33 @@ export const FileUpload = ({
               >
                 <div className="flex justify-between w-full items-center gap-4">
                   <motion.p className="text-base text-neutral-700 dark:text-neutral-300 truncate max-w-xs">
-                    {file.name}
+                    {file?.name ?? existingFileName}
                   </motion.p>
-                  <motion.p className="rounded-lg px-2 py-1 w-fit shrink-0 text-sm text-neutral-600 dark:bg-neutral-800 dark:text-white shadow-input">
-                    {(file.size / (1024 * 1024)).toFixed(2)} MB
-                  </motion.p>
+                  {!file && remoteFileInfo?.size && (
+                    <motion.p className="rounded-lg px-2 py-1 w-fit shrink-0 text-sm text-neutral-600 dark:bg-neutral-800 dark:text-white shadow-input">
+                      {(remoteFileInfo.size / (1024 * 1024)).toFixed(2)} MB
+                    </motion.p>
+                  )}
                 </div>
 
                 <div className="flex text-sm md:flex-row flex-col items-start md:items-center w-full mt-2 gap-4 justify-between text-neutral-600 dark:text-neutral-400">
-                  <motion.p className="px-1 py-0.5 rounded-md bg-gray-100 dark:bg-neutral-800">
-                    {file.type}
-                  </motion.p>
-                  <motion.p className="text-nowrap text-xs">
-                    modified {new Date(file.lastModified).toLocaleDateString()}
-                  </motion.p>
+                  {(file?.type || remoteFileInfo?.type) && (
+                    <motion.p className="px-1 py-0.5 rounded-md bg-gray-100 dark:bg-neutral-800">
+                      {file?.type ?? remoteFileInfo?.type}
+                    </motion.p>
+                  )}
+                  {(file?.lastModified || remoteFileInfo?.lastModified) && (
+                    <motion.p className="text-nowrap text-xs">
+                      modified{" "}
+                      {file?.lastModified
+                        ? new Date(file.lastModified).toLocaleDateString()
+                        : remoteFileInfo?.lastModified
+                        ? new Date(
+                            remoteFileInfo.lastModified
+                          ).toLocaleDateString()
+                        : "N/A"}
+                    </motion.p>
+                  )}
                 </div>
               </motion.div>
             ) : (
@@ -120,7 +175,7 @@ export const FileUpload = ({
               </motion.div>
             )}
 
-            {!file && (
+            {!file && !existingImageUrl && (
               <motion.div
                 variants={secondaryVariant}
                 className="absolute border border-dashed border-sky-400 inset-0 z-30 bg-transparent flex items-center justify-center h-32 mt-4 w-full max-w-[8rem] mx-auto rounded-md"

@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 import { useToast } from "@/app/components/provider/ToastContext";
+import Loading from "../Loading";
 
 export default function AdminRegisterPage() {
   const router = useRouter();
@@ -130,7 +131,7 @@ export default function AdminRegisterPage() {
     }
   };
 
-  if (!isAuthenticated) return <div>Loading...</div>;
+  if (!isAuthenticated) return <Loading />;
 
   return (
     <div className="flex w-full h-[1350px] sm:h-[1200px] lg:h-[900px] bg-[#326333]/50 px-4 lg:px-10 pb-10 pt-24 relative justify-center">

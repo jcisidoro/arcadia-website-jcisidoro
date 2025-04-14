@@ -5,6 +5,7 @@ import { FileUploadDemo } from "../FileUpload";
 import Image from "next/image";
 import BackgroundVideo from "../BackgroundVideo";
 import { useToast } from "../provider/ToastContext";
+import Loading from "../Loading";
 // import Link from "next/link";
 
 // import { IoIosArrowBack } from "react-icons/io";
@@ -171,7 +172,7 @@ export default function AdminEventHandler() {
     setLoading(false);
   };
 
-  if (!isAuthenticated) return <div>Loading...</div>;
+  if (!isAuthenticated) return <Loading />;
 
   return (
     <div className="relative w-full h-[1700px] lg:h-[1000px] flex flex-col items-center justify-center bg-[#326333]/50">

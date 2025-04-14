@@ -9,7 +9,7 @@ export default function AdminPageSettings() {
   const { showToast } = useToast();
   const router = useRouter();
   const [, setCheckRole] = useState("");
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -51,8 +51,6 @@ export default function AdminPageSettings() {
 
     checkAuth();
   }, [router, showToast]);
-
-  if (!isAuthenticated) return <div>Loading...</div>;
 
   return (
     <div className="flex w-full h-[100vh] bg-[#326333]/50 justify-center items-center">
