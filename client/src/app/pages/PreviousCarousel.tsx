@@ -105,7 +105,7 @@ export function PreviousCarousel() {
   return (
     <div className="relative overflow-hidden w-full h-full py-5">
       {slideData.length === 0 ? (
-        <div className="flex items-center justify-center w-full h-full text-4xl font-bold text-black font-cormorant text-center">
+        <div className="flex items-center justify-center w-full h-96 text-4xl font-bold text-black font-cormorant text-center">
           No past events displayed
         </div>
       ) : (
