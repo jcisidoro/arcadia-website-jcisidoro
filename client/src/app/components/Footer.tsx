@@ -38,9 +38,9 @@ export default function Footer() {
         </div>
         <div className="flex flex-col xl:flex-row w-full h-full justify-between items-left xl:items-center p-8 gap-4 lg:gap-0">
           {[
-            { buttonText: "Events", href: "/pages/events" },
-            { buttonText: "Knowledge Portal", href: "#" },
-            { buttonText: "Initiatives", href: "#" },
+            { buttonText: "Events", href: "/pages/events#upcoming-events" },
+            { buttonText: "Knowledge Portal", href: "/pages/publications" },
+            { buttonText: "Initiatives", href: "/pages/initiatives" },
           ].map((item, index) => (
             <div key={index} className="flex flex-col group">
               <Link href={item.href} className="text-white cursor-pointer">
