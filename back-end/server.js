@@ -388,6 +388,31 @@ app.get("/api/admins", async (req, res) => {
   }
 });
 
+// Edit admins information
+app.patch("/api/admins/:id", checkRole(), async (req, res) => {
+  const { id } = req.params;
+  const { firstName, lastName, email, role } = req.body;
+
+  try {
+    const updatedAdmin = await Admin.findByIdAndUpdate(
+      id,
+      { firstName, lastName, email, role },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedAdmin) {
+      return res.status(404).json({ message: "Admin not found" });
+    }
+
+    res
+      .status(200)
+      .json({ message: "Admin updated successfully", updatedAdmin });
+  } catch (error) {
+    console.error("Error updating admin:", error);
+    res.status(500).json({ message: "Server error", error });
+  }
+});
+
 const PING_URL = "https://arcadia-website-jcisidoro.onrender.com/api/events";
 
 cron.schedule("*/5 * * * *", () => {
