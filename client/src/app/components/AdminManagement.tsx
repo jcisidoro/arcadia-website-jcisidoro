@@ -188,7 +188,9 @@ export default function AdminManagement() {
                 : "bg-white/90"
             }`}
           >
-            <option value="superAdmin">Super Admin</option>
+            {checkRole === "superAdmin" && (
+              <option value="superAdmin">Super Admin</option>
+            )}
             <option value="accCreator">Account Creator</option>
             <option value="eventHandler">Event Handler</option>
             <option value="adminManager">Admin Manager</option>
