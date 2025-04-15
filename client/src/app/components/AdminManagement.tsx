@@ -155,7 +155,10 @@ export default function AdminManagement() {
         </h1>
         <div className="flex flex-col gap-6 w-full">
           {["firstName", "lastName", "email", "role"].map((field) => {
-            const isDisabled = field === "role" && checkRole !== "superAdmin";
+            const isEditingSuperAdmin = selectedAdmin?.role === "superAdmin";
+            const shouldDisable =
+              isEditingSuperAdmin && checkRole !== "superAdmin";
+
             return (
               <input
                 key={field}
@@ -164,9 +167,9 @@ export default function AdminManagement() {
                 value={formValues[field as keyof typeof formValues]}
                 onChange={handleChange}
                 placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
-                disabled={isDisabled}
+                disabled={shouldDisable}
                 className={`text-black p-4 rounded-xl outline-none ${
-                  isDisabled
+                  shouldDisable
                     ? "bg-neutral-400 cursor-not-allowed"
                     : "bg-white/90"
                 }`}
