@@ -127,11 +127,11 @@ export default function ManageEvent() {
   };
 
   return (
-    <div className="flex w-full h-full rounded gap-4">
+    <div className="flex flex-col md:flex-row w-full h-full rounded gap-4">
       {/* CONTENT 1 */}
-      <div className="hidden lg:flex flex-col w-full lg:w-1/3 max-h-full p-4 gap-4 bg-[#326333] rounded">
+      <div className="flex flex-col w-full md:w-1/3 max-h-full p-4 gap-4 bg-[#326333] rounded">
         <div className="flex gap-1 font-medium text-white">
-          <MdEvent size={24} className="text-[#326333]/50" /> Manage Event
+          <MdEvent size={24} className="text-white" /> Manage Event
         </div>
 
         <div className="flex flex-col w-full h-full overflow-y-auto">
@@ -251,7 +251,7 @@ export default function ManageEvent() {
       </div>
 
       {/* CONTENT 2 */}
-      <div className="flex flex-col w-full lg:w-2/3 h-full p-4 bg-[#326333] rounded overflow-y-auto gap-4">
+      <div className="flex flex-col w-full md:w-2/3 h-full p-4 bg-[#326333] rounded overflow-y-auto gap-4">
         {events.map((event, index) => (
           <button
             key={index}
@@ -271,7 +271,7 @@ export default function ManageEvent() {
             className="flex flex-col lg:flex-row gap-2 w-full bg-white/50 p-2 cursor-pointer rounded"
           >
             {/* Image section */}
-            <div className="w-full lg:w-2/5 h-full relative bg-[#326333] rounded overflow-hidden">
+            <div className="hidden lg:flex w-full lg:w-2/5 h-full relative bg-[#326333] rounded overflow-hidden">
               {event.imageUrl && (
                 <Image
                   unoptimized
