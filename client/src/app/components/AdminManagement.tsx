@@ -22,7 +22,7 @@ export default function AdminManagement() {
   const [selectedAdmin, setSelectedAdmin] = useState<AdminType | null>(null);
   const [checkRole, setCheckRole] = useState<string | null>(null);
 
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -72,7 +72,9 @@ export default function AdminManagement() {
     role: "",
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     setFormValues({ ...formValues, [e.target.name]: e.target.value });
   };
 
@@ -131,7 +133,6 @@ export default function AdminManagement() {
 
       showToast("Admin updated successfully!", "success");
 
-      // Optional: Refresh admin list
       const updatedAdmins = admins.map((admin) =>
         admin._id === selectedAdmin._id ? { ...admin, ...formValues } : admin
       );
@@ -144,8 +145,6 @@ export default function AdminManagement() {
     }
   };
 
-  if (!isAuthenticated) return <Loading />;
-
   return (
     <div className="flex flex-col md:flex-row w-full h-full bg-[#326333] p-4 rounded gap-4">
       <div className="flex flex-col w-full h-[650px] lg:h-full gap-4 bg-white/50 p-4 rounded overflow-y-auto">
@@ -154,7 +153,7 @@ export default function AdminManagement() {
           Manage Admin
         </h1>
         <div className="flex flex-col gap-6 w-full">
-          {["firstName", "lastName", "email", "role"].map((field) => {
+          {["firstName", "lastName", "email"].map((field) => {
             const isEditingSuperAdmin = selectedAdmin?.role === "superAdmin";
             const shouldDisable =
               isEditingSuperAdmin && checkRole !== "superAdmin";
@@ -176,6 +175,25 @@ export default function AdminManagement() {
               />
             );
           })}
+
+          <select
+            name="role"
+            value={formValues.role}
+            onChange={handleChange}
+            disabled={
+              selectedAdmin?.role === "superAdmin" && checkRole !== "superAdmin"
+            }
+            className={`text-black p-4 rounded-xl outline-none ${
+              selectedAdmin?.role === "superAdmin" && checkRole !== "superAdmin"
+                ? "bg-neutral-400 cursor-not-allowed"
+                : "bg-white/90"
+            }`}
+          >
+            <option value="superAdmin">Super Admin</option>
+            <option value="accCreator">Account Creator</option>
+            <option value="eventHandler">Event Handler</option>
+            <option value="adminManager">Admin Manager</option>
+          </select>
         </div>
         <button
           onClick={handleSubmit}
