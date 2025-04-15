@@ -25,7 +25,7 @@ export function FileUploadDemo({
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto min-h-96 border border-dashed bg-white/80 dark:bg-black border-neutral-200 dark:border-neutral-800 rounded-lg flex flex-col items-center">
+    <div className="w-full h-full border border-dashed bg-white/80 dark:bg-black border-neutral-200 dark:border-neutral-800 rounded-lg flex flex-col items-center">
       <FileUpload
         key={resetKey}
         onChange={handleFileUpload}

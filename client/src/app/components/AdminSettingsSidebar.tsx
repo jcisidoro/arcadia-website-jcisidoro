@@ -9,6 +9,8 @@ import {
 import { motion } from "motion/react";
 import { cn } from "@/app/lib/utils";
 import ManageEvent from "./ManageEvent";
+import AdminManagement from "./AdminManagement";
+import CompanyPartners from "./CompanyPartners";
 
 export function AdminSettingsSidebar() {
   const [open, setOpen] = useState(false);
@@ -120,12 +122,8 @@ const Dashboard = ({ selectedTab }: { selectedTab: string }) => {
           <>
             {selectedTab === "Manage Event" && <ManageEvent />}
             {selectedTab === "#manageEvent" && <ManageEvent />}
-            {selectedTab === "#adminManagement" && (
-              <div>👨‍💼 Admin Management Content</div>
-            )}
-            {selectedTab === "#manageCompanyPartners" && (
-              <div>🤝 Company Partners Content</div>
-            )}
+            {selectedTab === "#adminManagement" && <AdminManagement />}
+            {selectedTab === "#manageCompanyPartners" && <CompanyPartners />}
           </>
         )}
       </div>
