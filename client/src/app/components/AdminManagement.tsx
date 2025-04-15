@@ -3,7 +3,6 @@ import { useRouter } from "next/navigation";
 import { useToast } from "./provider/ToastContext";
 
 import { FaUserCog } from "react-icons/fa";
-import Loading from "./Loading";
 
 type AdminType = {
   _id: string;
