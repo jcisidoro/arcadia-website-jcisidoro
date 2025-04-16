@@ -182,9 +182,6 @@ export default function AdminEventHandler() {
             <IoIosArrowBack />
           </button>
         </Link> */}
-        <h2 className="text-3xl lg:text-4xl font-bold mb-4 text-white">
-          Add Event
-        </h2>
         <div className="flex flex-col lg:flex-row w-full h-[1500px] items-center bg-[#326333]/90 rounded-2xl">
           <div className="bg-black/50 w-full lg:w-1/3 h-full flex flex-col items-center justify-center relative rounded-t-2xl lg:rounded-l-2xl">
             <BackgroundVideo
@@ -210,7 +207,10 @@ export default function AdminEventHandler() {
               </p>
             </div>
           </div>
-          <div className="w-full lg:w-2/3 h-full p-4">
+          <div className="flex flex-col w-full lg:w-2/3 h-full p-4">
+            <h2 className="text-5xl lg:text-7xl font-bold mb-4 text-white font-cormorant uppercase">
+              Add Event
+            </h2>
             <div className="flex flex-col lg:flex-row w-full h-full gap-2">
               <div className="flex flex-col w-full h-full">
                 {[
