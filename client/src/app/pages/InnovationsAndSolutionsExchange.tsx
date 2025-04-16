@@ -1,7 +1,45 @@
+"use client";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useToast } from "../components/provider/ToastContext";
+
+type PartnerType = {
+  id: string;
+  imageUrl: string;
+  description: string;
+};
 
 export default function InnovationsAndSolutionsExchange() {
+  const { showToast } = useToast();
+
+  const [partners, setPartners] = useState<PartnerType[]>([]);
+
+  useEffect(() => {
+    const fetchPartners = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/partners`,
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
+        const data = await response.json();
+
+        if (Array.isArray(data)) {
+          setPartners(data);
+        } else {
+          console.error("Unexpected response format:", data);
+          showToast("Error fetching company partners", "error");
+        }
+      } catch (error) {
+        console.error("Error company partners:", error);
+        showToast("Error fetching company partners", "error");
+      }
+    };
+
+    fetchPartners();
+  }, []);
   return (
     <div className="w-full h-full bg-white p-4 lg:p-10 gap-4 flex flex-col">
       <div className="flex flex-col">
@@ -17,50 +55,33 @@ export default function InnovationsAndSolutionsExchange() {
       </div>
 
       <div className="flex flex-col gap-4 mt-4">
-        {[
-          {
-            src: "/oases.png",
-            alt: "Oases Image",
-            description:
-              "A sustainability consulting firm that helps clients with total transformation -- driving complex change, enabling sustainable growth, and driving bottomline impact.",
-          },
-          {
-            src: "/ecoAI.png",
-            alt: "Eco AI Image",
-            description:
-              "The all-in-one platform for carbon management and climate action-powered by AI. eco.AI simplifies sustainability for organizations by automating carbon tracking, generating ESG reports, and enabling nature-based offsetting-all in one localized, intelligent platform.",
-          },
-          {
-            src: "/ecobloom.png",
-            alt: "Ecobloom Image",
-            description: (
-              <p>
-                Ecobloom is an eco-friendly packaging solution. <br />
-                This sustainable alternative to plastic and paper packaging aims
-                to reduce environmental waste while providing durable and
-                biodegradable packaging for various industries (e-commerce,
-                logistics, and retail).
-              </p>
-            ),
-          },
-        ].map((item, index) => (
-          <div
-            key={index}
-            className="flex flex-col lg:grid grid-cols-[400px_1fr] w-full h-full gap-4 items-center"
-          >
-            <div className="w-[320px] sm:w-96 h-48 relative">
-              <Image
-                src={item.src}
-                alt={item.alt}
-                fill
-                className="object-cover shadow-lg shadow-black/50 rounded"
-              />
-            </div>
-            <div className="text-black text-justify 2xl:text-xl">
-              {item.description}
-            </div>
+        {partners.length === 0 ? (
+          <div className="flex items-center justify-center text-center text-lg text-black w-full h-96">
+            <p className="font-cormorant font-semibold text-xl lg:text-3xl">
+              No partners found at the moment. Please check back soon.
+            </p>
           </div>
-        ))}
+        ) : (
+          partners.map((partner) => (
+            <div
+              key={partner.id}
+              className="flex flex-col lg:grid grid-cols-[400px_1fr] w-full h-full gap-4 items-center"
+            >
+              <div className="w-[320px] sm:w-96 h-48 relative">
+                <Image
+                  unoptimized
+                  src={partner.imageUrl}
+                  alt={partner.description}
+                  fill
+                  className="object-cover shadow-lg shadow-black/50 rounded"
+                />
+              </div>
+              <div className="text-black text-justify 2xl:text-xl">
+                {partner.description}
+              </div>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );
