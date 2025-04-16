@@ -130,13 +130,12 @@ export default function ManageEvent() {
   };
 
   return (
-    <div className="flex flex-col w-full h-full gap-4 bg-[#326333]/50 rounded p-4 overflow-y-auto">
-      <div className="flex gap-1 font-medium text-white">
-        <MdEvent size={24} className="text-white" /> Manage Event
-      </div>
-
-      <div className="flex flex-col md:flex-row h-full w-full gap-4">
-        <div className="flex flex-col w-full lg:w-1/3 h-[650px] lg:h-full bg-[#326333] overflow-y-auto p-4 rounded">
+    <div className="flex flex-col md:flex-row w-full h-full bg-[#326333] p-4 rounded gap-4 overflow-y-auto">
+      <div className="flex flex-col w-full md:w-72 lg:w-96 h-auto md:h-[650px] lg:h-full">
+        <div className="flex gap-1 font-medium text-white p-4">
+          <MdEvent size={24} className="text-white" /> Manage Event
+        </div>
+        <div className="flex flex-col w-full h-full gap-4 bg-white/50 p-4 rounded overflow-y-auto">
           <div className="flex flex-col w-full">
             {[
               {
@@ -224,7 +223,7 @@ export default function ManageEvent() {
                   placeholder={item.placeholder}
                   value={item.value}
                   onChange={item.onChange}
-                  className="bg-white p-4 outline-none w-full rounded-xl mb-2 h-32 resize-none text-black"
+                  className="bg-white p-4 outline-none w-full rounded-xl mb-2 h-56 resize-none text-black"
                 />
               ))}
               <input
@@ -252,9 +251,14 @@ export default function ManageEvent() {
             </div>
           </div>
         </div>
+      </div>
 
-        {/* CONTENT 2 */}
-        <div className="flex flex-col w-full lg:w-2/3 bg-[#326333] h-[650px] lg:h-full overflow-y-auto gap-4 p-4 rounded">
+      {/* CONTENT 2 */}
+      <div className="flex flex-col w-full h-[650px] lg:h-full">
+        <h1 className="flex text-white items-center font-medium p-4">
+          Select Event to Edit
+        </h1>
+        <div className="flex flex-col w-full h-full gap-4 bg-white/50 p-4 rounded overflow-y-auto">
           {events.map((event, index) => (
             <button
               key={index}
@@ -271,7 +275,7 @@ export default function ManageEvent() {
                 setResetKey((prev) => prev + 1);
                 setSelectedEventId(event._id);
               }}
-              className="flex flex-col lg:flex-row gap-2 w-full bg-white/50 p-2 cursor-pointer rounded"
+              className="flex flex-col lg:flex-row gap-2 w-full cursor-pointer"
             >
               {/* Image section */}
               <div className="hidden lg:flex w-full lg:w-2/5 h-full relative bg-[#326333] rounded overflow-hidden">

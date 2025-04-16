@@ -119,26 +119,24 @@ export default function CompanyPartners() {
   };
 
   return (
-    <div className="flex flex-col md:flex-row w-full h-full bg-[#326333] p-4 rounded xl:items-center overflow-y-auto gap-10">
-      <div className="flex flex-col w-full lg:w-2/5 h-96 md:h-full bg-white/50 rounded p-4 overflow-y-auto">
-        <div className="flex flex-col w-full h-auto gap-4">
-          <h1 className="flex items-center gap-1 text-white font-medium">
-            <LuHeartHandshake size={24} />
-            Manage Company Partners
-          </h1>
-
+    <div className="flex flex-col md:flex-row w-full h-full bg-[#326333] p-4 rounded gap-4 overflow-y-auto">
+      <div className="flex flex-col w-full lg:w-[500px] h-auto md:h-[650px] lg:h-full">
+        <h1 className="flex items-center gap-1 text-white font-medium p-4">
+          <LuHeartHandshake size={24} />
+          Manage Company Partners
+        </h1>
+        <div className="flex flex-col w-full h-full gap-4 bg-white/50 p-4 rounded overflow-y-auto">
           <FileUploadDemo
             onChange={(file: File) => setImageFile(file)}
             resetKey={resetKey}
             key={resetKey}
             existingImageUrl={selectedPartners?.imageUrl || null}
           />
-
-          <div className="flex w-full h-40 bg-white rounded">
+          <div className="flex w-full h-full bg-white rounded">
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full h-full p-4 resize-none"
+              className="w-full h-64 lg:h-80 p-4 resize-none"
               placeholder="Company Partners Description"
             />
           </div>
@@ -151,37 +149,35 @@ export default function CompanyPartners() {
           </button>
         </div>
       </div>
-      <div className="grid w-full h-[650px] lg:h-full overflow-y-auto gap-4 p-0 lg:px-4">
-        {partners.map((partner, index) => (
-          <div
-            key={partner.id || index}
-            className={`flex flex-col lg:flex-row gap-2 w-full ${
-              selectedPartners?.id === partner.id ? "bg-white/50" : ""
-            } h-64 lg:h-56 rounded p-2 cursor-pointer`}
-            onClick={() => handleSelectPartner(partner)}
-          >
-            <div className="w-full h-full relative bg-white rounded overflow-hidden">
-              <Image
-                unoptimized
-                src={partner.imageUrl}
-                alt="Company Logo"
-                fill
-                className="object-cover"
-              />
+
+      <div className="flex flex-col w-full h-[650px] lg:h-full">
+        <h1 className="flex text-white items-center font-medium p-4">
+          Select Partners to Edit
+        </h1>
+        <div className="flex flex-col w-full h-full gap-4 bg-white/50 p-4 rounded overflow-y-auto">
+          {partners.map((partner, index) => (
+            <div
+              key={partner.id || index}
+              className={`flex flex-col lg:flex-row gap-2 w-full h-64 lg:h-56 rounded p-2 cursor-pointer`}
+              onClick={() => handleSelectPartner(partner)}
+            >
+              <div className="w-full h-full relative bg-white rounded overflow-hidden">
+                <Image
+                  unoptimized
+                  src={partner.imageUrl}
+                  alt="Company Logo"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <div className="flex w-full h-full bg-white rounded">
+                <div className="w-full p-4 resize-none overflow-hidden">
+                  {partner.description}
+                </div>
+              </div>
             </div>
-            <div className="flex w-full h-full bg-white rounded">
-              <textarea
-                className="w-full p-4 resize-none overflow-hidden"
-                value={partner.description}
-                disabled
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleSelectPartner(partner);
-                }}
-              />
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );

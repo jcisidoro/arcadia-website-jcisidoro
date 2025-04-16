@@ -146,86 +146,96 @@ export default function AdminManagement() {
 
   return (
     <div className="flex flex-col md:flex-row w-full h-full bg-[#326333] p-4 rounded gap-4 overflow-y-auto">
-      <div className="flex flex-col w-full h-[650px] lg:h-full gap-4 bg-white/50 p-4 rounded overflow-y-auto">
-        <h1 className="flex gap-1 text-white items-center font-medium">
+      <div className="flex flex-col w-full h-auto md:h-[650px] lg:h-full">
+        <h1 className="flex gap-1 text-white items-center font-medium p-4">
           <FaUserCog size={24} />
           Manage Admin
         </h1>
-        <div className="flex flex-col gap-6 w-full">
-          {["firstName", "lastName", "email"].map((field) => {
-            const isEditingSuperAdmin = selectedAdmin?.role === "superAdmin";
-            const shouldDisable =
-              isEditingSuperAdmin && checkRole !== "superAdmin";
+        <div className="flex flex-col w-full h-full gap-4 bg-white/50 p-4 rounded overflow-y-auto">
+          <div className="flex flex-col gap-6 w-full">
+            {["firstName", "lastName", "email"].map((field) => {
+              const isEditingSuperAdmin = selectedAdmin?.role === "superAdmin";
+              const shouldDisable =
+                isEditingSuperAdmin && checkRole !== "superAdmin";
 
-            return (
-              <input
-                key={field}
-                name={field}
-                type="text"
-                value={formValues[field as keyof typeof formValues]}
-                onChange={handleChange}
-                placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
-                disabled={shouldDisable}
-                className={`text-black p-4 rounded-xl outline-none ${
-                  shouldDisable
-                    ? "bg-neutral-400 cursor-not-allowed"
-                    : "bg-white/90"
-                }`}
-              />
-            );
-          })}
+              return (
+                <input
+                  key={field}
+                  name={field}
+                  type="text"
+                  value={formValues[field as keyof typeof formValues]}
+                  onChange={handleChange}
+                  placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
+                  disabled={shouldDisable}
+                  className={`text-black p-4 rounded-xl outline-none ${
+                    shouldDisable
+                      ? "bg-neutral-400 cursor-not-allowed"
+                      : "bg-white/90"
+                  }`}
+                />
+              );
+            })}
 
-          <select
-            name="role"
-            value={formValues.role}
-            onChange={handleChange}
-            disabled={
-              selectedAdmin?.role === "superAdmin" && checkRole !== "superAdmin"
-            }
-            className={`text-black p-4 rounded-xl outline-none ${
-              selectedAdmin?.role === "superAdmin" && checkRole !== "superAdmin"
-                ? "bg-neutral-400 cursor-not-allowed"
-                : "bg-white/90"
-            }`}
-          >
-            {(checkRole === "superAdmin" ||
-              formValues.role === "superAdmin") && (
-              <option value="superAdmin">Super Admin</option>
-            )}
-            <option value="accCreator">Account Creator</option>
-            <option value="eventHandler">Event Handler</option>
-            <option value="adminManager">Admin Manager</option>
-          </select>
-        </div>
-        <button
-          onClick={handleSubmit}
-          className="bg-white/90 px-2 py-3 rounded-xl w-40 mt-2 lg:mt-4 text-neutral-700 cursor-pointer hover:scale-105 transition-all duration-300"
-        >
-          {selectedAdmin ? "Update Admin" : "Submit"}
-        </button>
-      </div>
-      <div className="grid gap-4 w-full h-[650px] lg:h-full bg-white/50 rounded p-4 overflow-y-auto">
-        <div className="grid w-full h-full gap-4">
-          {admins.map((admin) => (
-            <div
-              key={admin._id}
-              onClick={() => handleAdminClick(admin)}
-              className="flex flex-col w-full h-44 bg-white/90 rounded p-4 gap-4 hover:bg-[#326333]/50 transition-all duration-300 cursor-pointer group"
+            <select
+              name="role"
+              value={formValues.role}
+              onChange={handleChange}
+              disabled={
+                selectedAdmin?.role === "superAdmin" &&
+                checkRole !== "superAdmin"
+              }
+              className={`text-black p-4 rounded-xl outline-none ${
+                selectedAdmin?.role === "superAdmin" &&
+                checkRole !== "superAdmin"
+                  ? "bg-neutral-400 cursor-not-allowed"
+                  : "bg-white/90"
+              }`}
             >
-              <span className="text-black group-hover:text-white text-sm lg:text-base">
-                First Name: {admin.firstName}
-              </span>
-              <span className="text-black group-hover:text-white text-sm lg:text-base">
-                Last Name: {admin.lastName}
-              </span>
-              <span className="text-black group-hover:text-white text-sm lg:text-base">
-                Email: {admin.email}
-              </span>
-              <span className="text-black group-hover:text-white text-sm lg:text-base">
-                Role: {admin.role}
-              </span>
-            </div>
-          ))}
+              {(checkRole === "superAdmin" ||
+                formValues.role === "superAdmin") && (
+                <option value="superAdmin">Super Admin</option>
+              )}
+              <option value="accCreator">Account Creator</option>
+              <option value="eventHandler">Event Handler</option>
+              <option value="adminManager">Admin Manager</option>
+            </select>
+          </div>
+          <button
+            onClick={handleSubmit}
+            className="bg-white/90 px-2 py-3 rounded-xl w-40 mt-2 lg:mt-4 text-neutral-700 cursor-pointer hover:scale-105 transition-all duration-300"
+          >
+            {selectedAdmin ? "Update Admin" : "Submit"}
+          </button>
+        </div>
+      </div>
+
+      <div className="flex flex-col w-full h-[650px] lg:h-full">
+        <h1 className="flex text-white items-center font-medium p-4">
+          Select Admin Account to Edit
+        </h1>
+        <div className="flex flex-col w-full h-full gap-4 bg-white/50 p-4 rounded overflow-y-auto">
+          <div className="flex flex-col gap-6 w-full">
+            {admins.map((admin) => (
+              <div
+                key={admin._id}
+                onClick={() => handleAdminClick(admin)}
+                className="flex flex-col w-full h-44 bg-white/90 rounded p-4 gap-4 hover:bg-[#326333]/50 transition-all duration-300 cursor-pointer group"
+              >
+                <span className="text-black group-hover:text-white text-sm lg:text-base">
+                  First Name: {admin.firstName}
+                </span>
+                <span className="text-black group-hover:text-white text-sm lg:text-base">
+                  Last Name: {admin.lastName}
+                </span>
+                <span className="text-black group-hover:text-white text-sm lg:text-base">
+                  Email: {admin.email}
+                </span>
+                <span className="text-black group-hover:text-white text-sm lg:text-base">
+                  Role: {admin.role}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
