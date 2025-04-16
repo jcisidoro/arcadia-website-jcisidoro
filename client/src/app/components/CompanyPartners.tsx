@@ -136,7 +136,7 @@ export default function CompanyPartners() {
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full h-64 lg:h-80 p-4 resize-none"
+              className="w-full h-64 lg:h-80 p-4 resize-none text-justify"
               placeholder="Company Partners Description"
             />
           </div>
