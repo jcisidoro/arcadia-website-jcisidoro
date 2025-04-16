@@ -4,7 +4,7 @@ import { ToastContainer, toast, Slide } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 interface ToastContextType {
-  showToast: (message: string, type?: "success" | "error") => void;
+  showToast: (message: string, type?: "success" | "error" | "info") => void;
 }
 
 const ToastContext = createContext<ToastContextType | undefined>(undefined);
@@ -24,7 +24,7 @@ interface ToastProviderProps {
 export const ToastProvider: React.FC<ToastProviderProps> = ({ children }) => {
   const showToast = (
     message: string,
-    type: "success" | "error" = "success"
+    type: "success" | "error" | "info" = "success"
   ) => {
     localStorage.setItem("toastMessage", message);
     localStorage.setItem("toastType", type);
@@ -41,6 +41,8 @@ export const ToastProvider: React.FC<ToastProviderProps> = ({ children }) => {
       style:
         type === "success"
           ? { backgroundColor: "#326333", color: "white" }
+          : type === "info"
+          ? { backgroundColor: "#facc15", color: "#000" }
           : { backgroundColor: "#d70404", color: "white" },
       onClose: () => {
         localStorage.removeItem("toastMessage");
@@ -54,7 +56,7 @@ export const ToastProvider: React.FC<ToastProviderProps> = ({ children }) => {
     const storedType = localStorage.getItem("toastType");
 
     if (storedMessage && storedType) {
-      showToast(storedMessage, storedType as "success" | "error");
+      showToast(storedMessage, storedType as "success" | "error" | "info");
     }
   }, []);
 

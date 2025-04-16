@@ -145,7 +145,7 @@ export default function AdminManagement() {
   };
 
   return (
-    <div className="flex flex-col md:flex-row w-full h-full bg-[#326333] p-4 rounded gap-4">
+    <div className="flex flex-col md:flex-row w-full h-full bg-[#326333] p-4 rounded gap-4 overflow-y-auto">
       <div className="flex flex-col w-full h-[650px] lg:h-full gap-4 bg-white/50 p-4 rounded overflow-y-auto">
         <h1 className="flex gap-1 text-white items-center font-medium">
           <FaUserCog size={24} />

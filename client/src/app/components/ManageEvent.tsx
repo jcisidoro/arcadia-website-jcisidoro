@@ -130,13 +130,13 @@ export default function ManageEvent() {
   };
 
   return (
-    <div className="flex flex-col w-full h-full gap-4 bg-[#326333]/50 rounded p-4">
+    <div className="flex flex-col w-full h-full gap-4 bg-[#326333]/50 rounded p-4 overflow-y-auto">
       <div className="flex gap-1 font-medium text-white">
         <MdEvent size={24} className="text-white" /> Manage Event
       </div>
 
-      <div className="flex flex-col md:flex-row h-full w-full gap-4 overflow-hidden">
-        <div className="flex flex-col w-full md:w-1/3 h-[650px] lg:h-full bg-[#326333] overflow-y-auto p-4 rounded">
+      <div className="flex flex-col md:flex-row h-full w-full gap-4">
+        <div className="flex flex-col w-full lg:w-1/3 h-[650px] lg:h-full bg-[#326333] overflow-y-auto p-4 rounded">
           <div className="flex flex-col w-full">
             {[
               {
@@ -254,7 +254,7 @@ export default function ManageEvent() {
         </div>
 
         {/* CONTENT 2 */}
-        <div className="flex flex-col w-full md:w-2/3 bg-[#326333] h-[650px] lg:h-full overflow-y-auto gap-4 p-4 rounded">
+        <div className="flex flex-col w-full lg:w-2/3 bg-[#326333] h-[650px] lg:h-full overflow-y-auto gap-4 p-4 rounded">
           {events.map((event, index) => (
             <button
               key={index}
@@ -287,19 +287,20 @@ export default function ManageEvent() {
               </div>
 
               {/* Info section */}
+
               <div className="flex flex-col justify-between w-full bg-white p-4 rounded text-black">
                 <h3 className="font-bold font-cormorant text-3xl text-[#326333]">
                   {event.title}
                 </h3>
-                <div className="flex flex-col">
+                <div className="hidden lg:flex flex-col">
                   <span className="font-semibold text-base">Speakers:</span>
                   <span className="text-sm">{event.speakers}</span>
                 </div>
-                <div className="flex flex-col">
+                <div className="hidden lg:flex flex-col">
                   <span className="font-semibold text-base">Attendees:</span>
                   <span className="text-sm">{event.attendees}</span>
                 </div>
-                <div className="flex flex-col truncate">
+                <div className="hidden lg:flex flex-col truncate">
                   <span className="font-semibold text-base">Link:</span>
                   <span className="text-sm">{event.eventLink}</span>
                 </div>
