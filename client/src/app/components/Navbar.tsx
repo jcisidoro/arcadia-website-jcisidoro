@@ -72,12 +72,12 @@ export default function Navbar() {
             text: "Publications",
           },
           {
-            href: "/pages/about",
-            text: "About",
-          },
-          {
             href: "/pages/initiatives",
             text: "Initiatives",
+          },
+          {
+            href: "/pages/about",
+            text: "Contact Us",
           },
         ].map((item, index) => {
           const isActive = currentPage === item.href;
@@ -139,12 +139,12 @@ export default function Navbar() {
               text: "Publications",
             },
             {
-              href: "/pages/about",
-              text: "About",
-            },
-            {
               href: "/pages/initiatives",
               text: "Initiatives",
+            },
+            {
+              href: "/pages/about",
+              text: "Contact Us",
             },
           ].map((item, index) => {
             const isActive = currentPage === item.href;

@@ -73,61 +73,63 @@ export default function ContactUs() {
   };
 
   return (
-    <div className="w-full h-full p-4 lg:p-10 gap-4 flex flex-col bg-white mt-0.5">
-      <div className="flex flex-col">
-        <h1 className="text-2xl md:text-4xl font-bold text-black">
-          Contact Us
-        </h1>
-        <span className="text-sm md:text-base text-justify text-black font-medium">
-          Send us a message, and we&apos;ll get back to you as soon as we can.
-        </span>
-      </div>
-      <form onSubmit={handleSubmit}>
-        <div className="flex flex-col md:grid grid-cols-2 gap-4 items-center">
-          {[
-            { name: "firstName", placeholder: "First Name", type: "text" },
-            { name: "lastName", placeholder: "Last Name", type: "text" },
-            { name: "email", placeholder: "Email Address", type: "email" },
-            { name: "contact", placeholder: "Contact Number", type: "text" },
-            { name: "notes", placeholder: "Notes", type: "textarea" },
-          ].map((item, index) => (
-            <div key={index} className="flex flex-col gap-2 w-full">
-              <label className="text-black text-sm lg:text-base font-medium">
-                {item.placeholder}
-              </label>
-              {item.type === "textarea" ? (
-                <textarea
-                  value={formData.notes}
-                  name={item.name}
-                  onChange={handleChange}
-                  className="flex w-full p-4 bg-[#326333]/90 text-white placeholder:text-white/60 rounded-xl h-32 resize-none"
-                  placeholder={item.placeholder}
-                  required
-                />
-              ) : (
-                <input
-                  type={item.type}
-                  name={item.name}
-                  value={formData[item.name as keyof typeof formData]}
-                  onChange={handleChange}
-                  className="flex w-full p-4 bg-[#326333]/90 text-white placeholder:text-white/60 rounded-xl"
-                  placeholder={item.placeholder}
-                  required
-                />
-              )}
-            </div>
-          ))}
-          <div className="w-full flex justify-center">
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="py-4 px-6 bg-[#326333]/90 rounded-xl text-white font-semibold lg:hover:scale-105 transition-all duration-300 mt-4 cursor-pointer hover:bg-[#326333]/80"
-            >
-              {isLoading ? "Sending..." : "Submit"}
-            </button>
-          </div>
+    <div className="flex w-full h-screen bg-black pt-20 lg:pt-24">
+      <div className="w-full h-full p-4 lg:p-10 gap-4 flex flex-col bg-white justify-center">
+        <div className="flex flex-col">
+          <h1 className="text-2xl md:text-4xl font-bold text-black">
+            Contact Us
+          </h1>
+          <span className="text-sm md:text-base text-justify text-black font-medium">
+            Send us a message, and we&apos;ll get back to you as soon as we can.
+          </span>
         </div>
-      </form>
+        <form onSubmit={handleSubmit}>
+          <div className="flex flex-col md:grid grid-cols-2 gap-4 items-center">
+            {[
+              { name: "firstName", placeholder: "First Name", type: "text" },
+              { name: "lastName", placeholder: "Last Name", type: "text" },
+              { name: "email", placeholder: "Email Address", type: "email" },
+              { name: "contact", placeholder: "Contact Number", type: "text" },
+              { name: "notes", placeholder: "Notes", type: "textarea" },
+            ].map((item, index) => (
+              <div key={index} className="flex flex-col gap-2 w-full">
+                <label className="text-black text-sm lg:text-base font-medium">
+                  {item.placeholder}
+                </label>
+                {item.type === "textarea" ? (
+                  <textarea
+                    value={formData.notes}
+                    name={item.name}
+                    onChange={handleChange}
+                    className="flex w-full p-4 bg-[#326333]/90 text-white placeholder:text-white/60 rounded-xl h-32 resize-none"
+                    placeholder={item.placeholder}
+                    required
+                  />
+                ) : (
+                  <input
+                    type={item.type}
+                    name={item.name}
+                    value={formData[item.name as keyof typeof formData]}
+                    onChange={handleChange}
+                    className="flex w-full p-4 bg-[#326333]/90 text-white placeholder:text-white/60 rounded-xl"
+                    placeholder={item.placeholder}
+                    required
+                  />
+                )}
+              </div>
+            ))}
+            <div className="w-full flex justify-center">
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="py-4 px-6 bg-[#326333]/90 rounded-xl text-white font-semibold lg:hover:scale-105 transition-all duration-300 mt-4 cursor-pointer hover:bg-[#326333]/80"
+              >
+                {isLoading ? "Sending..." : "Submit"}
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }
