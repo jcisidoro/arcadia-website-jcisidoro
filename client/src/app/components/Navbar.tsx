@@ -57,7 +57,7 @@ export default function Navbar() {
 
       {/* Desktop Menu */}
       <ul
-        className={`hidden md:flex items-center gap-10 ${
+        className={`hidden md:flex items-center gap-6 lg:gap-10 ${
           scrolled ? "text-black" : "text-white"
         }`}
       >
@@ -85,7 +85,7 @@ export default function Navbar() {
             <li key={index} className="group lg:text-lg xl:text-xl">
               <Link href={item.href}>
                 <span
-                  className={`block font-semibold ${
+                  className={`block font-semibold text-nowrap ${
                     isActive
                       ? scrolled
                         ? "hover:scale-110 transition-all ease-in-out"
