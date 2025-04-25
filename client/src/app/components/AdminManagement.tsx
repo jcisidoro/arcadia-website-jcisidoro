@@ -184,7 +184,7 @@ export default function AdminManagement() {
                 selectedAdmin?.role === "superAdmin" &&
                 checkRole !== "superAdmin"
               }
-              className={`text-black p-4 rounded-xl outline-none ${
+              className={`text-black p-4 rounded-xl outline-none cursor-pointer ${
                 selectedAdmin?.role === "superAdmin" &&
                 checkRole !== "superAdmin"
                   ? "bg-neutral-400 cursor-not-allowed"
@@ -200,12 +200,20 @@ export default function AdminManagement() {
               <option value="adminManager">Admin Manager</option>
             </select>
           </div>
-          <button
-            onClick={handleSubmit}
-            className="bg-white/90 px-2 py-3 rounded-xl w-40 mt-2 lg:mt-4 text-neutral-700 cursor-pointer hover:scale-105 transition-all duration-300"
-          >
-            {selectedAdmin ? "Update Admin" : "Submit"}
-          </button>
+          <div className="flex gap-2 w-full">
+            <button
+              onClick={handleSubmit}
+              className="bg-white/90 px-2 py-3 rounded-xl w-40 mt-2 lg:mt-4 text-neutral-700 cursor-pointer hover:scale-105 transition-all duration-300"
+            >
+              {selectedAdmin ? "Update Admin" : "Submit"}
+            </button>
+            <button
+              disabled
+              className="bg-red-500/90 px-2 py-3 rounded-xl w-40 mt-2 lg:mt-4 text-white cursor-pointer hover:scale-105 transition-all duration-300"
+            >
+              Delete
+            </button>
+          </div>
         </div>
       </div>
 

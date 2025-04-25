@@ -147,6 +147,12 @@ export default function CompanyPartners() {
           >
             Submit
           </button>
+          <button
+            disabled
+            className="px-4 py-2 bg-red-500/90 hover:bg-red-500/70 rounded text-neutral-100 cursor-pointer hover:scale-105 transition-all duration-300"
+          >
+            Delete
+          </button>
         </div>
       </div>
 

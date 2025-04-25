@@ -234,7 +234,7 @@ export default function ManageEvent() {
                 className="bg-white p-4 outline-none w-full rounded-xl mb-2 text-black"
               />
             </div>
-            <div className="flex w-full items-center justify-center mt-4">
+            <div className="flex w-full items-center justify-center mt-4 gap-2">
               <button
                 onClick={() => {
                   console.log("Editing event with ID:", selectedEventId);
@@ -246,7 +246,13 @@ export default function ManageEvent() {
                 }}
                 className="bg-white text-black px-7 py-2 rounded cursor-pointer hover:bg-white/80 transition-all duration-300"
               >
-                {selectedEventId ? "Update Event" : "Select Event to Edit"}
+                {selectedEventId ? "Update Event" : "Select Event"}
+              </button>
+              <button
+                className="bg-red-500/90 text-white px-7 h-full rounded cursor-pointer hover:bg-red-500/70 transition-all duration-300"
+                disabled
+              >
+                Delete
               </button>
             </div>
           </div>
