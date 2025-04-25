@@ -73,7 +73,7 @@ export default function ContactUs() {
   };
 
   return (
-    <div className="flex w-full h-screen bg-black pt-20 lg:pt-24">
+    <div className="flex w-full h-full lg:h-screen bg-black pt-20 lg:pt-24">
       <div className="w-full h-full p-4 lg:p-10 gap-4 flex flex-col bg-white justify-center">
         <div className="flex flex-col">
           <h1 className="text-2xl md:text-4xl font-bold text-black">
