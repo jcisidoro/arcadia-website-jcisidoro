@@ -31,6 +31,7 @@ Have questions, suggestions, or initiatives you'd like to collaborate on? We'd l
 👉 <a href="https://arcadia-website-sustainability-hub.vercel.app/pages/about" target="_blank" rel="no-referrer">Reach out to us here</a>
 
 🔗 Useful Links
+
 🌍 <a href="https://arcadia-website-sustainability-hub.vercel.app/pages/who-we-are" target="_blank" rel="no-referrer">Who We Are</a> — Learn more about Arcadia’s mission and community.
 
 🤝 <a href="https://arcadia-website-sustainability-hub.vercel.app/pages/initiatives" target="_blank" rel="no-referrer">Partnership Initiatives</a> — Explore partnership opportunities.
