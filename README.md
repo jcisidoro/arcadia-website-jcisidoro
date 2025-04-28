@@ -24,18 +24,18 @@
 🚀 Get Involved
 Become a Partner:
 Interested in joining Arcadia's growing network of companies and organizations committed to sustainability?
-👉 <a href="https://arcadia-website-sustainability-hub.vercel.app/pages/initiatives" target="_blank">Learn more about our partnership initiatives</a>
+👉 <a href="https://arcadia-website-sustainability-hub.vercel.app/pages/initiatives" target="_blank" rel="no-referrer">Learn more about our partnership initiatives</a>
 
 Send a Request:
 Have questions, suggestions, or initiatives you'd like to collaborate on? We'd love to hear from you.
-👉 <a href="https://arcadia-website-sustainability-hub.vercel.app/pages/about" target="_blank">Reach out to us here</a>
+👉 <a href="https://arcadia-website-sustainability-hub.vercel.app/pages/about" target="_blank" rel="no-referrer">Reach out to us here</a>
 
 🔗 Useful Links
-🌍 <a href="https://arcadia-website-sustainability-hub.vercel.app/pages/who-we-are" target="_blank">Who We Are</a> — Learn more about Arcadia’s mission and community.
+🌍 <a href="https://arcadia-website-sustainability-hub.vercel.app/pages/who-we-are" target="_blank" rel="no-referrer">Who We Are</a> — Learn more about Arcadia’s mission and community.
 
-🤝 <a href="https://arcadia-website-sustainability-hub.vercel.app/pages/initiatives" target="_blank">Partnership Initiatives</a> — Explore partnership opportunities.
+🤝 <a href="https://arcadia-website-sustainability-hub.vercel.app/pages/initiatives" target="_blank" rel="no-referrer">Partnership Initiatives</a> — Explore partnership opportunities.
 
-✉️ <a href="https://arcadia-website-sustainability-hub.vercel.app/pages/about" target="_blank">Contact & Requests</a> — Send us your ideas, feedback, and proposals.
+✉️ <a href="https://arcadia-website-sustainability-hub.vercel.app/pages/about" target="_blank" rel="no-referrer">Contact & Requests</a> — Send us your ideas, feedback, and proposals.
 
 💬 Connect, Collaborate, Create
 Arcadia is more than just a hub—it's a movement. Together, we can build a more sustainable, inclusive, and regenerative future.
