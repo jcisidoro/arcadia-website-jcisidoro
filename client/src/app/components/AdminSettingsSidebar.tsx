@@ -13,7 +13,6 @@ import ManageEvent from "./ManageEvent";
 import AdminManagement from "./AdminManagement";
 import CompanyPartners from "./CompanyPartners";
 import Archive from "./Archive";
-import Image from "next/image";
 
 export function AdminSettingsSidebar() {
   const [open, setOpen] = useState(false);
