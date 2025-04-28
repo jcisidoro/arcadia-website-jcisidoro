@@ -1,4 +1,5 @@
 Arcadia Sustainability Hub 🌎♻️
+
 Welcome to Arcadia, where innovation meets collaboration to drive the future of sustainability.
 
 🌱 About Arcadia
