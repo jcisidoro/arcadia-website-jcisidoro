@@ -167,7 +167,7 @@ export default function CompanyPartners() {
           {partners.map((partner, index) => (
             <div
               key={partner.id || index}
-              className={`flex flex-col lg:flex-row gap-2 w-full h-64 bg-red-100 rounded p-2 cursor-pointer`}
+              className={`flex flex-col lg:flex-row gap-2 w-full h-64 rounded p-2 cursor-pointer`}
               onClick={() => handleSelectPartner(partner)}
             >
               <div className="flex w-full h-full relative bg-white rounded overflow-hidden">
