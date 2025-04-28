@@ -25,30 +25,30 @@ export default function CompanyPartners() {
 
   const [description, setDescription] = useState<string>("");
 
-  useEffect(() => {
-    const fetchPartners = async () => {
-      try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/partners`,
-          {
-            method: "GET",
-            credentials: "include",
-          }
-        );
-        const data = await response.json();
-
-        if (Array.isArray(data)) {
-          setPartners(data);
-        } else {
-          console.error("Unexpected response format:", data);
-          showToast("Error fetching company partners", "error");
+  const fetchPartners = async () => {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/partners`,
+        {
+          method: "GET",
+          credentials: "include",
         }
-      } catch (error) {
-        console.error("Error company partners:", error);
+      );
+      const data = await response.json();
+
+      if (Array.isArray(data)) {
+        setPartners(data);
+      } else {
+        console.error("Unexpected response format:", data);
         showToast("Error fetching company partners", "error");
       }
-    };
+    } catch (error) {
+      console.error("Error company partners:", error);
+      showToast("Error fetching company partners", "error");
+    }
+  };
 
+  useEffect(() => {
     fetchPartners();
   }, []);
 
@@ -62,58 +62,61 @@ export default function CompanyPartners() {
 
   // Submit new data
   const handleSubmit = async () => {
-    if (!description.trim() || !imageFile) {
+    const isEditing = Boolean(selectedPartners);
+
+    if (!description.trim() || (!isEditing && !imageFile)) {
       showToast("Image and description are required", "info");
       return;
     }
 
     const formData = new FormData();
     formData.append("description", description);
-    formData.append("image", imageFile);
+    if (imageFile) {
+      formData.append("image", imageFile);
+    }
 
-    const url = selectedPartners
-      ? `${process.env.NEXT_PUBLIC_API_URL}/api/partners/${selectedPartners.id}`
-      : `${process.env.NEXT_PUBLIC_API_URL}/api/partners`;
-
-    const method = selectedPartners ? "PATCH" : "POST";
+    const endpoint = isEditing
+      ? `/api/partners/${selectedPartners?.id}`
+      : `/api/partners`;
 
     try {
-      const response = await fetch(url, {
-        method,
-        body: formData,
-        credentials: "include",
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}${endpoint}`,
+        {
+          method: isEditing ? "PATCH" : "POST",
+          body: formData,
+          credentials: "include",
+        }
+      );
 
       const result = await response.json();
 
-      if (response.ok) {
-        showToast(
-          selectedPartners ? "Partner updated!" : "New partner added!",
-          "success"
-        );
+      if (!response.ok) {
+        throw new Error(result.message || "Failed to submit");
+      }
 
-        // Update local state
-        if (selectedPartners) {
-          setPartners((prev) =>
-            prev.map((partner) =>
+      showToast(
+        isEditing ? "Partner updated!" : "New partner added!",
+        "success"
+      );
+
+      await fetchPartners();
+
+      setPartners((prev) =>
+        isEditing
+          ? prev.map((partner) =>
               partner.id === result.partner.id ? result.partner : partner
             )
-          );
-        } else {
-          setPartners((prev) => [...prev, result.partner]);
-        }
+          : [...prev, result.partner]
+      );
 
-        // Reset form state
-        setSelectedPartners(null);
-        setImageFile(null);
-        setDescription("");
-        setResetKey((prev) => prev + 1);
-      } else {
-        console.error("Failed to submit", result);
-        showToast("Failed to submit", "error");
-      }
-    } catch (err) {
-      console.error("Error submitting", err);
+      // Reset form
+      setSelectedPartners(null);
+      setImageFile(null);
+      setDescription("");
+      setResetKey((prev) => prev + 1);
+    } catch (error) {
+      console.error("Error submitting:", error);
       showToast("Error submitting", "error");
     }
   };
@@ -164,10 +167,10 @@ export default function CompanyPartners() {
           {partners.map((partner, index) => (
             <div
               key={partner.id || index}
-              className={`flex flex-col lg:flex-row gap-2 w-full h-64 lg:h-56 rounded p-2 cursor-pointer`}
+              className={`flex flex-col lg:flex-row gap-2 w-full h-64 bg-red-100 rounded p-2 cursor-pointer`}
               onClick={() => handleSelectPartner(partner)}
             >
-              <div className="w-full h-full relative bg-white rounded overflow-hidden">
+              <div className="flex w-full h-full relative bg-white rounded overflow-hidden">
                 <Image
                   unoptimized
                   src={partner.imageUrl}
@@ -176,7 +179,7 @@ export default function CompanyPartners() {
                   className="object-cover"
                 />
               </div>
-              <div className="flex w-full h-full bg-white rounded">
+              <div className="hidden lg:flex w-full h-full bg-white rounded">
                 <div className="w-full p-4 resize-none overflow-hidden">
                   {partner.description}
                 </div>
