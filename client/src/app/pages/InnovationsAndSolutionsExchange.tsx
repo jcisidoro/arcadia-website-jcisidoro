@@ -85,7 +85,13 @@ export default function InnovationsAndSolutionsExchange() {
         )}
 
         <Link
-          href="/pages/about"
+          href={{
+            pathname: "/pages/about",
+            query: {
+              notes:
+                "We are interested in partnering with Arcadia and being listed as an official partner. We believe that a collaboration between our organizations would be mutually beneficial, and we are eager to explore how we can contribute to the success of Arcadia's partner network.",
+            },
+          }}
           className="flex bg-[#326333] text-white p-3 rounded w-56 cursor-pointer hover:scale-105 duration-300 transition-all justify-center"
         >
           Get listed with Arcadia

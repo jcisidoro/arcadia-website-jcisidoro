@@ -1,10 +1,12 @@
 // /pages/ContactUs.tsx
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useToast } from "@/app/components/provider/ToastContext";
+import { useSearchParams } from "next/navigation";
 
 export default function ContactUs() {
   const { showToast } = useToast();
+  const searchParams = useSearchParams();
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -15,6 +17,19 @@ export default function ContactUs() {
   });
 
   const [isLoading, setIsLoading] = useState(false);
+
+  // update the notes field with the query parameter value
+  useEffect(() => {
+    if (searchParams) {
+      const notes = searchParams.get("notes");
+      if (notes) {
+        setFormData((prev) => ({
+          ...prev,
+          notes, // Pre-fill the notes field with the query parameter "notes"
+        }));
+      }
+    }
+  }, [searchParams]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
