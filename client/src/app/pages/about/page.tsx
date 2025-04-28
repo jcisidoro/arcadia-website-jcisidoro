@@ -1,13 +1,16 @@
-"use client";
 import BackgroundVideo from "@/app/components/BackgroundVideo";
 import KeyPillarsOverview from "../KeyPillarsOverview";
 import Projects from "../Projects";
 import ContactUs from "../ContactUs";
+import Loading from "@/app/components/Loading";
+import { Suspense } from "react";
 
 export default function AboutPage() {
   return (
     <div className="bg-black">
-      <ContactUs />
+      <Suspense fallback={<Loading />}>
+        <ContactUs />
+      </Suspense>
       <div className="flex w-full flex-col">
         <BackgroundVideo width="w-[100vw]" height="h-[100vh]" />
 

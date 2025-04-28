@@ -1,9 +1,8 @@
 // /pages/ContactUs.tsx
 "use client";
-import React, { useEffect, useState, Suspense } from "react";
+import React, { useEffect, useState } from "react";
 import { useToast } from "@/app/components/provider/ToastContext";
 import { useSearchParams } from "next/navigation";
-import Loading from "../components/Loading";
 
 export default function ContactUs() {
   const { showToast } = useToast();
@@ -138,16 +137,15 @@ export default function ContactUs() {
               <label className="text-black text-sm lg:text-base font-medium">
                 Notes
               </label>
-              <Suspense fallback={<Loading />}>
-                <textarea
-                  value={formData.notes}
-                  name="notes"
-                  onChange={handleChange}
-                  className="flex w-full p-4 bg-[#326333]/90 text-white placeholder:text-white/60 rounded-xl h-32 resize-none"
-                  placeholder="Notes"
-                  required
-                />
-              </Suspense>
+
+              <textarea
+                value={formData.notes}
+                name="notes"
+                onChange={handleChange}
+                className="flex w-full p-4 bg-[#326333]/90 text-white placeholder:text-white/60 rounded-xl h-32 resize-none"
+                placeholder="Notes"
+                required
+              />
             </div>
 
             <div className="w-full flex justify-center">
