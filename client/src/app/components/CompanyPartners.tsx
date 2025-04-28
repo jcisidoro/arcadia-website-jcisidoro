@@ -60,6 +60,14 @@ export default function CompanyPartners() {
     setResetKey((prev) => prev + 1);
   };
 
+  // Clear fields
+  const handleClear = () => {
+    setSelectedPartners(null);
+    setImageFile(null); // Clear the image file
+    setDescription(""); // Clear the description
+    setResetKey((prev) => prev + 1); // Reset the file input field
+  };
+
   // Submit new data
   const handleSubmit = async () => {
     const isEditing = Boolean(selectedPartners);
@@ -124,10 +132,18 @@ export default function CompanyPartners() {
   return (
     <div className="flex flex-col md:flex-row w-full h-full bg-[#326333] p-4 rounded gap-4 overflow-y-auto">
       <div className="flex flex-col w-full lg:w-[500px] h-auto md:h-[650px] lg:h-full">
-        <h1 className="flex items-center gap-1 text-white font-medium p-4">
-          <LuHeartHandshake size={24} />
-          Manage Company Partners
-        </h1>
+        <div className="flex w-full items-center justify-between">
+          <h1 className="flex items-center gap-1 text-white font-medium text-sm p-4">
+            <LuHeartHandshake size={24} />
+            Manage Company Partners
+          </h1>
+          <button
+            onClick={handleClear}
+            className="bg-white/50 w-16 h-8 rounded text-white text-sm cursor-pointer hover:scale-105 transition-all duration-300"
+          >
+            Clear
+          </button>
+        </div>
         <div className="flex flex-col w-full h-full gap-4 bg-white/50 p-4 rounded overflow-y-auto">
           <FileUploadDemo
             onChange={(file: File) => setImageFile(file)}

@@ -87,6 +87,11 @@ export default function AdminManagement() {
     });
   };
 
+  // Clear fields
+  const handleClear = () => {
+    setFormValues({ firstName: "", lastName: "", email: "", role: "" });
+  };
+
   useEffect(() => {
     const fetchAdmins = async () => {
       try {
@@ -147,10 +152,18 @@ export default function AdminManagement() {
   return (
     <div className="flex flex-col md:flex-row w-full h-full bg-[#326333] p-4 rounded gap-4 overflow-y-auto">
       <div className="flex flex-col w-full h-auto md:h-[650px] lg:h-full">
-        <h1 className="flex gap-1 text-white items-center font-medium p-4">
-          <FaUserCog size={24} />
-          Manage Admin
-        </h1>
+        <div className="flex w-full items-center justify-between">
+          <h1 className="flex gap-1 text-white items-center font-medium p-4">
+            <FaUserCog size={24} />
+            Manage Admin
+          </h1>
+          <button
+            onClick={handleClear}
+            className="bg-white/50 w-16 h-8 rounded text-white text-sm cursor-pointer hover:scale-105 transition-all duration-300"
+          >
+            Clear
+          </button>
+        </div>
         <div className="flex flex-col w-full h-full gap-4 bg-white/50 p-4 rounded overflow-y-auto">
           <div className="flex flex-col gap-6 w-full">
             {["firstName", "lastName", "email"].map((field) => {

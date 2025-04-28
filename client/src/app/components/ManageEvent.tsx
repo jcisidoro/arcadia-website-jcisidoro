@@ -57,6 +57,22 @@ export default function ManageEvent() {
     fetchEvents();
   }, []);
 
+  // Clear fields
+  const handleClear = () => {
+    setTitle("");
+    setSpeakers("");
+    setAttendees("");
+    setDescription("");
+    setDescription1("");
+    setEventLink("");
+    setFromDate("");
+    setToDate("");
+    setImageFile(null);
+    setExistingImageUrl(null);
+    setSelectedEventId(null);
+    setResetKey((prev) => prev + 1);
+  };
+
   const handleEditEvent = async (eventId: string) => {
     const eventData = {
       title,
@@ -132,8 +148,16 @@ export default function ManageEvent() {
   return (
     <div className="flex flex-col md:flex-row w-full h-full bg-[#326333] p-4 rounded gap-4 overflow-y-auto">
       <div className="flex flex-col w-full md:w-72 lg:w-96 h-auto md:h-[650px] lg:h-full">
-        <div className="flex gap-1 font-medium text-white p-4">
-          <MdEvent size={24} className="text-white" /> Manage Event
+        <div className="flex w-full items-center justify-between">
+          <h1 className="flex gap-1 font-medium text-white p-4">
+            <MdEvent size={24} className="text-white" /> Manage Event
+          </h1>
+          <button
+            onClick={handleClear}
+            className="bg-white/50 w-16 h-8 rounded text-white text-sm cursor-pointer hover:scale-105 transition-all duration-300"
+          >
+            Clear
+          </button>
         </div>
         <div className="flex flex-col w-full h-full gap-4 bg-white/50 p-4 rounded overflow-y-auto">
           <div className="flex flex-col w-full">
