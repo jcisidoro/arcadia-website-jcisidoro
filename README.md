@@ -26,11 +26,13 @@
 Become a Partner:
 
 Interested in joining Arcadia's growing network of companies and organizations committed to sustainability?
+
 👉 <a href="https://arcadia-website-sustainability-hub.vercel.app/pages/initiatives" target="_blank" rel="no-referrer">Learn more about our partnership initiatives</a>
 
 Send a Request:
 
 Have questions, suggestions, or initiatives you'd like to collaborate on? We'd love to hear from you.
+
 👉 <a href="https://arcadia-website-sustainability-hub.vercel.app/pages/about" target="_blank" rel="no-referrer">Reach out to us here</a>
 
 🔗 Useful Links
