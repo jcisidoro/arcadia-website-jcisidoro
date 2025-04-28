@@ -5,21 +5,21 @@
 ### 🌱 About Arcadia
 ### Arcadia brings together a diverse and dynamic ecosystem of changemakers—including the academe, government agencies, NGOs, industry associations, and chambers of commerce. By fostering cross-sector collaboration, we ensure that circular economy strategies are:
 
-Informed by real-world experience and research
+#### Informed by real-world experience and research
 
-Inclusive of diverse voices and perspectives
+#### Inclusive of diverse voices and perspectives
 
-Built for long-term sustainability and resilience
+#### Built for long-term sustainability and resilience
 
-As a sustainability hub, Arcadia empowers companies to:
+#### As a sustainability hub, Arcadia empowers companies to:
 
-Exchange leading sustainability practices and resources
+#### Exchange leading sustainability practices and resources
 
-Develop cost-effective, efficient solutions to modern sustainability challenges
+#### Develop cost-effective, efficient solutions to modern sustainability challenges
 
-Accelerate the transition to a circular economy
+#### Accelerate the transition to a circular economy
 
-Sustainability isn't a solo journey. At Arcadia, we believe collaboration is the catalyst for lasting change.
+#### *Sustainability isn't a solo journey. At Arcadia, we believe collaboration is the catalyst for lasting change*.
 
 🚀 Get Involved
 Become a Partner:
