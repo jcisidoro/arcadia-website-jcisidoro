@@ -8,7 +8,7 @@ export default function ContactUs() {
   const { showToast } = useToast();
   const searchParams = useSearchParams();
 
-  const [notes, setNotes] = useState("");
+  const [, setNotes] = useState("");
 
   const [formData, setFormData] = useState({
     firstName: "",
