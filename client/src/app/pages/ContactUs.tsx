@@ -1,12 +1,14 @@
 // /pages/ContactUs.tsx
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import { useToast } from "@/app/components/provider/ToastContext";
 import { useSearchParams } from "next/navigation";
 
 export default function ContactUs() {
   const { showToast } = useToast();
   const searchParams = useSearchParams();
+
+  const [notes, setNotes] = useState("");
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -21,12 +23,10 @@ export default function ContactUs() {
   // update the notes field with the query parameter value
   useEffect(() => {
     if (searchParams) {
-      const notes = searchParams.get("notes");
-      if (notes) {
-        setFormData((prev) => ({
-          ...prev,
-          notes, // Pre-fill the notes field with the query parameter "notes"
-        }));
+      const notesParam = searchParams.get("notes");
+      if (notesParam) {
+        setNotes(notesParam); // Set notes if available in the URL query
+        setFormData((prev) => ({ ...prev, notes: notesParam })); // Initialize formData with the notes parameter
       }
     }
   }, [searchParams]);
@@ -105,7 +105,6 @@ export default function ContactUs() {
               { name: "lastName", placeholder: "Last Name", type: "text" },
               { name: "email", placeholder: "Email Address", type: "email" },
               { name: "contact", placeholder: "Contact Number", type: "text" },
-              { name: "notes", placeholder: "Notes", type: "textarea" },
             ].map((item, index) => (
               <div key={index} className="flex flex-col gap-2 w-full">
                 <label className="text-black text-sm lg:text-base font-medium">
@@ -133,6 +132,23 @@ export default function ContactUs() {
                 )}
               </div>
             ))}
+
+            <div className="flex flex-col gap-2 w-full">
+              <label className="text-black text-sm lg:text-base font-medium">
+                Notes
+              </label>
+              <Suspense fallback={<div>Loading...</div>}>
+                <textarea
+                  value={formData.notes}
+                  name="notes"
+                  onChange={handleChange}
+                  className="flex w-full p-4 bg-[#326333]/90 text-white placeholder:text-white/60 rounded-xl h-32 resize-none"
+                  placeholder="Notes"
+                  required
+                />
+              </Suspense>
+            </div>
+
             <div className="w-full flex justify-center">
               <button
                 type="submit"
