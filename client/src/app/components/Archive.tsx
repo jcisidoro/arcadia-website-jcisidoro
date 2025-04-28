@@ -3,7 +3,7 @@ import { FaBoxArchive } from "react-icons/fa6";
 
 export default function Archive() {
   return (
-    <div className="flex flex-col w-full bg-[#326333] rounded p-4 gap-2">
+    <div className="flex flex-col w-full bg-[#326333] rounded p-4 gap-2 overflow-y-auto">
       <h1 className="flex items-center gap-1 text-white font-medium p-4">
         <FaBoxArchive size={24} />
         Archive
