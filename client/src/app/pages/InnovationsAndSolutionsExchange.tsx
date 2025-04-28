@@ -2,6 +2,7 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { useToast } from "../components/provider/ToastContext";
+import Link from "next/link";
 
 type PartnerType = {
   id: string;
@@ -54,7 +55,7 @@ export default function InnovationsAndSolutionsExchange() {
         </span>
       </div>
 
-      <div className="flex flex-col gap-4 mt-4">
+      <div className="flex flex-col gap-4 mt-4 items-center">
         {partners.length === 0 ? (
           <div className="flex items-center justify-center text-center text-lg text-black w-full h-96">
             <p className="font-cormorant font-semibold text-xl lg:text-3xl">
@@ -82,6 +83,13 @@ export default function InnovationsAndSolutionsExchange() {
             </div>
           ))
         )}
+
+        <Link
+          href="/pages/about"
+          className="flex bg-[#326333] text-white p-3 rounded w-56 cursor-pointer hover:scale-105 duration-300 transition-all justify-center"
+        >
+          Get listed with Arcadia
+        </Link>
       </div>
     </div>
   );
