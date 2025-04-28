@@ -1,3 +1,4 @@
+"use client";
 import BackgroundVideo from "@/app/components/BackgroundVideo";
 import KeyPillarsOverview from "../KeyPillarsOverview";
 import Projects from "../Projects";
