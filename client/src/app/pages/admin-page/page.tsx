@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/app/components/provider/ToastContext";
+import Link from "next/link";
 
 export default function AdminAuthPage() {
   const [email, setEmail] = useState("");
@@ -88,6 +89,16 @@ export default function AdminAuthPage() {
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
+        <div className="flex text-center">
+          <p className="inline text-white text-xs mt-4">
+            This page is intended for administrator access only. If you do not
+            have the necessary permissions, please return to the{" "}
+            <Link href="/" className="text-white underline">
+              homepage
+            </Link>
+            .
+          </p>
+        </div>
       </div>
     </div>
   );
