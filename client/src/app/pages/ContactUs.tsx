@@ -3,6 +3,7 @@
 import React, { useEffect, useState, Suspense } from "react";
 import { useToast } from "@/app/components/provider/ToastContext";
 import { useSearchParams } from "next/navigation";
+import Loading from "../components/Loading";
 
 export default function ContactUs() {
   const { showToast } = useToast();
@@ -137,7 +138,7 @@ export default function ContactUs() {
               <label className="text-black text-sm lg:text-base font-medium">
                 Notes
               </label>
-              <Suspense fallback={<div>Loading...</div>}>
+              <Suspense fallback={<Loading />}>
                 <textarea
                   value={formData.notes}
                   name="notes"
