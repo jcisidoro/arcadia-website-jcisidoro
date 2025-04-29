@@ -6,6 +6,7 @@ import {
   IconHeartHandshake,
   IconUserCog,
   IconArchiveFilled,
+  IconBookFilled,
 } from "@tabler/icons-react";
 import { motion } from "motion/react";
 import { cn } from "@/app/lib/utils";
@@ -13,6 +14,7 @@ import ManageEvent from "./ManageEvent";
 import AdminManagement from "./AdminManagement";
 import CompanyPartners from "./CompanyPartners";
 import Archive from "./Archive";
+import Publications from "./Publications";
 
 export function AdminSettingsSidebar() {
   const [open, setOpen] = useState(false);
@@ -38,6 +40,13 @@ export function AdminSettingsSidebar() {
       href: "#manageCompanyPartners",
       icon: (
         <IconHeartHandshake className="h-5 w-5 shrink-0 text-[#326333] dark:text-neutral-200" />
+      ),
+    },
+    {
+      label: "Publications",
+      href: "#publications",
+      icon: (
+        <IconBookFilled className="h-5 w-5 shrink-0 text-[#326333] dark:text-neutral-200" />
       ),
     },
     {
@@ -133,6 +142,7 @@ const Dashboard = ({ selectedTab }: { selectedTab: string }) => {
             {selectedTab === "#manageEvent" && <ManageEvent />}
             {selectedTab === "#adminManagement" && <AdminManagement />}
             {selectedTab === "#manageCompanyPartners" && <CompanyPartners />}
+            {selectedTab === "#publications" && <Publications />}
             {selectedTab === "#archive" && <Archive />}
           </>
         )}
