@@ -76,13 +76,13 @@ export default function AdminPageHandler() {
               disabled={
                 checkRole !== "superAdmin" && checkRole !== "eventHandler"
               }
-              className={`bg-[#326333] text-white rounded-2xl py-4 px-3 text-lg sm:text-4xl lg:text-5xl 2xl:text-7xl w-full md:w-[500px] lg:w-[700px] 2xl:w-[900px] uppercase font-cormorant font-semibold  transition-all duration-300 ${
+              className={`bg-[#326333] text-white rounded-2xl py-4 px-3 text-lg sm:text-5xl lg:text-6xl w-full md:w-[500px] lg:w-[700px] 2xl:w-[900px] uppercase font-cormorant font-semibold  transition-all duration-300 ${
                 checkRole !== "superAdmin" && checkRole !== "eventHandler"
                   ? "opacity-50 cursor-not-allowed"
                   : "hover:scale-105 cursor-pointer"
               }`}
             >
-              Add Event
+              Organize event
             </button>
           </Link>
 
