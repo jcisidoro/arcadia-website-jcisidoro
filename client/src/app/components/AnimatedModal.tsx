@@ -65,6 +65,10 @@ const AnimatedModal: React.FC<AnimatedModalProps> = ({
               hour12: true,
             })}
           </p>
+
+          <button className="bg-[#326333] rounded p-4 text-white hover:scale-105 duration-300 transition-all cursor-pointer w-56 mt-10">
+            Download Content
+          </button>
         </ModalContent>
         <ModalFooter>
           <button

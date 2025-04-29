@@ -12,6 +12,7 @@ interface SlideData {
   description1: ReactNode;
   imageUrl: string;
   speakers: string;
+  createdAt: string;
 }
 
 interface SlideProps {
