@@ -4,7 +4,7 @@ const path = require("path");
 const mongoose = require("mongoose");
 const streamifier = require("streamifier");
 const cloudinary = require("cloudinary").v2;
-const Partner = require("./models/Partners");
+const Partner = require("../models/Partners");
 
 // Setup MongoDB connection
 mongoose.connect(process.env.MONGO_URL, {

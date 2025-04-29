@@ -14,6 +14,8 @@ const Admin = require("./models/Admin");
 const Event = require("./models/Event");
 const Opinion = require("./models/Opinion");
 const Partners = require("./models/Partners");
+const WasteReports = require("./models/WasteReports");
+const Solutions = require("./models/Solutions");
 
 const {
   checkRole,
@@ -24,7 +26,6 @@ const {
   cors,
   // csrfProtection,
 } = require("./middleware/middleware");
-const WasteReports = require("./models/WasteReports");
 
 const app = express();
 const port = process.env.PORT;
@@ -535,6 +536,17 @@ app.get("/api/waste-reports", async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Failed to load wasteReports" });
+  }
+});
+
+// GET /api/solutions
+app.get("/api/solutions", async (req, res) => {
+  try {
+    const solutions = await Solutions.find().sort({ createdAt: 1 });
+    res.json(solutions);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to load solutions" });
   }
 });
 
