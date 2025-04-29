@@ -16,6 +16,7 @@ interface SlideData {
   speakers: string;
   toDate: string;
   fromDate: string;
+  createdAt: string;
 }
 
 export function PreviousCarousel() {
