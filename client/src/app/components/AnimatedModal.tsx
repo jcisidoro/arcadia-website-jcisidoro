@@ -83,7 +83,7 @@ const AnimatedModal: React.FC<AnimatedModalProps> = ({
             <div className="my-10">{card.description1}</div>
             {showDownloadButton && (
               <p className="text-black text-sm font-bold">
-                Created at:{" "}
+                Created:{" "}
                 {new Date(card.createdAt).toLocaleString("en-US", {
                   year: "numeric",
                   month: "long",
