@@ -13,7 +13,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-const OpinionSchema = new mongoose.Schema({
+const WasteReportsSchema = new mongoose.Schema({
   title: { type: String, required: true },
   speakers: { type: String, required: true },
   description: { type: String, required: true },
@@ -22,54 +22,47 @@ const OpinionSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
-const Opinion = mongoose.model("Opinion", OpinionSchema);
+const WasteReports = mongoose.model("WasteReports", WasteReportsSchema);
 
 // Your cards data
 const cards = [
   {
-    title: "The Future of Renewable Energy",
-    speakers: "By Jane Doe",
-    src: "/solarPanel.avif",
+    title:
+      "The Global Plastic Crisis: Challenges, Innovations, and Policy Solutions",
+    speakers: "Environmental Research Institute",
+    src: "/recycle.avif",
     description:
-      "As the world shifts away from fossil fuels, renewable energy sources like solar and wind power are becoming more viable. But are we moving fast enough?",
+      "A comprehensive report on the escalating plastic waste problem, its devastating effects on ecosystems, and the urgent need for sustainable solutions.",
     description1:
-      "Climate change is accelerating, and the need for clean energy is more urgent than ever. While investments in solar, wind, and hydropower are increasing, challenges such as infrastructure limitations and energy storage must be addressed. Governments and corporations must collaborate to ensure a sustainable future.",
+      "Plastic pollution has reached alarming levels, with over 300 million tons produced annually, much of it ending up in oceans and landfills. Only 9% of plastic waste is properly recycled, highlighting inefficiencies in global waste management systems. Microplastics are now found in human bloodstreams, raising concerns about long-term health effects. Major policy initiatives, such as the EU&apos;s Single-Use Plastic Ban and global extended producer responsibility (EPR) programs, are gaining traction. Innovations in biodegradable plastics and advanced recycling technologies offer promising solutions but require widespread adoption.",
   },
   {
-    title: "Is AI a Threat to Journalism?",
-    speakers: "By John Smith",
-    src: "/robot.avif",
+    title: "Food Waste and Sustainability: Turning Waste Into Opportunity",
+    speakers: "Global Sustainability Initiative",
+    src: "/fertilizer.avif",
     description:
-      "Artificial Intelligence is transforming the media landscape, but is it helping or harming journalism?",
+      "An in-depth study on the impact of food waste on global sustainability and how businesses, governments, and individuals can drive meaningful change.",
     description1:
-      "AI-generated content is flooding the internet, raising concerns about misinformation and the future of human journalists. While AI can assist in fact-checking and automation, it lacks the investigative depth and ethical judgment of professional reporters. The key question remains: How do we balance AI's efficiency with journalistic integrity?",
+      "1.3 billion tons of food are wasted each year, accounting for nearly one-third of all food produced globally. Food waste is a leading contributor to climate change, responsible for 8-10% of global greenhouse gas emissions. Developing countries face food distribution challenges, while industrialized nations struggle with overconsumption and waste. Innovative solutions, such as AI-driven inventory management, surplus food redistribution programs, and composting initiatives, are proving effective. Legislation like France&apos;s supermarket food waste ban is setting a global precedent for tackling the issue at the policy level.",
   },
   {
-    title: "Plastic Waste: Are We Doing Enough?",
-    speakers: "By Emily Carter",
-    src: "/plastic-waste.avif",
+    title: "From Waste to Energy: Transforming Trash Into Renewable Power",
+    speakers: "Energy & Environment Report 2024",
+    src: "/landfill.avif",
     description:
-      "Despite global awareness, plastic waste continues to be a major problem. Are bans on single-use plastics enough",
+      "An analysis of how waste-to-energy (WTE) technologies are reshaping global energy markets by converting garbage into usable power.",
     description1:
-      "Every year, millions of tons of plastic end up in landfills and oceans. While some countries have taken action by banning plastic bags and straws, others lag behind. The real challenge lies in creating a circular economy where plastic is reused rather than discarded.",
+      "Waste-to-energy plants produce over 500 terawatt-hours of electricity annually, enough to power millions of homes worldwide. Advanced incineration technology reduces landfill waste by up to  90%, significantly cutting methane emissions. Biogas from organic waste is emerging as a key renewable energy source, reducing reliance on fossil fuels. Countries like Sweden have nearly eliminated landfills by adopting waste-to-energy solutions and circular economy principles. Challenges remain in public perception and emissions control, but innovations in carbon capture make WTE a cleaner alternative.",
   },
   {
-    title: "Can We Build Climate-Resilient Cities?",
-    speakers: "By Michael Green",
-    src: "/flooded-city.avif",
+    title:
+      "Building Climate-Resilient Cities: Strategies for a Sustainable Future",
+    speakers: "UN Climate Resilience Report",
+    src: "/housing.avif",
     description:
-      "As extreme weather events become more common, urban planning must adapt. But are cities doing enough to become climate-resilient?",
+      "A detailed look at how urban areas can adapt to climate change by integrating sustainable infrastructure and disaster preparedness strategies.",
     description1:
-      "Rising sea levels, heatwaves, and storms threaten urban areas. Smart city planning that integrates green infrastructure, renewable energy, and disaster preparedness is essential. The question is, will governments prioritize resilience over short-term economic gains?",
-  },
-  {
-    title: "The Ethics of Space Exploration",
-    speakers: "By Sarah Johnson",
-    src: "/astronaut.avif",
-    description:
-      "Space exploration is expanding rapidly, but do we need ethical guidelines before colonizing other planets?",
-    description1:
-      "With private companies racing to explore Mars, ethical concerns arise. Who owns space? What happens if we exploit extraterrestrial resources irresponsibly? As we push forward, it's crucial to establish policies that ensure responsible and equitable space exploration.",
+      " Rising global temperatures and extreme weather events are putting cities at risk, with flooding, heatwaves, and storms becoming more frequent. Flood-resistant infrastructure, such as permeable pavements and elevated buildings, can reduce damage by 30%.Smart city planning integrates renewable energy, green spaces, and resilient transportation systems to future-proof urban areas. Early warning systems improve evacuation times by 40%, significantly reducing disaster-related casualties. Major global cities like Tokyo and Amsterdam are leading the way in implementing climate adaptation strategies.",
   },
 ];
 
@@ -77,7 +70,7 @@ const cards = [
 async function uploadImage(filePath) {
   try {
     const result = await cloudinary.uploader.upload(filePath, {
-      folder: "opinions",
+      folder: "wasteReports",
     });
     return result.secure_url;
   } catch (err) {
@@ -101,7 +94,7 @@ async function seed() {
 
       const imageUrl = await uploadImage(localImagePath);
 
-      const opinion = new Opinion({
+      const wasteReports = new WasteReports({
         title: card.title,
         speakers: card.speakers,
         description: card.description,
@@ -109,7 +102,7 @@ async function seed() {
         imageUrl,
       });
 
-      await opinion.save();
+      await wasteReports.save();
       console.log(`Saved: ${card.title}`);
     }
 

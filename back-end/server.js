@@ -24,6 +24,7 @@ const {
   cors,
   // csrfProtection,
 } = require("./middleware/middleware");
+const WasteReports = require("./models/WasteReports");
 
 const app = express();
 const port = process.env.PORT;
@@ -523,6 +524,17 @@ app.get("/api/opinions", async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Failed to load opinions" });
+  }
+});
+
+// GET /api/waste-reports
+app.get("/api/waste-reports", async (req, res) => {
+  try {
+    const wasteReports = await WasteReports.find().sort({ createdAt: 1 });
+    res.json(wasteReports);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to load wasteReports" });
   }
 });
 
