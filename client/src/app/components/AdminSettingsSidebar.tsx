@@ -43,7 +43,7 @@ export function AdminSettingsSidebar() {
       ),
     },
     {
-      label: "Publications",
+      label: "Manage Publications",
       href: "#publications",
       icon: (
         <IconBookFilled className="h-5 w-5 shrink-0 text-[#326333] dark:text-neutral-200" />

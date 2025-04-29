@@ -29,6 +29,7 @@ export const Card = React.memo(
       )}
     >
       <Image
+        unoptimized
         src={card.src}
         alt={card.title}
         fill
@@ -57,6 +58,7 @@ type Card = {
   description1: ReactNode;
   speakers: string;
   imageUrl: string;
+  createdAt: string;
 };
 
 export function FocusCards({ cards }: { cards: Card[] }) {

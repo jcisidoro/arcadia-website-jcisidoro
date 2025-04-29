@@ -19,6 +19,7 @@ type AnimatedModalProps = {
     description1: ReactNode;
     speakers: string;
     imageUrl: string;
+    createdAt: string;
   } | null;
   resetSelectedCard: () => void;
 };
@@ -53,6 +54,17 @@ const AnimatedModal: React.FC<AnimatedModalProps> = ({
           </div>
           <div className="mt-10">{card.description}</div>
           <div className="mt-10">{card.description1}</div>
+          <p className="text-black text-sm mt-10 font-bold">
+            Created at:{" "}
+            {new Date(card.createdAt).toLocaleString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+              hour: "numeric",
+              minute: "2-digit",
+              hour12: true,
+            })}
+          </p>
         </ModalContent>
         <ModalFooter>
           <button

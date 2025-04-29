@@ -12,6 +12,7 @@ const cloudinary = require("cloudinary").v2;
 
 const Admin = require("./models/Admin");
 const Event = require("./models/Event");
+const Opinion = require("./models/Opinion");
 const Partners = require("./models/Partners");
 
 const {
@@ -482,6 +483,46 @@ app.patch("/api/partners/:id", upload.single("image"), async (req, res) => {
   } catch (error) {
     console.error("Error updating partner:", error);
     res.status(500).json({ message: "Failed to update partner" });
+  }
+});
+
+// POST /api/opinions
+app.post(
+  "/api/opinions",
+  checkRole(),
+  upload.single("image"),
+  async (req, res) => {
+    try {
+      if (!req.file) throw new Error("Image file is required");
+      const publicId = `opinions/${req.file.originalname}-${Date.now()}`;
+      const result = await streamUpload(req.file.buffer, publicId);
+
+      const { title, speakers, description, description1 } = req.body;
+      const opinion = new Opinion({
+        title,
+        speakers,
+        description,
+        description1: description1 || "",
+        imageUrl: result.secure_url,
+      });
+      await opinion.save();
+
+      res.status(201).json(opinion);
+    } catch (err) {
+      console.error(err);
+      res.status(400).json({ message: err.message });
+    }
+  }
+);
+
+// GET /api/opinions
+app.get("/api/opinions", async (req, res) => {
+  try {
+    const opinions = await Opinion.find().sort({ createdAt: 1 });
+    res.json(opinions);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to load opinions" });
   }
 });
 
