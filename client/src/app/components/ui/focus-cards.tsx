@@ -61,7 +61,13 @@ type Card = {
   createdAt: string;
 };
 
-export function FocusCards({ cards }: { cards: Card[] }) {
+export function FocusCards({
+  cards,
+  showDownloadButton = false,
+}: {
+  cards: Card[];
+  showDownloadButton?: boolean;
+}) {
   const { open, setOpen } = useModal();
   const [hovered, setHovered] = useState<number | null>(null);
   const [selectedCard, setSelectedCard] = useState<Card | null>(null);
@@ -110,6 +116,7 @@ export function FocusCards({ cards }: { cards: Card[] }) {
           }}
           card={selectedCard}
           resetSelectedCard={() => setSelectedCard(null)}
+          showDownloadButton={showDownloadButton}
         />
       )}
     </>

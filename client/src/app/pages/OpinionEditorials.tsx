@@ -44,6 +44,7 @@ export default function OpinionEditorials() {
         </div>
       ) : (
         <FocusCards
+          showDownloadButton={true}
           cards={cards.map((opinion) => ({
             title: opinion.title,
             speakers: opinion.speakers,
