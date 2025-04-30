@@ -64,7 +64,7 @@ const corsOptions = {
     }
   },
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-  allowedHeaders: ["Content-Type", "Authorization"],
+  allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
   // allowedHeaders: ["Content-Type", "Authorization", "CSRF-Token"],
   credentials: true,
 };
