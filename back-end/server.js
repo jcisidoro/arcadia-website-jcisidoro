@@ -57,6 +57,7 @@ mongoose
 //   res.json({ csrfToken: req.csrfToken() });
 // });
 
+// Ping back end to prevent sleeping
 const PING_URL = "https://arcadia-website-jcisidoro.onrender.com/api/events";
 
 cron.schedule("*/5 * * * *", () => {
@@ -71,7 +72,7 @@ cron.schedule("*/5 * * * *", () => {
     });
 });
 
-// Root path handler
+// Back end handler
 app.get("/", (req, res) => {
   res.send("Welcome to the backend API!");
 });
