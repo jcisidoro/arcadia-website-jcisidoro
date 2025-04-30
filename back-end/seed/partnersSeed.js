@@ -57,7 +57,7 @@ const seed = async () => {
     await Partner.deleteMany(); // optional: clear existing
 
     for (const item of partners) {
-      const imagePath = path.join(__dirname, "seed/partners", item.fileName);
+      const imagePath = path.join(__dirname, "seed/images", item.fileName);
       const buffer = fs.readFileSync(imagePath);
 
       const publicId = item.fileName.split(".")[0] + "-" + Date.now();

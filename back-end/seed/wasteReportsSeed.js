@@ -85,7 +85,7 @@ async function seed() {
     console.log("Connected to MongoDB");
 
     for (const card of cards) {
-      const localImagePath = path.join(__dirname, "/seed/partners", card.src);
+      const localImagePath = path.join(__dirname, "/seed/images", card.src);
 
       if (!fs.existsSync(localImagePath)) {
         console.error(`Image not found: ${localImagePath}`);
