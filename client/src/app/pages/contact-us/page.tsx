@@ -1,6 +1,6 @@
-import BackgroundVideo from "@/app/components/BackgroundVideo";
-import KeyPillarsOverview from "../KeyPillarsOverview";
-import Projects from "../Projects";
+// import BackgroundVideo from "@/app/components/BackgroundVideo";
+// import KeyPillarsOverview from "../KeyPillarsOverview";
+// import Projects from "../Projects";
 import ContactUs from "../ContactUs";
 import Loading from "@/app/components/Loading";
 import { Suspense } from "react";
