@@ -85,7 +85,7 @@ export default function CompanyPartners() {
 
     const endpoint = isEditing
       ? `/api/partners/${selectedPartners?.id}`
-      : `/api/partners`;
+      : `/api/partners/createPartner`;
 
     try {
       const response = await fetch(

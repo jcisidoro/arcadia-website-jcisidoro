@@ -96,7 +96,7 @@ export default function AdminManagement() {
     const fetchAdmins = async () => {
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/admins`,
+          `${process.env.NEXT_PUBLIC_API_URL}/api/admin`,
           {
             method: "GET",
             credentials: "include",
@@ -118,7 +118,7 @@ export default function AdminManagement() {
 
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/admins/${selectedAdmin._id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/admin/${selectedAdmin._id}`,
         {
           method: "PATCH",
           credentials: "include",

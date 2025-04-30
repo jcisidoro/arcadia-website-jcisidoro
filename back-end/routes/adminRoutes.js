@@ -1,0 +1,21 @@
+const express = require("express");
+const { checkRole, limiter } = require("../middleware/middleware");
+const {
+  registerAdmin,
+  loginAdmin,
+  logoutAdmin,
+  checkAuth,
+  getAllAdmins,
+  updateAdmin,
+} = require("../controllers/adminController");
+
+const router = express.Router();
+
+router.post("/register", checkRole(), limiter, registerAdmin);
+router.post("/login", limiter, loginAdmin);
+router.post("/logout", logoutAdmin);
+router.get("/check-auth", checkAuth);
+router.get("/", getAllAdmins);
+router.patch("/:id", checkRole(), updateAdmin);
+
+module.exports = router;

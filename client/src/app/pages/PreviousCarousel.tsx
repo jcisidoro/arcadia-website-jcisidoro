@@ -27,7 +27,7 @@ export function PreviousCarousel() {
     const fetchPastEvents = async () => {
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/past-events`
+          `${process.env.NEXT_PUBLIC_API_URL}/api/events/past-events`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch past events");

@@ -27,7 +27,7 @@ export default function UpcomingEvents() {
     const fetchEvents = async () => {
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/events`
+          `${process.env.NEXT_PUBLIC_API_URL}/api/events/upcoming-events`
         );
         const data = await response.json();
         setEvents(data);
