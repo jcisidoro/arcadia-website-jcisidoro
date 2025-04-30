@@ -39,7 +39,10 @@ export default function Footer() {
         <div className="flex flex-col xl:flex-row w-full h-full justify-between items-left xl:items-center p-8 gap-4 lg:gap-0">
           {[
             { buttonText: "Events", href: "/pages/events#upcoming-events" },
-            { buttonText: "Knowledge Portal", href: "/pages/publications" },
+            {
+              buttonText: "Knowledge Portal",
+              href: "/pages/publications#opinion-editorials",
+            },
             { buttonText: "Initiatives", href: "/pages/initiatives" },
           ].map((item, index) => (
             <div key={index} className="flex flex-col group">

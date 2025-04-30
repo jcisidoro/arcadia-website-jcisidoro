@@ -28,7 +28,7 @@ export default function ArcadiaComponents() {
             description:
               "A repository of market insights, sector reports, policy papers, and narratives that empower informed decision-making.",
             btnText: "Learn More",
-            href: "/pages/publications",
+            href: "/pages/publications#opinion-editorials",
           },
           {
             title: "Innovation and Solutions Exchange",

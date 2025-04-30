@@ -12,7 +12,9 @@ export default function ThirdPage() {
       <PublicationsIntroPage />
       <PositionPapersPage />
       <ReportsAndManifestosPage />
-      <OpinionEditorials />
+      <div id="opinion-editorials">
+        <OpinionEditorials />
+      </div>
       <PublishedWasteReportPage />
     </div>
   );
