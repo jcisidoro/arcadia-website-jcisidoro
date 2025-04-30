@@ -11,7 +11,7 @@ export default function AboutPage() {
       <Suspense fallback={<Loading />}>
         <ContactUs />
       </Suspense>
-      <div className="flex w-full flex-col" id="about-arcadia">
+      {/* <div className="flex w-full flex-col" id="about-arcadia">
         <BackgroundVideo width="w-[100vw]" height="h-[100vh]" />
 
         <div className="flex flex-col w-full h-[100vh] justify-center items-center px-10 lg:px-20">
@@ -32,7 +32,7 @@ export default function AboutPage() {
       </div>
 
       <KeyPillarsOverview />
-      <Projects />
+      <Projects /> */}
     </div>
   );
 }

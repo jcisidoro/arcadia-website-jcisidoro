@@ -76,7 +76,7 @@ export default function Navbar() {
             text: "Initiatives",
           },
           {
-            href: "/pages/about",
+            href: "/pages/contact-us",
             text: "Contact Us",
           },
         ].map((item, index) => {
@@ -143,7 +143,7 @@ export default function Navbar() {
               text: "Initiatives",
             },
             {
-              href: "/pages/about",
+              href: "/pages/contact-us",
               text: "Contact Us",
             },
           ].map((item, index) => {

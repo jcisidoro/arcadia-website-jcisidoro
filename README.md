@@ -3,6 +3,7 @@
 ## Welcome to Arcadia, where innovation meets collaboration to drive the future of sustainability.
 
 ### 🌱 About Arcadia
+
 ### Arcadia brings together a diverse and dynamic ecosystem of changemakers—including the academe, government agencies, NGOs, industry associations, and chambers of commerce. By fostering cross-sector collaboration, we ensure that circular economy strategies are:
 
 #### Informed by real-world experience and research
@@ -19,7 +20,7 @@
 
 #### Accelerate the transition to a circular economy
 
-#### *Sustainability isn't a solo journey. At Arcadia, we believe collaboration is the catalyst for lasting change*.
+#### _Sustainability isn't a solo journey. At Arcadia, we believe collaboration is the catalyst for lasting change_.
 
 🚀 Get Involved
 
@@ -33,7 +34,7 @@ Send a Request:
 
 Have questions, suggestions, or initiatives you'd like to collaborate on? We'd love to hear from you.
 
-👉 <a href="https://arcadia-website-sustainability-hub.vercel.app/pages/about" target="_blank" rel="no-referrer">Reach out to us here</a>
+👉 <a href="https://arcadia-website-sustainability-hub.vercel.app/pages/contact-us" target="_blank" rel="no-referrer">Reach out to us here</a>
 
 🔗 Useful Links
 
@@ -41,7 +42,7 @@ Have questions, suggestions, or initiatives you'd like to collaborate on? We'd l
 
 🤝 <a href="https://arcadia-website-sustainability-hub.vercel.app/pages/initiatives" target="_blank" rel="no-referrer">Partnership Initiatives</a> — Explore partnership opportunities.
 
-✉️ <a href="https://arcadia-website-sustainability-hub.vercel.app/pages/about" target="_blank" rel="no-referrer">Contact & Requests</a> — Send us your ideas, feedback, and proposals.
+✉️ <a href="https://arcadia-website-sustainability-hub.vercel.app/pages/contact-us" target="_blank" rel="no-referrer">Contact & Requests</a> — Send us your ideas, feedback, and proposals.
 
 💬 Connect, Collaborate, Create
 Arcadia is more than just a hub—it's a movement. Together, we can build a more sustainable, inclusive, and regenerative future.

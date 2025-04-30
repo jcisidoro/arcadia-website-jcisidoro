@@ -24,7 +24,7 @@ export default function AboutIntro() {
           practices and resources, fostering the development of cost-effective
           and efficient to solutions to sustainability challenges.
         </p>
-        <Link href="/pages/about#about-arcadia">
+        <Link href="/pages/contact-us#about-arcadia">
           <button className="text-black cursor-pointer p-2 lg:p-4 border-1 mt-2 lg:mt-4 font-cormorant text-xl lg:text-3xl hover:bg-black hover:text-white duration-300">
             More about <span className="uppercase">Arcadia</span>
           </button>
