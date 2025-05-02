@@ -1,4 +1,5 @@
 const Partners = require("../models/Partners");
+const { streamUpload } = require("../utils/cloudinary");
 
 exports.getAllPartners = async (req, res) => {
   try {
@@ -65,5 +66,29 @@ exports.updatePartners = async (req, res) => {
   } catch (error) {
     console.error("Error updating partner:", error);
     res.status(500).json({ message: "Failed to update partner" });
+  }
+};
+
+exports.softDeletePartner = async (req, res) => {
+  try {
+    const partner = await Partners.findById(req.params.id);
+    if (!partner) return res.status(404).json({ message: "Not found" });
+
+    partner.isDeleted = true;
+    partner.deletedAt = new Date();
+    await partner.save();
+
+    res.status(200).json({ message: "Deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Deleted failed" });
+  }
+};
+
+exports.hardDeletePartner = async (req, res) => {
+  try {
+    await Partners.findByIdAndDelete(req.params.id);
+    res.status(200).json({ message: "Deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Delete failed" });
   }
 };

@@ -18,6 +18,8 @@ const app = express();
 const port = process.env.PORT;
 const MONGO_URL = process.env.MONGO_URL;
 
+// const Partners = require("./models/Partners");
+
 const adminRoutes = require("./routes/adminRoutes");
 const eventRoutes = require("./routes/eventRoutes");
 const partnersRoutes = require("./routes/partnersRoute");
@@ -71,6 +73,18 @@ cron.schedule("*/5 * * * *", () => {
       console.error("Error pinging self:", err);
     });
 });
+
+// cron.schedule("0 0 * * *", async () => {
+//   const twoYearsAgo = new Date();
+//   twoYearsAgo.setFullYear(twoYearsAgo.getFullYear() - 2);
+
+//   await Partners.deleteMany({
+//     isDeleted: true,
+//     deletedAt: { $lte: twoYearsAgo },
+//   });
+
+//   console.log("Auto-cleaned archived partners older than 2 years");
+// });
 
 // Back end handler
 app.get("/", (req, res) => {

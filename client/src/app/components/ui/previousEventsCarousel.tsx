@@ -2,7 +2,7 @@
 import { IconArrowNarrowRight } from "@tabler/icons-react";
 import { useState, useRef, useId, useEffect, ReactNode } from "react";
 import { useModal } from "@/app/components/ui/animated-modal";
-import AnimatedModal from "../AnimatedModal";
+import AnimatedModal from "../modals/AnimatedModal";
 
 interface SlideData {
   title: string;

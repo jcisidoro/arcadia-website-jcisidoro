@@ -3,7 +3,7 @@ import Image from "next/image";
 import React, { ReactNode, useEffect, useState } from "react";
 import { cn } from "@/app/lib/utils";
 import { useModal } from "@/app/components/ui/animated-modal";
-import AnimatedModal from "../AnimatedModal";
+import AnimatedModal from "../modals/AnimatedModal";
 
 export const Card = React.memo(
   ({

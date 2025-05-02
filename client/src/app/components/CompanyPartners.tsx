@@ -5,15 +5,21 @@ import React, { useEffect, useState } from "react";
 import { LuHeartHandshake } from "react-icons/lu";
 import { FileUploadDemo } from "./FileUpload";
 import { useToast } from "./provider/ToastContext";
+import { useIsMobile } from "@/app/components/hooks/useIsMobile";
+import { PartnersModal } from "./modals/PartnersModal";
 
 type PartnerType = {
   id: string;
   imageUrl: string;
   description: string;
+  isDeleted?: boolean;
 };
 
 export default function CompanyPartners() {
   const { showToast } = useToast();
+  const isMobile = useIsMobile();
+
+  const [modalOpen, setModalOpen] = useState(false);
 
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [partners, setPartners] = useState<PartnerType[]>([]);
@@ -37,7 +43,8 @@ export default function CompanyPartners() {
       const data = await response.json();
 
       if (Array.isArray(data)) {
-        setPartners(data);
+        const activePartners = data.filter((p: PartnerType) => !p.isDeleted);
+        setPartners(activePartners);
       } else {
         console.error("Unexpected response format:", data);
         showToast("Error fetching company partners", "error");
@@ -58,6 +65,10 @@ export default function CompanyPartners() {
     setDescription(partners.description);
     setImageFile(null);
     setResetKey((prev) => prev + 1);
+
+    if (isMobile) {
+      setModalOpen(true);
+    }
   };
 
   // Clear fields
@@ -100,6 +111,7 @@ export default function CompanyPartners() {
       const result = await response.json();
 
       if (!response.ok) {
+        console.error("Server response:", result);
         throw new Error(result.message || "Failed to submit");
       }
 
@@ -109,14 +121,6 @@ export default function CompanyPartners() {
       );
 
       await fetchPartners();
-
-      setPartners((prev) =>
-        isEditing
-          ? prev.map((partner) =>
-              partner.id === result.partner.id ? result.partner : partner
-            )
-          : [...prev, result.partner]
-      );
 
       // Reset form
       setSelectedPartners(null);
@@ -129,9 +133,35 @@ export default function CompanyPartners() {
     }
   };
 
+  const handleSoftDelete = async () => {
+    if (!selectedPartners) return;
+
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/partners/${selectedPartners.id}/softDelete`,
+        {
+          method: "PATCH",
+          credentials: "include",
+        }
+      );
+
+      if (!response.ok) throw new Error("Soft delete failed");
+
+      showToast("Partner archived", "success");
+      setSelectedPartners(null);
+      setDescription("");
+      setImageFile(null);
+      setResetKey((prev) => prev + 1);
+      fetchPartners(); // refresh the list to exclude soft-deleted partners
+    } catch (error) {
+      console.error("Soft delete failed:", error);
+      showToast("Error archiving partner", "error");
+    }
+  };
   return (
     <div className="flex flex-col md:flex-row w-full h-full bg-[#326333] p-4 rounded gap-4 overflow-y-auto">
-      <div className="flex flex-col w-full lg:w-[500px] h-auto md:h-[650px] lg:h-full">
+      {/* FIRST */}
+      <div className="hidden lg:flex flex-col w-full lg:w-1/3 h-96 lg:h-full">
         <div className="flex w-full items-center justify-between">
           <h1 className="flex items-center gap-1 text-white font-medium text-sm p-4">
             <LuHeartHandshake size={24} />
@@ -167,26 +197,46 @@ export default function CompanyPartners() {
             Submit
           </button>
           <button
-            disabled
+            onClick={handleSoftDelete}
+            disabled={!selectedPartners}
             className="px-4 py-2 bg-red-500/90 hover:bg-red-500/70 rounded text-neutral-100 cursor-pointer hover:scale-105 transition-all duration-300"
           >
             Delete
           </button>
         </div>
       </div>
+      {/*  */}
 
-      <div className="flex flex-col w-full h-[650px] lg:h-full">
+      {/* MOBILE MODAL */}
+      {isMobile && (
+        <PartnersModal
+          open={modalOpen}
+          onOpenChange={setModalOpen}
+          partner={selectedPartners}
+          description={description}
+          setDescription={setDescription}
+          handleSubmit={handleSubmit}
+          handleClear={handleClear}
+          handleSoftDelete={handleSoftDelete}
+          resetSelectedCard={handleClear}
+        />
+      )}
+
+      {/*  */}
+
+      {/* SECOND */}
+      <div className="flex flex-col w-full lg:w-2/3 h-96 lg:h-full overflow-y-auto">
         <h1 className="flex text-white items-center font-medium p-4">
           Select Partners to Edit
         </h1>
-        <div className="flex flex-col w-full h-full gap-4 bg-white/50 p-4 rounded overflow-y-auto">
+        <div className="flex flex-col gap-2 w-full h-full overflow-y-auto bg-white/50 rounded p-4 break-words whitespace-pre-wrap">
           {partners.map((partner, index) => (
             <div
               key={partner.id || index}
-              className={`flex flex-col lg:flex-row gap-2 w-full h-64 rounded p-2 cursor-pointer`}
+              className={`flex flex-col lg:flex-row gap-2 w-full h-56 rounded p-2 cursor-pointer`}
               onClick={() => handleSelectPartner(partner)}
             >
-              <div className="flex w-full h-full relative bg-white rounded overflow-hidden">
+              <div className="flex w-full h-48 relative bg-white rounded overflow-hidden">
                 <Image
                   unoptimized
                   src={partner.imageUrl}
@@ -195,8 +245,8 @@ export default function CompanyPartners() {
                   className="object-cover"
                 />
               </div>
-              <div className="hidden lg:flex w-full h-full bg-white rounded">
-                <div className="w-full p-4 resize-none overflow-hidden">
+              <div className="hidden lg:flex w-full h-48 bg-white rounded break-all">
+                <div className="flex w-full p-4 overflow-hidden">
                   {partner.description}
                 </div>
               </div>
@@ -204,6 +254,7 @@ export default function CompanyPartners() {
           ))}
         </div>
       </div>
+      {/*  */}
     </div>
   );
 }
