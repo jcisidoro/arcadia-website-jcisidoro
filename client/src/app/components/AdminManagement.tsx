@@ -20,6 +20,7 @@ export default function AdminManagement() {
 
   const [selectedAdmin, setSelectedAdmin] = useState<AdminType | null>(null);
   const [checkRole, setCheckRole] = useState<string | null>(null);
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
 
   const [, setIsAuthenticated] = useState(false);
 
@@ -41,16 +42,18 @@ export default function AdminManagement() {
         }
 
         const data = await response.json();
-
         const userRole = data.user?.role;
+        const userId = data.user?.id;
 
         if (!["superAdmin", "adminManager"].includes(userRole)) {
           showToast("You do not have admin access.", "error");
           router.replace("/pages/admin-page");
-        } else {
-          setIsAuthenticated(true);
-          setCheckRole(userRole);
+          return;
         }
+
+        setCurrentUserId(userId);
+        setCheckRole(userRole);
+        setIsAuthenticated(true);
       } catch (err) {
         console.error(err);
         showToast(
@@ -78,6 +81,11 @@ export default function AdminManagement() {
   };
 
   const handleAdminClick = (admin: AdminType) => {
+    if (checkRole !== "superAdmin" && admin.role === "superAdmin") {
+      showToast("You are not allowed to manage a superAdmin.", "error");
+      return;
+    }
+
     setSelectedAdmin(admin);
     setFormValues({
       firstName: admin.firstName,
@@ -85,11 +93,6 @@ export default function AdminManagement() {
       email: admin.email,
       role: admin.role,
     });
-  };
-
-  // Clear fields
-  const handleClear = () => {
-    setFormValues({ firstName: "", lastName: "", email: "", role: "" });
   };
 
   useEffect(() => {
@@ -111,6 +114,12 @@ export default function AdminManagement() {
 
     fetchAdmins();
   }, []);
+
+  // Clear fields
+  const handleClear = () => {
+    setSelectedAdmin(null);
+    setFormValues({ firstName: "", lastName: "", email: "", role: "" });
+  };
 
   const handleSubmit = async () => {
     if (!selectedAdmin)
@@ -137,16 +146,95 @@ export default function AdminManagement() {
 
       showToast("Admin updated successfully!", "success");
 
+      // Update UI
       const updatedAdmins = admins.map((admin) =>
         admin._id === selectedAdmin._id ? { ...admin, ...formValues } : admin
       );
       setAdmins(updatedAdmins);
-      setSelectedAdmin(null);
-      setFormValues({ firstName: "", lastName: "", email: "", role: "" });
+      handleClear();
     } catch (error) {
       console.error(error);
       showToast("An error occurred while updating the admin.", "error");
     }
+  };
+
+  const handleDelete = async () => {
+    if (!selectedAdmin) return;
+
+    // Only superAdmin can delete admins
+    if (checkRole !== "superAdmin") {
+      return showToast("Only a superAdmin can delete admins", "error");
+    }
+
+    // Prevent self-deletion
+    if (selectedAdmin._id === currentUserId) {
+      return showToast("You cannot delete your own account", "error");
+    }
+
+    // Prevent deleting the last remaining superAdmin
+    if (selectedAdmin.role === "superAdmin") {
+      const superAdminCount = admins.filter(
+        (admin) => admin.role === "superAdmin"
+      ).length;
+      if (superAdminCount <= 1) {
+        return showToast(
+          "You cannot delete the last remaining superAdmin",
+          "error"
+        );
+      }
+    }
+
+    const confirmed = window.confirm(
+      `Are you sure you want to delete ${selectedAdmin.firstName} ${selectedAdmin.lastName}?`
+    );
+    if (!confirmed) return;
+
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/admin/deleteAdmin/${selectedAdmin._id}`,
+        { method: "DELETE", credentials: "include" }
+      );
+
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.message || "Delete failed");
+      }
+
+      showToast("Admin deleted successfully!", "success");
+      setAdmins(admins.filter((a) => a._id !== selectedAdmin._id));
+      handleClear();
+    } catch (err) {
+      console.error(err);
+      showToast("Error deleting admin", "error");
+    }
+  };
+
+  const canDelete = () => {
+    if (!selectedAdmin) return false;
+
+    // Only superAdmin can delete
+    if (checkRole !== "superAdmin") return false;
+
+    // Prevent self-deletion
+    if (selectedAdmin._id === currentUserId) return false;
+
+    // Prevent deleting the last remaining superAdmin
+    if (
+      selectedAdmin.role === "superAdmin" &&
+      admins.filter((admin) => admin.role === "superAdmin").length <= 1
+    ) {
+      return false;
+    }
+
+    return true;
+  };
+
+  const canSubmit = () => {
+    if (!selectedAdmin) return false;
+
+    if (selectedAdmin._id === currentUserId) return false;
+
+    return true;
   };
 
   return (
@@ -197,15 +285,14 @@ export default function AdminManagement() {
                 selectedAdmin?.role === "superAdmin" &&
                 checkRole !== "superAdmin"
               }
-              className={`text-black p-4 rounded-xl outline-none cursor-pointer ${
+              className={`text-black p-4 rounded-xl outline-none ${
                 selectedAdmin?.role === "superAdmin" &&
                 checkRole !== "superAdmin"
                   ? "bg-neutral-400 cursor-not-allowed"
-                  : "bg-white/90"
+                  : "bg-white/90 cursor-pointer"
               }`}
             >
-              {(checkRole === "superAdmin" ||
-                formValues.role === "superAdmin") && (
+              {checkRole === "superAdmin" && (
                 <option value="superAdmin">Super Admin</option>
               )}
               <option value="accCreator">Account Creator</option>
@@ -214,15 +301,27 @@ export default function AdminManagement() {
             </select>
           </div>
           <div className="flex gap-2 w-full">
+            {/* SUBMIT BTN */}
             <button
               onClick={handleSubmit}
-              className="bg-white/90 px-2 py-3 rounded-xl w-40 mt-2 lg:mt-4 text-neutral-700 cursor-pointer hover:scale-105 transition-all duration-300"
+              disabled={!canSubmit()}
+              className={`px-2 py-3 rounded-xl w-40 mt-2 lg:mt-4 text-neutral-700 transition-all duration-300 ${
+                !canSubmit()
+                  ? "bg-white/50 cursor-not-allowed"
+                  : "bg-white/90 cursor-pointer hover:scale-105"
+              }`}
             >
               {selectedAdmin ? "Update Admin" : "Submit"}
             </button>
+            {/* DELETE BTN */}
             <button
-              disabled
-              className="bg-red-500/90 px-2 py-3 rounded-xl w-40 mt-2 lg:mt-4 text-white cursor-pointer hover:scale-105 transition-all duration-300"
+              onClick={handleDelete}
+              disabled={!canDelete()}
+              className={`px-2 py-3 rounded-xl w-40 mt-2 lg:mt-4 text-white transition-all duration-300 ${
+                !canDelete()
+                  ? "bg-red-200 cursor-not-allowed"
+                  : "bg-red-500/90 hover:scale-105 cursor-pointer"
+              }`}
             >
               Delete
             </button>
@@ -236,26 +335,31 @@ export default function AdminManagement() {
         </h1>
         <div className="flex flex-col w-full h-full gap-4 bg-white/50 p-4 rounded overflow-y-auto">
           <div className="flex flex-col gap-6 w-full">
-            {admins.map((admin) => (
-              <div
-                key={admin._id}
-                onClick={() => handleAdminClick(admin)}
-                className="flex flex-col w-full h-44 bg-white/90 rounded p-4 gap-4 hover:bg-[#326333]/50 transition-all duration-300 cursor-pointer group"
-              >
-                <span className="text-black group-hover:text-white text-sm lg:text-base">
-                  First Name: {admin.firstName}
-                </span>
-                <span className="text-black group-hover:text-white text-sm lg:text-base">
-                  Last Name: {admin.lastName}
-                </span>
-                <span className="text-black group-hover:text-white text-sm lg:text-base">
-                  Email: {admin.email}
-                </span>
-                <span className="text-black group-hover:text-white text-sm lg:text-base">
-                  Role: {admin.role}
-                </span>
-              </div>
-            ))}
+            {admins
+              .filter(
+                (admin) =>
+                  checkRole === "superAdmin" || admin.role !== "superAdmin"
+              )
+              .map((admin) => (
+                <div
+                  key={admin._id}
+                  onClick={() => handleAdminClick(admin)}
+                  className="flex flex-col w-full h-44 bg-white/90 rounded p-4 gap-4 hover:bg-[#326333]/50 transition-all duration-300 cursor-pointer group"
+                >
+                  <span className="text-black group-hover:text-white text-sm lg:text-base">
+                    First Name: {admin.firstName}
+                  </span>
+                  <span className="text-black group-hover:text-white text-sm lg:text-base">
+                    Last Name: {admin.lastName}
+                  </span>
+                  <span className="text-black group-hover:text-white text-sm lg:text-base">
+                    Email: {admin.email}
+                  </span>
+                  <span className="text-black group-hover:text-white text-sm lg:text-base">
+                    Role: {admin.role}
+                  </span>
+                </div>
+              ))}
           </div>
         </div>
       </div>

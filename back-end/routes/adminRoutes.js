@@ -7,15 +7,22 @@ const {
   checkAuth,
   getAllAdmins,
   updateAdmin,
+  deleteAdmin,
 } = require("../controllers/adminController");
 
 const router = express.Router();
 
-router.post("/register", checkRole(), limiter, registerAdmin);
+router.post(
+  "/register",
+  checkRole(["superAdmin", "accCreator"]),
+  limiter,
+  registerAdmin
+);
 router.post("/login", limiter, loginAdmin);
 router.post("/logout", logoutAdmin);
 router.get("/check-auth", checkAuth);
 router.get("/", getAllAdmins);
-router.patch("/:id", checkRole(), updateAdmin);
+router.patch("/:id", checkRole(["superAdmin", "adminManager"]), updateAdmin);
+router.delete("/deleteAdmin/:id", checkRole(["superAdmin"]), deleteAdmin);
 
 module.exports = router;

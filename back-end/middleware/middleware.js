@@ -16,7 +16,7 @@ const cors = require("cors");
 // });
 
 // Middleware for JWT token validation and role checking
-function checkRole() {
+function checkRole(allowedRoles = []) {
   return (req, res, next) => {
     const token = req.cookies.authToken;
 
@@ -30,21 +30,18 @@ function checkRole() {
       const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
       const userRole = decodedToken;
 
-      if (
-        userRole.role !== "superAdmin" &&
-        userRole.role !== "accCreator" &&
-        userRole.role !== "adminManager" &&
-        userRole.role !== "eventHandler"
-      ) {
+      // Role-based access control
+      if (allowedRoles.length > 0 && !allowedRoles.includes(userRole.role)) {
         return res
           .status(403)
           .json({ message: "Forbidden - Insufficient role" });
       }
+
       req.user = userRole;
       next();
     } catch (err) {
       console.log(err);
-      return res.status(401).json({ err });
+      return res.status(401).json({ message: "Invalid token" });
     }
   };
 }

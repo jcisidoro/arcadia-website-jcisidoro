@@ -23,6 +23,7 @@ exports.registerAdmin = async (req, res) => {
     }
 
     const validRoles = ["accCreator", "eventHandler", "adminManager"];
+
     if (!validRoles.includes(role)) {
       return res.status(400).json({ message: "Invalid role selected" });
     }
@@ -143,6 +144,11 @@ exports.getAllAdmins = async (req, res) => {
 exports.updateAdmin = async (req, res) => {
   const { id } = req.params;
   const { firstName, lastName, email, role } = req.body;
+  const currentUser = req.user;
+
+  if (id === currentUser.id && role !== currentUser.role) {
+    return res.status(403).json({ message: "You cannot change your own role" });
+  }
 
   try {
     const updatedAdmin = await Admin.findByIdAndUpdate(
@@ -160,6 +166,58 @@ exports.updateAdmin = async (req, res) => {
       .json({ message: "Admin updated successfully", updatedAdmin });
   } catch (error) {
     console.error("Error updating admin:", error);
+    res.status(500).json({ message: "Server error", error });
+  }
+};
+
+exports.deleteAdmin = async (req, res) => {
+  const { id } = req.params;
+  const token = req.cookies.authToken;
+
+  if (!token) {
+    return res.status(401).json({ message: "Not authenticated" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+
+    if (decoded.role !== "superAdmin") {
+      return res.status(403).json({
+        message: "Only superAdmin role can delete admin accounts",
+      });
+    }
+
+    const targetAdmin = await Admin.findById(id);
+
+    if (!targetAdmin) {
+      return res.status(404).json({ message: "Admin not found" });
+    }
+
+    if (decoded.id === id) {
+      const superAdmins = await Admin.find({ role: "superAdmin" });
+      if (superAdmins.length === 1) {
+        return res.status(400).json({
+          message:
+            "You are the only superAdmin. Please assign another superAdmin before deleting your account.",
+        });
+      }
+    }
+
+    if (targetAdmin.role === "superAdmin") {
+      const superAdmins = await Admin.find({ role: "superAdmin" });
+      if (superAdmins.length === 1) {
+        return res.status(400).json({
+          message:
+            "This is the only superAdmin account. At least one must remain.",
+        });
+      }
+    }
+
+    await Admin.findByIdAndDelete(id);
+
+    res.status(200).json({ message: "Admin deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting admin:", error);
     res.status(500).json({ message: "Server error", error });
   }
 };

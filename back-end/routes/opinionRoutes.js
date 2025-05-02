@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.post(
   "/createOpinionEditorials",
-  checkRole(),
+  checkRole(["adminManager", "superAdmin"]),
   upload.single("image"),
   createOpinionEditorials
 );
