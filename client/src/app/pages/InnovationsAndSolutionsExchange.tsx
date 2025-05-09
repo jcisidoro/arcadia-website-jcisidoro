@@ -77,7 +77,7 @@ export default function InnovationsAndSolutionsExchange() {
                   className="object-cover shadow-lg shadow-black/50 rounded"
                 />
               </div>
-              <div className="text-black text-justify 2xl:text-xl">
+              <div className="text-black text-justify 2xl:text-xl break-all">
                 {partner.description}
               </div>
             </div>

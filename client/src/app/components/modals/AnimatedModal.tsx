@@ -59,7 +59,7 @@ const AnimatedModal: React.FC<AnimatedModalProps> = ({
   };
 
   return (
-    <Modal>
+    <Modal open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <ModalBody
         resetSelectedCard={resetSelectedCard}
         className="overflow-y-auto"
