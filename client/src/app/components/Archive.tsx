@@ -67,14 +67,14 @@ export default function Archive() {
           years.
         </p>
       </div>
-      <div className="flex flex-col lg:flex-row w-full h-full gap-4 overflow-y-auto">
+      <div className="grid lg:grid-cols-2 w-full h-full gap-4 overflow-y-auto">
         <div className="flex w-full bg-white/50 rounded h-96 lg:h-full p-4">
           <div className="flex flex-col w-full bg-[#326333] rounded h-56 p-2 text-black gap-2">
             <div className="flex w-full h-full bg-white p-2 rounded">
               Events
             </div>
             <div className="flex w-full justify-end gap-2">
-              <button className="py-1 px-2 w-20 rounded text-white bg-red-500">
+              <button className="py-1 px-2 w-20 rounded text-white/80 bg-red-500/80 cursor-pointer hover:scale-105 hover:bg-red-500/80 transition-all duration-300 text-base">
                 Delete
               </button>
             </div>
@@ -93,13 +93,25 @@ export default function Archive() {
               <div className="flex w-full justify-end gap-2">
                 <button
                   onClick={() => handleHardDelete(partner.id)}
-                  className="py-1 px-2 w-20 rounded text-white bg-red-500"
+                  className="py-1 px-2 w-20 rounded text-white/80 bg-red-500/80 cursor-pointer hover:scale-105 hover:bg-red-500/80 transition-all duration-300 text-base"
                 >
                   Delete
                 </button>
               </div>
             </div>
           ))}
+        </div>
+        <div className="flex w-full bg-white/50 rounded h-96 lg:h-full p-4">
+          <div className="flex flex-col w-full bg-[#326333] rounded h-56 p-2 text-black gap-2">
+            <div className="flex w-full h-full bg-white p-2 rounded">
+              Publications
+            </div>
+            <div className="flex w-full justify-end gap-2">
+              <button className="py-1 px-2 w-20 rounded text-white/80 bg-red-500/80 cursor-pointer hover:scale-105 hover:bg-red-500/80 transition-all duration-300 text-base">
+                Delete
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
