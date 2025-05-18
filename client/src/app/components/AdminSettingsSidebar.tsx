@@ -61,7 +61,7 @@ export function AdminSettingsSidebar() {
   return (
     <div
       className={cn(
-        "mx-auto flex w-full max-w-7xl flex-1 flex-col overflow-x-hidden overflow-y-auto rounded-md border border-neutral-200 bg-gray-100 md:flex-row dark:border-neutral-700 dark:bg-neutral-800 mt-10",
+        "mx-auto flex w-full max-w-[80vw] flex-1 flex-col overflow-x-hidden overflow-y-auto rounded-md border border-neutral-200 bg-gray-100 md:flex-row dark:border-neutral-700 dark:bg-neutral-800 mt-10",
         "h-[80vh]"
       )}
     >

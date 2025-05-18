@@ -150,7 +150,7 @@ export default function ManageEvent() {
 
   return (
     <div className="flex flex-col md:flex-row w-full h-full bg-[#326333] p-4 rounded gap-4 overflow-y-auto">
-      <div className="flex flex-col w-full md:w-72 lg:w-96 h-auto md:h-[650px] lg:h-full">
+      <div className="flex flex-col w-full md:w-72 lg:w-96 xl:w-[600px] h-auto md:h-[650px] lg:h-full">
         <div className="flex w-full items-center justify-between">
           <h1 className="flex gap-1 font-medium text-white p-4">
             <MdEvent size={24} className="text-white" /> Manage Event
