@@ -125,7 +125,7 @@ const Dashboard = ({ selectedTab }: { selectedTab: string }) => {
   }, [selectedTab]);
 
   return (
-    <div className="flex w-full">
+    <div className="flex w-full h-full">
       <div className="flex h-full w-full gap-2 rounded-tl-2xl border border-neutral-200 bg-white p-2 md:p-10 dark:border-neutral-700 dark:bg-neutral-900">
         {isLoading ? (
           <div className="flex flex-1 gap-2">

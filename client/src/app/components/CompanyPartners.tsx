@@ -225,7 +225,7 @@ export default function CompanyPartners() {
       {/*  */}
 
       {/* SECOND */}
-      <div className="flex flex-col w-full lg:w-2/3 h-96 lg:h-full overflow-y-auto">
+      <div className="flex flex-col w-full lg:w-2/3 h-full overflow-y-auto">
         <h1 className="flex text-white items-center font-medium p-4">
           Select Partners to Edit
         </h1>
