@@ -46,6 +46,7 @@ export default function CompanyPartners() {
       }
     } catch (error) {
       showToast("Error fetching company partners", "error");
+      console.log(error);
     }
   };
 
