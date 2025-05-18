@@ -3,7 +3,6 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { LuHeartHandshake } from "react-icons/lu";
-import { FileUploadDemo } from "./FileUpload";
 import { useToast } from "./provider/ToastContext";
 import { useIsMobile } from "@/app/components/hooks/useIsMobile";
 import { PartnersModal } from "./modals/PartnersModal";
