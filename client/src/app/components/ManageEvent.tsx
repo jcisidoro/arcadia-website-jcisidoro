@@ -261,7 +261,8 @@ export default function ManageEvent() {
                 className="bg-white p-4 outline-none w-full rounded-xl mb-2 text-black"
               />
             </div>
-            <div className="flex w-full items-center justify-center mt-4 gap-2">
+            <div className="flex flex-col w-full items-center justify-center mt-4 gap-2">
+              {/* SUBMIT BTN */}
               <button
                 onClick={() => {
                   console.log("Editing event with ID:", selectedEventId);
@@ -271,12 +272,13 @@ export default function ManageEvent() {
                     showToast("No event selected", "error");
                   }
                 }}
-                className="bg-white text-black px-7 py-2 rounded cursor-pointer hover:bg-white/80 transition-all duration-300"
+                className="px-4 py-2 bg-[#326333] hover:bg-[#326333]/80 rounded text-neutral-100 cursor-pointer hover:scale-105 transition-all duration-300 w-full"
               >
                 {selectedEventId ? "Update Event" : "Select Event"}
               </button>
+              {/* DELETE BTN */}
               <button
-                className="bg-red-500/90 text-white px-7 h-full rounded cursor-pointer hover:bg-red-500/70 transition-all duration-300"
+                className="px-4 py-2 bg-red-500/90 hover:bg-red-500/70 rounded text-neutral-100 cursor-pointer hover:scale-105 transition-all duration-300 w-full"
                 disabled
               >
                 Delete
