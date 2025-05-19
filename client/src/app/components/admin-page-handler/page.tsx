@@ -64,9 +64,9 @@ export default function AdminPageHandler() {
   if (!isAuthenticated) return <Loading />;
 
   return (
-    <div className="flex w-full h-[100vh] bg-[#326333]/50 px-10 pb-10 py-24 relative justify-center">
+    <div className="flex w-full h-[100vh] bg-[#326333]/50 px-10 py-24 relative justify-center">
       <div className="flex flex-col items-center w-full h-full">
-        <h1 className="text-white text-3xl sm:text-5xl lg:text-7xl 2xl:text-9xl font-cormorant uppercase font-semibold text-center">
+        <h1 className="text-white text-4xl sm:text-5xl lg:text-7xl xl:text-8xl font-cormorant uppercase font-semibold text-center">
           Event & Admin Management
         </h1>
 

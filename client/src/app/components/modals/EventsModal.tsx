@@ -1,66 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   Modal,
   ModalBody,
   ModalContent,
   ModalFooter,
 } from "../ui/animated-modal";
-import { PartnerForm } from "../PartnersForm";
 
-type PartnerType = {
-  id: string;
-  imageUrl: string;
-  description: string;
-};
-
-type PartnersModalProps = {
+type EventModalProps = {
   open: boolean;
   onOpenChange: (isOpen: boolean) => void;
-  partner: PartnerType | null;
-  description: string;
-  setDescription: (val: string) => void;
-  handleSubmit: () => void;
+  form: React.ReactNode;
   handleClear: () => void;
-  handleSoftDelete: () => void;
   resetSelectedCard: () => void;
 };
 
-export function PartnersModal({
+export function EventModal({
   open,
   onOpenChange,
-  partner,
-  description,
-  setDescription,
-  handleSubmit,
+  form,
   handleClear,
-  handleSoftDelete,
   resetSelectedCard,
-}: PartnersModalProps) {
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [resetKey, setResetKey] = useState(0);
-
-  // Update when partner changes
-  useEffect(() => {
-    if (partner) {
-      setImageFile(null);
-      setResetKey((prev) => prev + 1);
-    }
-  }, [partner]);
-
+}: EventModalProps) {
   return (
     <Modal open={open} onOpenChange={onOpenChange}>
       <ModalBody resetSelectedCard={resetSelectedCard}>
         <ModalContent className="overflow-y-auto bg-[#326333]">
-          <PartnerForm
-            imageFile={imageFile}
-            setImageFile={setImageFile}
-            description={description}
-            setDescription={setDescription}
-            handleSubmit={handleSubmit}
-            handleSoftDelete={handleSoftDelete}
-            resetKey={resetKey}
-            selectedPartner={partner}
-          />
+          {form}
           <ModalFooter className="flex justify-center mt-4 bg-transparent">
             <button
               onClick={() => {

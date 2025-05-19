@@ -6,7 +6,7 @@ import { LuHeartHandshake } from "react-icons/lu";
 import { useToast } from "./provider/ToastContext";
 import { useIsMobile } from "@/app/components/hooks/useIsMobile";
 import { PartnersModal } from "./modals/PartnersModal";
-import { PartnerForm } from "./PartnersForm";
+import { PartnerForm } from "./forms/PartnersForm";
 
 type PartnerType = {
   id: string;
@@ -180,6 +180,17 @@ export default function CompanyPartners() {
         <h1 className="flex text-white items-center font-medium p-4">
           Select Partners to Edit
         </h1>
+        {isMobile && (
+          <button
+            onClick={() => {
+              handleClear();
+              setModalOpen(true);
+            }}
+            className="mb-2 bg-white text-[#326333] font-semibold py-2 px-4 rounded shadow hover:bg-gray-100 transition"
+          >
+            + Add Partner
+          </button>
+        )}
         <div className="flex flex-col gap-2 w-full h-full overflow-y-auto bg-white/50 rounded p-4 break-words whitespace-pre-wrap">
           {partners.map((partner) => (
             <div

@@ -1,6 +1,6 @@
 // components/PartnerForm.tsx
 import React from "react";
-import { FileUploadDemo } from "./FileUpload";
+import { FileUploadDemo } from "../FileUpload";
 
 type PartnerType = {
   id: string;

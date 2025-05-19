@@ -4,8 +4,10 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { MdEvent } from "react-icons/md";
-import { FileUploadDemo } from "./FileUpload";
 import { useToast } from "./provider/ToastContext";
+import { useIsMobile } from "@/app/components/hooks/useIsMobile";
+import { EventForm } from "./forms/EventsForm";
+import { EventModal } from "./modals/EventsModal";
 
 interface Event {
   _id: string;
@@ -22,6 +24,7 @@ interface Event {
 
 export default function ManageEvent() {
   const { showToast } = useToast();
+  const isMobile = useIsMobile();
 
   const [title, setTitle] = useState("");
   const [speakers, setSpeakers] = useState("");
@@ -36,8 +39,8 @@ export default function ManageEvent() {
   const [existingImageUrl, setExistingImageUrl] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [selectedEventId, setSelectedEventId] = useState<string | null>(null);
-
   const [resetKey, setResetKey] = useState(0);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const fetchEvents = async () => {
     try {
@@ -52,7 +55,7 @@ export default function ManageEvent() {
       setEvents(data);
     } catch (error) {
       console.error("Error fetching events:", error);
-      showToast("Error fetching events:", "error");
+      showToast("Error fetching events", "error");
     }
   };
 
@@ -60,7 +63,6 @@ export default function ManageEvent() {
     fetchEvents();
   }, []);
 
-  // Clear fields
   const handleClear = () => {
     setTitle("");
     setSpeakers("");
@@ -76,6 +78,20 @@ export default function ManageEvent() {
     setResetKey((prev) => prev + 1);
   };
 
+  const resetSelectedCard = () => {
+    setSelectedEventId(null);
+    setTitle("");
+    setSpeakers("");
+    setAttendees("");
+    setDescription("");
+    setDescription1("");
+    setEventLink("");
+    setFromDate("");
+    setToDate("");
+    setImageFile(null);
+    setExistingImageUrl(null);
+  };
+
   const handleEditEvent = async (eventId: string) => {
     const eventData = {
       title,
@@ -89,7 +105,6 @@ export default function ManageEvent() {
       imageUrl: existingImageUrl || undefined,
     };
 
-    // If a new image is selected, upload it
     if (imageFile) {
       const formData = new FormData();
       formData.append("image", imageFile);
@@ -101,7 +116,6 @@ export default function ManageEvent() {
           credentials: "include",
         }
       );
-
       const uploadData = await uploadRes.json();
       if (uploadData.imageUrl) {
         eventData.imageUrl = uploadData.imageUrl;
@@ -124,175 +138,115 @@ export default function ManageEvent() {
 
       if (res.ok) {
         showToast("Event updated successfully", "success");
-        // Reset form after updating
         fetchEvents();
-
-        setTitle("");
-        setSpeakers("");
-        setAttendees("");
-        setDescription("");
-        setDescription1("");
-        setEventLink("");
-        setFromDate("");
-        setToDate("");
-        setImageFile(null);
-        setExistingImageUrl(null);
-        setSelectedEventId(null);
-        setResetKey((prev) => prev + 1);
+        handleClear();
       } else {
         showToast(data.message || "Failed to update event", "error");
       }
     } catch (error) {
-      showToast("Error updating event", "error");
       console.error("Error updating event:", error);
+      showToast("Error updating event", "error");
     }
   };
 
   return (
     <div className="flex flex-col md:flex-row w-full h-full bg-[#326333] p-4 rounded gap-4 overflow-y-auto">
-      <div className="flex flex-col w-full md:w-72 lg:w-96 xl:w-[600px] h-auto md:h-[650px] lg:h-full">
-        <div className="flex w-full items-center justify-between">
-          <h1 className="flex gap-1 font-medium text-white p-4">
-            <MdEvent size={24} className="text-white" /> Manage Event
-          </h1>
-          <button
-            onClick={handleClear}
-            className="bg-white/50 w-16 h-8 rounded text-white text-sm cursor-pointer hover:scale-105 transition-all duration-300"
-          >
-            Clear
-          </button>
-        </div>
-        <div className="flex flex-col w-full h-full gap-4 bg-white/50 p-4 rounded overflow-y-auto">
-          <div className="flex flex-col w-full">
-            {[
-              {
-                placeholder: "Title",
-                value: title,
-                onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
-                  setTitle(e.target.value),
-              },
-              {
-                placeholder: "Speakers",
-                value: speakers,
-                onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
-                  setSpeakers(e.target.value),
-              },
-              {
-                placeholder: "Attendees",
-                value: attendees,
-                onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
-                  setAttendees(e.target.value),
-              },
-            ].map((item, index) => (
-              <input
-                key={index}
-                type="text"
-                placeholder={item.placeholder}
-                value={item.value}
-                onChange={item.onChange}
-                className="bg-white p-4 outline-none w-full rounded-xl mb-2 text-black"
-              />
-            ))}
-            <FileUploadDemo
-              onChange={(file: File) => setImageFile(file)}
-              resetKey={resetKey}
-              key={resetKey}
+      {/* Sidebar/Form Section */}
+      {isMobile ? (
+        <EventModal
+          open={modalOpen}
+          onOpenChange={setModalOpen}
+          handleClear={handleClear}
+          form={
+            <EventForm
+              title={title}
+              setTitle={setTitle}
+              speakers={speakers}
+              setSpeakers={setSpeakers}
+              attendees={attendees}
+              setAttendees={setAttendees}
+              description={description}
+              setDescription={setDescription}
+              description1={description1}
+              setDescription1={setDescription1}
+              eventLink={eventLink}
+              setEventLink={setEventLink}
+              fromDate={fromDate}
+              setFromDate={setFromDate}
+              toDate={toDate}
+              setToDate={setToDate}
+              imageFile={imageFile}
+              setImageFile={setImageFile}
               existingImageUrl={existingImageUrl}
+              resetKey={resetKey}
+              selectedEventId={selectedEventId}
+              handleEditEvent={handleEditEvent}
+              showToast={showToast}
             />
-            <div className="w-full h-full flex flex-col mt-2">
-              {[
-                {
-                  labelText: "From Date",
-                  value: fromDate,
-                  onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
-                    setFromDate(e.target.value),
-                  onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) =>
-                    e.preventDefault(),
-                },
-                {
-                  labelText: "To Date",
-                  value: toDate,
-                  onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
-                    setToDate(e.target.value),
-                  onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) =>
-                    e.preventDefault(),
-                },
-              ].map((item, index) => (
-                <div key={index} className="flex flex-col relative">
-                  <label className="text-black text-xs absolute left-2 top-0.5">
-                    {item.labelText}
-                  </label>
-                  <input
-                    type="date"
-                    value={item.value}
-                    onChange={item.onChange}
-                    className="bg-white p-4 outline-none w-full rounded-xl mb-2 text-black"
-                    onKeyDown={item.onKeyDown}
-                  />
-                </div>
-              ))}
-              {[
-                {
-                  placeholder: "Description",
-                  value: description,
-                  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                    setDescription(e.target.value),
-                },
-                {
-                  placeholder: "Another Description",
-                  value: description1,
-                  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                    setDescription1(e.target.value),
-                },
-              ].map((item, index) => (
-                <textarea
-                  key={index}
-                  placeholder={item.placeholder}
-                  value={item.value}
-                  onChange={item.onChange}
-                  className="bg-white p-4 outline-none w-full rounded-xl mb-2 h-56 resize-none text-black"
-                />
-              ))}
-              <input
-                type="text"
-                value={eventLink}
-                onChange={(e) => setEventLink(e.target.value)}
-                placeholder="Add event link"
-                className="bg-white p-4 outline-none w-full rounded-xl mb-2 text-black"
-              />
-            </div>
-            <div className="flex flex-col w-full items-center justify-center mt-4 gap-2">
-              {/* SUBMIT BTN */}
-              <button
-                onClick={() => {
-                  console.log("Editing event with ID:", selectedEventId);
-                  if (selectedEventId) {
-                    handleEditEvent(selectedEventId);
-                  } else {
-                    showToast("No event selected", "error");
-                  }
-                }}
-                className="px-4 py-2 bg-[#326333] hover:bg-[#326333]/80 rounded text-neutral-100 cursor-pointer hover:scale-105 transition-all duration-300 w-full"
-              >
-                {selectedEventId ? "Update Event" : "Select Event"}
-              </button>
-              {/* DELETE BTN */}
-              <button
-                className="px-4 py-2 bg-red-500/90 hover:bg-red-500/70 rounded text-neutral-100 cursor-pointer hover:scale-105 transition-all duration-300 w-full"
-                disabled
-              >
-                Delete
-              </button>
-            </div>
+          }
+          resetSelectedCard={resetSelectedCard}
+        />
+      ) : (
+        <div className="flex flex-col w-full md:w-72 lg:w-96 xl:w-[400px] h-auto md:h-[650px] lg:h-full">
+          <div className="flex w-full items-center justify-between">
+            <h1 className="flex gap-1 font-medium text-white p-4">
+              <MdEvent size={24} className="text-white" /> Manage Event
+            </h1>
+            <button
+              onClick={handleClear}
+              className="bg-white/50 w-16 h-8 rounded text-white text-sm cursor-pointer hover:scale-105 transition-all duration-300"
+            >
+              Clear
+            </button>
+          </div>
+          <div className="flex flex-col w-full h-full gap-4 bg-white/50 p-4 rounded overflow-y-auto">
+            <EventForm
+              title={title}
+              setTitle={setTitle}
+              speakers={speakers}
+              setSpeakers={setSpeakers}
+              attendees={attendees}
+              setAttendees={setAttendees}
+              description={description}
+              setDescription={setDescription}
+              description1={description1}
+              setDescription1={setDescription1}
+              eventLink={eventLink}
+              setEventLink={setEventLink}
+              fromDate={fromDate}
+              setFromDate={setFromDate}
+              toDate={toDate}
+              setToDate={setToDate}
+              imageFile={imageFile}
+              setImageFile={setImageFile}
+              existingImageUrl={existingImageUrl}
+              resetKey={resetKey}
+              selectedEventId={selectedEventId}
+              handleEditEvent={handleEditEvent}
+              showToast={showToast}
+            />
           </div>
         </div>
-      </div>
+      )}
 
-      {/* CONTENT 2 */}
+      {/* Event List Section */}
       <div className="flex flex-col w-full h-[650px] lg:h-full">
         <h1 className="flex text-white items-center font-medium p-4">
           Select Event to Edit
         </h1>
+
+        {isMobile && (
+          <button
+            onClick={() => {
+              handleClear();
+              setModalOpen(true);
+            }}
+            className="mb-2 bg-white text-[#326333] font-semibold py-2 px-4 rounded shadow hover:bg-gray-100 transition"
+          >
+            + Add Event
+          </button>
+        )}
+
         <div className="flex flex-col w-full h-full gap-4 bg-white/50 p-4 rounded overflow-y-auto">
           {events.map((event, index) => (
             <button
@@ -309,10 +263,10 @@ export default function ManageEvent() {
                 setExistingImageUrl(event.imageUrl || null);
                 setResetKey((prev) => prev + 1);
                 setSelectedEventId(event._id);
+                if (isMobile) setModalOpen(true);
               }}
               className="flex flex-col lg:flex-row gap-2 w-full cursor-pointer"
             >
-              {/* Image section */}
               <div className="hidden lg:flex w-full lg:w-2/5 h-full relative bg-[#326333] rounded overflow-hidden">
                 {event.imageUrl && (
                   <Image
@@ -324,8 +278,6 @@ export default function ManageEvent() {
                   />
                 )}
               </div>
-
-              {/* Info section */}
 
               <div className="flex flex-col justify-between w-full bg-white p-4 rounded text-black">
                 <h3 className="font-bold font-cormorant text-3xl text-[#326333]">
