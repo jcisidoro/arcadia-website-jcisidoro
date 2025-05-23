@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useToast } from "./provider/ToastContext";
+import { useIsMobile } from "./hooks/useIsMobile";
+import { AdminForm } from "./forms/AdminsForm";
+import { AdminsModal } from "./modals/AdminModal";
 
 import { FaUserCog } from "react-icons/fa";
 
@@ -15,6 +18,7 @@ type AdminType = {
 export default function AdminManagement() {
   const router = useRouter();
   const { showToast } = useToast();
+  const isMobile = useIsMobile();
 
   const [admins, setAdmins] = useState<AdminType[]>([]);
 
@@ -23,6 +27,7 @@ export default function AdminManagement() {
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
 
   const [, setIsAuthenticated] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -93,6 +98,8 @@ export default function AdminManagement() {
       email: admin.email,
       role: admin.role,
     });
+
+    if (isMobile) setModalOpen(true);
   };
 
   useEffect(() => {
@@ -237,97 +244,53 @@ export default function AdminManagement() {
     return true;
   };
 
+  const adminForm = (
+    <AdminForm
+      formValues={formValues}
+      onChange={handleChange}
+      handleSubmit={handleSubmit}
+      handleDelete={handleDelete}
+      canSubmit={canSubmit()}
+      canDelete={canDelete()}
+      isDisabled={
+        selectedAdmin?.role === "superAdmin" && checkRole !== "superAdmin"
+      }
+    />
+  );
+
   return (
     <div className="flex flex-col md:flex-row w-full h-full bg-[#326333] p-4 rounded gap-4 overflow-y-auto">
       <div className="flex flex-col w-full h-auto md:h-[650px] lg:h-full">
-        <div className="flex w-full items-center justify-between">
-          <h1 className="flex gap-1 text-white items-center font-medium p-4">
-            <FaUserCog size={24} />
-            Manage Admin
-          </h1>
-          <button
-            onClick={handleClear}
-            className="bg-white/50 w-16 h-8 rounded text-white text-sm cursor-pointer hover:scale-105 transition-all duration-300"
-          >
-            Clear
-          </button>
-        </div>
-        <div className="flex flex-col w-full h-full gap-4 bg-white/50 p-4 rounded overflow-y-auto">
-          <div className="flex flex-col gap-6 w-full">
-            {["firstName", "lastName", "email"].map((field) => {
-              const isEditingSuperAdmin = selectedAdmin?.role === "superAdmin";
-              const shouldDisable =
-                isEditingSuperAdmin && checkRole !== "superAdmin";
-
-              return (
-                <input
-                  key={field}
-                  name={field}
-                  type="text"
-                  value={formValues[field as keyof typeof formValues]}
-                  onChange={handleChange}
-                  placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
-                  disabled={shouldDisable}
-                  className={`text-black p-4 rounded-xl outline-none ${
-                    shouldDisable
-                      ? "bg-neutral-400 cursor-not-allowed"
-                      : "bg-white/90"
-                  }`}
-                />
-              );
-            })}
-
-            <select
-              name="role"
-              value={formValues.role}
-              onChange={handleChange}
-              disabled={
-                selectedAdmin?.role === "superAdmin" &&
-                checkRole !== "superAdmin"
-              }
-              className={`text-black p-4 rounded-xl outline-none ${
-                selectedAdmin?.role === "superAdmin" &&
-                checkRole !== "superAdmin"
-                  ? "bg-neutral-400 cursor-not-allowed"
-                  : "bg-white/90 cursor-pointer"
-              }`}
-            >
-              {checkRole === "superAdmin" && (
-                <option value="superAdmin">Super Admin</option>
-              )}
-              <option value="accCreator">Account Creator</option>
-              <option value="eventHandler">Event Handler</option>
-              <option value="adminManager">Admin Manager</option>
-            </select>
+        {!isMobile && (
+          <div className="flex flex-col w-full h-auto md:h-[650px] lg:h-full">
+            {/* Desktop form */}
+            <div className="flex w-full items-center justify-between">
+              <h1 className="flex gap-1 text-white items-center font-medium p-4">
+                <FaUserCog size={24} />
+                Manage Admin
+              </h1>
+              <button
+                onClick={handleClear}
+                className="bg-white/50 w-16 h-8 rounded text-white text-sm cursor-pointer hover:scale-105 transition-all duration-300"
+              >
+                Clear
+              </button>
+            </div>
+            {adminForm}
           </div>
-          <div className="flex gap-2 w-full">
-            {/* SUBMIT BTN */}
-            <button
-              onClick={handleSubmit}
-              disabled={!canSubmit()}
-              className={`px-2 py-3 rounded-xl w-40 mt-2 lg:mt-4 text-neutral-700 transition-all duration-300 ${
-                !canSubmit()
-                  ? "bg-white/50 cursor-not-allowed"
-                  : "bg-white/90 cursor-pointer hover:scale-105"
-              }`}
-            >
-              {selectedAdmin ? "Update Admin" : "Submit"}
-            </button>
-            {/* DELETE BTN */}
-            <button
-              onClick={handleDelete}
-              disabled={!canDelete()}
-              className={`px-2 py-3 rounded-xl w-40 mt-2 lg:mt-4 text-white transition-all duration-300 ${
-                !canDelete()
-                  ? "bg-red-200 cursor-not-allowed"
-                  : "bg-red-500/90 hover:scale-105 cursor-pointer"
-              }`}
-            >
-              Delete
-            </button>
-          </div>
-        </div>
+        )}
       </div>
+
+      {isMobile && (
+        <AdminsModal
+          open={modalOpen}
+          onOpenChange={setModalOpen}
+          onClear={handleClear}
+          // handleSoftDelete={handleSoftDelete}
+          resetSelectedCard={handleClear}
+          form={adminForm}
+        />
+      )}
 
       <div className="flex flex-col w-full h-[650px] lg:h-full">
         <h1 className="flex text-white items-center font-medium p-4">
