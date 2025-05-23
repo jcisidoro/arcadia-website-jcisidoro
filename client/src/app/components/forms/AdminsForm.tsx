@@ -1,14 +1,6 @@
 // components/AdminForm.tsx
 import React from "react";
 
-type AdminType = {
-  _id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  role: string;
-};
-
 type AdminFormProps = {
   formValues: {
     firstName: string;
