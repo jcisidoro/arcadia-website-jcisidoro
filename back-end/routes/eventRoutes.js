@@ -5,7 +5,9 @@ const {
   createEvent,
   getAllUpcomingEvents,
   getAllPastEvents,
+  getAllSoftDeletedEvents,
   updateEventById,
+  softDeleteEventById,
 } = require("../controllers/eventController");
 
 const router = express.Router();
@@ -22,7 +24,14 @@ router.patch(
   upload.single("image"),
   updateEventById
 );
+router.patch(
+  "/:id/soft-delete",
+  checkRole(["eventHandler", "superAdmin"]),
+  softDeleteEventById
+);
+
 router.get("/upcoming-events", getAllUpcomingEvents);
 router.get("/past-events", getAllPastEvents);
+router.get("/softDeleted-events", getAllSoftDeletedEvents);
 
 module.exports = router;

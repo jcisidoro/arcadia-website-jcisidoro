@@ -69,6 +69,7 @@ exports.getAllUpcomingEvents = async (req, res) => {
 
     const events = await Event.find({
       fromDate: { $gte: today }, // Only fetch events where fromDate is today or in the future
+      isDeleted: false, // Only fetch events that are active
     }).sort({ fromDate: 1 });
 
     res.status(200).json(events);
@@ -85,12 +86,28 @@ exports.getAllPastEvents = async (req, res) => {
 
     const events = await Event.find({
       fromDate: { $lt: today }, // Only fetch events where fromDate is strictly before today
+      isDeleted: false,
     }).sort({ fromDate: 1 });
 
     res.status(200).json(events);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error fetching past events", error });
+  }
+};
+
+exports.getAllSoftDeletedEvents = async (req, res) => {
+  try {
+    const events = await Event.find({
+      isDeleted: true,
+    });
+
+    res.status(200).json(events);
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ message: "Error fetching soft deleted events", error });
   }
 };
 
@@ -153,5 +170,24 @@ exports.updateEventById = async (req, res) => {
       message: "An error occurred while updating the event",
       error,
     });
+  }
+};
+
+exports.softDeleteEventById = async (req, res) => {
+  try {
+    const event = await Event.findByIdAndUpdate(
+      req.params.id,
+      { isDeleted: true },
+      { new: true }
+    );
+
+    if (!event) {
+      return res.status(404).json({ message: "Event not found" });
+    }
+
+    res.status(200).json({ message: "Event soft-deleted", event });
+  } catch (error) {
+    console.error("Soft delete error:", error);
+    res.status(500).json({ message: "Failed to soft delete event", error });
   }
 };

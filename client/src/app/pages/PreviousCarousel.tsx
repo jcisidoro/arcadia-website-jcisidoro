@@ -40,44 +40,34 @@ export function PreviousCarousel() {
           src: event.imageUrl,
           description: (
             <p className="text-justify">
-              {event.description || "No description available."}
+              {event.description || "No another description available."}
             </p>
           ),
           description1: (
             <div className="flex flex-col gap-4">
-              <div className="flex justify-center">
-                <div className="w-full h-96 relative">
-                  <Image
-                    unoptimized
-                    src={event.imageUrl}
-                    alt="Event Image"
-                    className="object-cover rounded-lg"
-                    fill
-                  />
-                </div>
-              </div>
-              <div className="flex flex-col gap-4">
-                <div className="flex flex-col">
-                  <span>Speakers:</span>
-                  <span className="font-bold">
-                    {event.speakers || "No speakers"}
-                  </span>
-                </div>
+              <p className="text-justify">
+                {event.description1 || "No description available."}
+              </p>
+              <div className="flex flex-col">
+                <span>Speakers:</span>
                 <span className="font-bold">
-                  {event.attendees || "No attendees"}
+                  {event.speakers || "No speakers"}
                 </span>
-                <div className="flex gap-1">
-                  <span>Start Date:</span>
-                  <span className="font-bold">
-                    {formatDate(event.fromDate) || "No start date specified."}
-                  </span>
-                </div>
-                <div className="flex gap-1">
-                  <span>End Date:</span>
-                  <span className="font-bold">
-                    {formatDate(event.toDate) || "No end date specified."}
-                  </span>
-                </div>
+              </div>
+              <span className="font-bold">
+                {event.attendees || "No attendees"}
+              </span>
+              <div className="flex gap-1">
+                <span>Start Date:</span>
+                <span className="font-bold">
+                  {formatDate(event.fromDate) || "No start date specified."}
+                </span>
+              </div>
+              <div className="flex gap-1">
+                <span>End Date:</span>
+                <span className="font-bold">
+                  {formatDate(event.toDate) || "No end date specified."}
+                </span>
               </div>
             </div>
           ),

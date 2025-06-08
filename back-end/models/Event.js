@@ -10,6 +10,8 @@ const EventSchema = new mongoose.Schema({
   description1: { type: String, required: false },
   eventLink: { type: String, required: true },
   imageUrl: { type: String, required: true },
+
+  isDeleted: { type: Boolean, default: false },
 });
 
 const Event = mongoose.model("Event", EventSchema);

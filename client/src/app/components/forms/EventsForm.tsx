@@ -23,6 +23,7 @@ type EventFormProps = {
   resetKey: number;
   selectedEventId: string | null;
   handleEditEvent: (id: string) => void;
+  handleSoftDelete: (id: string) => void;
   showToast: (
     msg: string,
     type: "success" | "error" | "info" | undefined
@@ -51,6 +52,7 @@ export const EventForm = ({
   resetKey,
   selectedEventId,
   handleEditEvent,
+  handleSoftDelete,
   showToast,
 }: EventFormProps) => {
   return (
@@ -170,8 +172,16 @@ export const EventForm = ({
           </button>
           {/* DELETE BTN */}
           <button
+            onClick={(e) => {
+              e.stopPropagation();
+              if (selectedEventId) {
+                handleSoftDelete(selectedEventId);
+              } else {
+                showToast("No event selected", "error");
+              }
+            }}
             className="px-4 py-2 bg-red-500/90 hover:bg-red-500/70 rounded text-neutral-100 cursor-pointer hover:scale-105 transition-all duration-300 w-full"
-            disabled
+            disabled={!selectedEventId} // Disable only if nothing selected
           >
             Delete
           </button>

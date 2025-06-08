@@ -149,6 +149,32 @@ export default function ManageEvent() {
     }
   };
 
+  const handleSoftDelete = async (eventId: string) => {
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/events/${eventId}/soft-delete`,
+        {
+          method: "PATCH",
+          credentials: "include",
+        }
+      );
+
+      if (res.ok) {
+        showToast("Event deleted successfully", "success");
+        fetchEvents(); // Refresh active list
+        handleClear();
+
+        if (isMobile) setModalOpen(false);
+      } else {
+        const data = await res.json();
+        showToast(data.message || "Failed to delete event", "error");
+      }
+    } catch (err) {
+      console.error("Soft delete failed:", err);
+      showToast("Error deleting event", "error");
+    }
+  };
+
   return (
     <div className="flex flex-col md:flex-row w-full h-full bg-[#326333] p-4 rounded gap-4 overflow-y-auto">
       {/* Sidebar/Form Section */}
@@ -181,6 +207,7 @@ export default function ManageEvent() {
               resetKey={resetKey}
               selectedEventId={selectedEventId}
               handleEditEvent={handleEditEvent}
+              handleSoftDelete={handleSoftDelete}
               showToast={showToast}
             />
           }
@@ -223,6 +250,7 @@ export default function ManageEvent() {
               resetKey={resetKey}
               selectedEventId={selectedEventId}
               handleEditEvent={handleEditEvent}
+              handleSoftDelete={handleSoftDelete}
               showToast={showToast}
             />
           </div>
