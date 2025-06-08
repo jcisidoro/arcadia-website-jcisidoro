@@ -48,7 +48,9 @@ export const PartnerForm = ({
         onClick={handleSubmit}
         className="px-4 py-2 bg-[#326333] hover:bg-[#326333]/80 rounded text-neutral-100 cursor-pointer hover:scale-105 transition-all duration-300"
       >
-        Submit
+        {description.trim() === "" && !selectedPartner
+          ? "Add Partner"
+          : "Submit"}
       </button>
       <button
         onClick={handleSoftDelete}

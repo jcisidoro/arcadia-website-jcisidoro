@@ -166,9 +166,14 @@ export const EventForm = ({
                 showToast("No event selected", "error");
               }
             }}
-            className="px-4 py-2 bg-[#326333] hover:bg-[#326333]/80 rounded text-neutral-100 cursor-pointer hover:scale-105 transition-all duration-300 w-full"
+            disabled={!selectedEventId}
+            className={`px-4 py-2 rounded text-neutral-100 w-full transition-all duration-300 ${
+              selectedEventId
+                ? "bg-[#326333] hover:bg-[#326333]/80 hover:scale-105 cursor-pointer"
+                : "bg-[#326333]/50 cursor-not-allowed pointer-events-none"
+            }`}
           >
-            {selectedEventId ? "Update Event" : "Select Event"}
+            {selectedEventId ? "Update Event" : "Select An Event"}
           </button>
           {/* DELETE BTN */}
           <button
