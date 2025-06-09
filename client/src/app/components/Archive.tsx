@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { FaBoxArchive } from "react-icons/fa6";
 //import { useToast } from "./provider/ToastContext";
@@ -34,6 +35,13 @@ export default function Archive() {
           credentials: "include",
         }
       );
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Error fetching soft deleted partners:", errorText);
+        return;
+      }
+
       const data = await response.json();
       setSoftDeletedPartners(data);
     } catch (error) {
@@ -112,17 +120,27 @@ export default function Archive() {
             softDeletedEvents.map((event, index) => (
               <div
                 key={event.id || `event-${index}`}
-                className="flex flex-col w-full bg-[#326333] rounded h-full p-2 text-black gap-2"
+                className="flex flex-col w-full bg-[#326333] rounded h-56 p-2 text-black gap-2"
               >
-                <div className="flex w-full h-full bg-white p-2 rounded flex-col gap-4">
-                  <h3 className="font-semibold font-cormorant text-[#326333] text-3xl">
-                    {event.title}
-                  </h3>
-                  <p className="w-full text-justify">{event.description}</p>
-                  <p className="w-full">
-                    {new Date(event.fromDate).toLocaleDateString()} -{" "}
-                    {new Date(event.toDate).toLocaleDateString()}
-                  </p>
+                <div className="flex w-full h-full bg-white p-2 rounded gap-4">
+                  <div className="flex w-full lg:w-56 h-full relative">
+                    <Image
+                      unoptimized
+                      src={event.imageUrl}
+                      alt="Company Logo"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="hidden lg:flex flex-col h-full gap-2">
+                    <h3 className="font-semibold font-cormorant text-[#326333] text-3xl">
+                      {event.title}
+                    </h3>
+                    <p className="w-full">
+                      {new Date(event.fromDate).toLocaleDateString()} -{" "}
+                      {new Date(event.toDate).toLocaleDateString()}
+                    </p>
+                  </div>
                 </div>
                 <div className="flex w-full justify-end gap-2">
                   <button
@@ -150,8 +168,19 @@ export default function Archive() {
                 key={partner.id}
                 className="flex flex-col w-full bg-[#326333] rounded h-56 p-2 text-black gap-2"
               >
-                <div className="flex w-full h-full bg-white p-2 rounded">
-                  {partner.description}
+                <div className="flex w-full h-full bg-white p-2 gap-4 rounded">
+                  <div className="flex w-full lg:w-56 h-full relative">
+                    <Image
+                      unoptimized
+                      src={partner.imageUrl}
+                      alt="Company Logo"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="hidden lg:flex h-full">
+                    {partner.description}
+                  </div>
                 </div>
                 <div className="flex w-full justify-end gap-2">
                   <button
