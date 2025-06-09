@@ -2,6 +2,7 @@ const express = require("express");
 const upload = require("../middleware/upload");
 const {
   getAllPartners,
+  getAllSoftDeletedPartners,
   createPartners,
   updatePartners,
   softDeletePartner,
@@ -11,6 +12,7 @@ const {
 const router = express.Router();
 
 router.get("/", getAllPartners);
+router.get("/softDeletedPartners", getAllSoftDeletedPartners);
 router.post("/createPartner", upload.single("image"), createPartners);
 router.patch("/:id", upload.single("image"), updatePartners);
 router.patch("/:id/softDelete", softDeletePartner);

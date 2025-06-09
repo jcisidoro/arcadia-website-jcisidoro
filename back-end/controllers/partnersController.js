@@ -20,6 +20,25 @@ exports.getAllPartners = async (req, res) => {
   }
 };
 
+exports.getAllSoftDeletedPartners = async (req, res) => {
+  try {
+    const softDeletedPartners = await Partners.find({
+      isDeleted: true,
+    });
+
+    const mappedPartners = softDeletedPartners.map((partner) => ({
+      ...partner.toObject(),
+      id: partner._id.toString(),
+      _id: undefined,
+    }));
+
+    res.status(200).json(mappedPartners);
+  } catch (error) {
+    console.error("Error fetching soft deleted partners:", error);
+    res.status(500).json({ message: "Failed to fetch soft deleted partners" });
+  }
+};
+
 exports.createPartners = async (req, res) => {
   try {
     if (!req.file || !req.body.description) {
