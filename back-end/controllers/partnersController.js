@@ -3,7 +3,9 @@ const { streamUpload } = require("../utils/cloudinary");
 
 exports.getAllPartners = async (req, res) => {
   try {
-    const partners = await Partners.find();
+    const partners = await Partners.find({
+      isDeleted: false,
+    });
 
     const mappedPartners = partners.map((partner) => ({
       ...partner.toObject(),

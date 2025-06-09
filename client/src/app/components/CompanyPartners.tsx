@@ -110,19 +110,26 @@ export default function CompanyPartners() {
   const handleSoftDelete = async () => {
     if (!selectedPartner) return;
     try {
-      const response = await fetch(
+      const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/api/partners/${selectedPartner.id}/softDelete`,
         {
           method: "PATCH",
           credentials: "include",
         }
       );
-      if (!response.ok) throw new Error();
-      showToast("Partner archived", "success");
-      handleClear();
-      fetchPartners();
+
+      if (res.ok) {
+        showToast("Partner deleted successfully", "success");
+        handleClear();
+        fetchPartners();
+
+        if (isMobile) setModalOpen(false);
+      } else {
+        const data = await res.json();
+        showToast(data.message || "Failed to delete partner", "error");
+      }
     } catch {
-      showToast("Error archiving partner", "error");
+      showToast("Error deleting partner", "error");
     }
   };
 

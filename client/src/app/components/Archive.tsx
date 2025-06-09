@@ -104,7 +104,7 @@ export default function Archive() {
       </div>
       <div className="grid lg:grid-cols-2 w-full h-full gap-4 overflow-y-auto">
         {/* EVENTS */}
-        <div className="flex flex-col w-full bg-white/50 rounded h-96 lg:h-full p-4">
+        <div className="flex flex-col w-full bg-white/50 rounded h-96 lg:h-full p-4 overflow-y-auto">
           {archivedEvents.map((event, index) => (
             <div
               key={event.id || `event-${index}`}
